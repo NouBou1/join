@@ -73,7 +73,7 @@ form {
   width: 100%;
   background-color: white;
   overflow-y: auto;
-
+  min-width: 24rem;
 }
 
 .body_contacts {
@@ -100,8 +100,8 @@ form {
 
 .hr_contactList {
   border: 1px solid var(--color-border-light);
-  width: calc(100% - 13%);
-  margin: 0 auto;
+  margin-left: 39px;
+  margin-right: 39px;
 }
 
 .contact_btn_addNew {

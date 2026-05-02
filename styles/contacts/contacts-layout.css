@@ -48,7 +48,7 @@
 
 .contact_item--active .contact_name {
   color: #ffffff;
-  font-weight: 500;
+  
 }
 
 .contact_email {
@@ -235,7 +235,7 @@
   background: #2a3647;
   color: #fff;
   border-radius: 10px;
-  min-width: 14rem;
+  min-width: 18rem;
   padding: 10px;
   box-sizing: border-box;
 }
