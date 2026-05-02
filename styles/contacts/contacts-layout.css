@@ -427,7 +427,7 @@
     place-items: center;
     position: fixed;
     right: 16px;
-    bottom: -30px;
+    bottom: -10px;
     width: 52px;
     height: 52px;
     border: none;
@@ -447,7 +447,7 @@
   .contact_mobile_actions_menu {
     position: fixed;
     right: 12px;
-    bottom: -40px;
+    bottom: -17px;
     background: #ffffff;
     border-radius: 6px;
     padding: 8px;
