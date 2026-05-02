@@ -559,3 +559,14 @@
     margin-bottom: 0px;
   }
 }
+
+.button--icon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.button--icon:hover {
+  background: transparent;
+  box-shadow: none;
+}

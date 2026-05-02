@@ -360,10 +360,10 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
         <div>
           <h2 class="contact_detail_name">${contact.name || ''}</h2>
           <div class="contact_detail_actions">
-            <button type="button" class="link_btn" onclick="editContact('${contact.id}')">
+            <button type="button" class="link_btn button--icon" onclick="editContact('${contact.id}')">
               <img src="../../assets/icons/pencil-icon.svg" alt="Edit"><span>Edit</span>
             </button>
-            <button type="button" class="link_btn" onclick="deleteContact('${contact.id}')">
+            <button type="button" class="link_btn button--icon" onclick="deleteContact('${contact.id}')">
               <img src="../../assets/icons/trash-icon.svg" alt="Delete"><span>Delete</span>
             </button>
           </div>
