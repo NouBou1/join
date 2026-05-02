@@ -442,6 +442,14 @@
   .task-overlay-content {
     padding: 20px;
   }
+  .overlaytemplate__priority--container {
+
+    gap: 3px;
+}
+  .overlaytemplate__priority--container img {
+    width: 30px;
+    height: 26px;
+  }
 
   .add-task__priority-options {
     gap: 5px !important;
@@ -485,4 +493,11 @@
   .padding-right-class {
     padding-right: 18px;
   }
+    .overlaytemplate__priority--container img {
+    height: 22px;
+  }
+      .overlaytemplate__priority--container {
+        gap: 0;
+    }
+
 }
