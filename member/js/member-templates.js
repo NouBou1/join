@@ -521,9 +521,9 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
       </div>
 
       <div class="taskoverlay_detail_actions">
-        <button type="button" class="link_btn-taskoverlay" onclick="deleteTask('${id}')"><img src="../../assets/icons/trash-icon.svg" alt="Delete Icon">Delete</button>
+        <button type="button" class="link_btn-taskoverlay button--icon" onclick="deleteTask('${id}')"><img src="../../assets/icons/trash-icon.svg" alt="Delete Icon">Delete</button>
         <div class="divider-grey"></div>
-        <button type="button" class="link_btn-taskoverlay" onclick="editTask('${id}')"><img src="../../assets/icons/pencil-icon.svg" alt="Edit Icon">Edit</button>
+        <button type="button" class="link_btn-taskoverlay button--icon" onclick="editTask('${id}')"><img src="../../assets/icons/pencil-icon.svg" alt="Edit Icon">Edit</button>
       </div>
 
       </div>
