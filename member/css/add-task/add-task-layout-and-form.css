@@ -393,3 +393,7 @@ form {
   justify-content: center;
 }
 }
+
+.gap-reduced {
+  gap: 0px;
+}
