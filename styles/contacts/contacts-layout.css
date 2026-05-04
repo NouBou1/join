@@ -526,6 +526,11 @@
 
   .labelfor_contactList {
     padding-top: 32px;
+    padding-left: 10vw;
+  }
+
+  ol{
+    padding-left: 31px;
   }
 
   .contact_mobile_add_btn {
