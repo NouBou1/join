@@ -260,6 +260,10 @@
   display: none;
 }
 
+.contact_mobile_heading_text {
+  display: none;
+}
+
 @keyframes mobileActionsSlideOutRight {
   from {
     opacity: 1;
