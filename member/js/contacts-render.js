@@ -200,6 +200,7 @@ function resetContactListExceptAddButton(contactList) {
 function renderAlphabeticalContactSections(contactList, groupedContacts) {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   alphabet.forEach(letter => {
+    if (!groupedContacts[letter]) return;
     createLetterSectionHeader(contactList, letter);
     renderContactsUnderLetter(contactList, letter, groupedContacts);
   });

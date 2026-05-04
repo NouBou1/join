@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 0px;
+  padding: 12px 10px;
   cursor: pointer;
   border-radius: 8px;
   width: 85%;
@@ -48,7 +48,7 @@
 
 .contact_item--active .contact_name {
   color: #ffffff;
-  font-weight: 500;
+
 }
 
 .contact_email {
@@ -235,7 +235,7 @@
   background: #2a3647;
   color: #fff;
   border-radius: 10px;
-  min-width: 14rem;
+  min-width: 18rem;
   padding: 10px;
   box-sizing: border-box;
 }
@@ -311,12 +311,11 @@
     margin-left: 0;
     margin-top: 96px;
     width: 100%;
-    height: calc(100vh - 96px - 80px);
+    height: calc(100vh - 96px - 64px);
   }
 
   .body_contacts {
     display: unset;
-    position: static;
     height: 90%;
   }
 
@@ -427,7 +426,7 @@
     place-items: center;
     position: fixed;
     right: 16px;
-    bottom: -30px;
+    bottom: -10px;
     width: 52px;
     height: 52px;
     border: none;
@@ -447,7 +446,7 @@
   .contact_mobile_actions_menu {
     position: fixed;
     right: 12px;
-    bottom: -40px;
+    bottom: -17px;
     background: #ffffff;
     border-radius: 6px;
     padding: 8px;
@@ -558,4 +557,15 @@
   .contact_detail_info a.contact_detail_phone {
     margin-bottom: 0px;
   }
+}
+
+.button--icon {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.button--icon:hover {
+  background: transparent;
+  box-shadow: none;
 }

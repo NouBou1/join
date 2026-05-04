@@ -261,8 +261,7 @@ main {
   display: flex;
   flex-direction: column;
   height: auto;
-  min-height: 600px;
-  max-height: 85vh;
+  max-height: 72vh;
 }
 .task-overlay-content-scrollable{
   overflow-y: auto;

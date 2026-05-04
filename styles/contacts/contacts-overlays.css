@@ -341,7 +341,7 @@
 @media (max-width: 601px) {
   .overlay_add_contact {
     max-width: calc(100% - 32px);
-    height: calc(100% - 194px);
+    height: calc(100% - 80px);
     margin: 16px;
     border-radius: 16px;
   }
