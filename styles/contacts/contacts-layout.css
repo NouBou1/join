@@ -48,7 +48,7 @@
 
 .contact_item--active .contact_name {
   color: #ffffff;
-  
+
 }
 
 .contact_email {
@@ -316,7 +316,6 @@
 
   .body_contacts {
     display: unset;
-    position: static;
     height: 90%;
   }
 
