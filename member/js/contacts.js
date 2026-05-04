@@ -47,6 +47,7 @@ export function showAddContactOverlay() {
   overlay.style.display = 'flex';
   const addBtn = document.querySelector('.contact_mobile_add_btn');
   if (addBtn) addBtn.style.display = 'none';
+  setupAddContactOverlayBackdrop();
   const form = document.getElementById('add_contact_form');
   if (form) {
     setupContactFormValidation(form);
@@ -68,6 +69,24 @@ export function hideAddContactOverlay() {
   if (addBtn && !document.body.classList.contains('contacts-mobile-detail-open')) {
     addBtn.style.display = '';
   }
+}
+
+/**
+ * Sets up backdrop click listener for the add-contact overlay.
+ * Closes overlay when clicking outside the modal content.
+ *
+ * @returns {void}
+ */
+function setupAddContactOverlayBackdrop() {
+  const overlay = document.getElementById('contact-add-overlay');
+  if (!overlay) return;
+
+  overlay.addEventListener('click', (event) => {
+    // Schließen nur wenn auf den Backdrop geklickt wird, nicht auf den Inhalt
+    if (event.target === overlay || event.target.classList.contains('addContact_overlay')) {
+      hideAddContactOverlay();
+    }
+  });
 }
 
 /**
@@ -499,7 +518,11 @@ function renderEditOverlay(overlay, contactId) {
   const color = getAvatarColor(contact.name || '');
   overlay.innerHTML = getEditOverlayTemplate(contactId, contact, initials, color);
   overlay.classList.remove('d_none');
-  overlay.onclick = closeEditOverlay;
+  overlay.onclick = (event) => {
+    if (event.target === overlay || event.target.classList.contains('addContact_overlay')) {
+      closeEditOverlay();
+    }
+  };
   const addBtn = document.querySelector('.contact_mobile_add_btn');
   if (addBtn) addBtn.style.display = 'none';
 }
