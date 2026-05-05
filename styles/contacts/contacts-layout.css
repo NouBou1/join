@@ -390,7 +390,7 @@
 
   .contact_mobile_heading_row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-start;
     margin-bottom: 8px;
   }
