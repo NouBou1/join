@@ -215,8 +215,7 @@ function renderAlphabeticalContactSections(contactList, groupedContacts) {
  */
 function createLetterSectionHeader(contactList, letter) {
   const letterLabel = document.createElement('label');
-  letterLabel.className = 'labelfor_contactList';
-  letterLabel.setAttribute('for', 'alphabet');
+  letterLabel.className = 'labelfor_contactList'; 
   letterLabel.textContent = letter;
   contactList.appendChild(letterLabel);
   const divider = document.createElement('hr');
