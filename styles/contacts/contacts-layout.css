@@ -5,7 +5,7 @@
   padding: 12px 10px;
   cursor: pointer;
   border-radius: 8px;
-  width: 85%;
+  /* width: 85%; */
   transition: background-color 0.2s;
 }
 
@@ -237,7 +237,6 @@
   border-radius: 10px;
   min-width: 18rem;
   padding: 10px;
-  box-sizing: border-box;
 }
 
 .contact_mobile_fab_btn {
