@@ -149,18 +149,15 @@ function hasRequiredContactFields(fields) {
   return hasFields;
 }
 
-/**
- * Adds blur/input/change validation listeners to contact form fields.
- *
- * @param {HTMLFormElement} form - Contact form element.
- * @returns {void}
- */
+
 function setupContactFormValidation(form) {
   const fields = {
     nameInput: form.querySelector('#contact_name'),
-    emailInput: form.querySelector('#contact_email')
+    emailInput: form.querySelector('#contact_email'),
+    phoneInput: form.querySelector('#contact_phone')
   };
-  [fields.nameInput, fields.emailInput].forEach((field) => {
+
+  [fields.nameInput, fields.emailInput, fields.phoneInput].forEach((field) => {
     field?.addEventListener('blur', () => {
       validateContactField(field);
     });
@@ -177,35 +174,35 @@ function setupContactFormValidation(form) {
   });
 }
 
-/**
- * Validates required contact form fields.
- *
- * @param {{nameInput: HTMLInputElement|null, emailInput: HTMLInputElement|null}} fields - Contact fields.
- * @returns {boolean} True when all required fields are valid.
- */
+
 function validateContactFormFields(fields) {
   const isNameValid = validateContactField(fields.nameInput);
   const isEmailValid = validateContactField(fields.emailInput);
-  return isNameValid && isEmailValid;
+  const isPhoneValid = validateContactField(fields.phoneInput);
+  return isNameValid && isEmailValid && isPhoneValid;
 }
 
-/**
- * Validates a single contact form field and sets error state.
- *
- * @param {HTMLInputElement|null} input - Field to validate.
- * @returns {boolean} True when field is valid.
- */
+
 function validateContactField(input) {
   if (!input) return false;
+
   const value = input.value.trim();
-  if (!value) {
+
+  if ((input.id === 'contact_name' || input.id === 'contact_email') && !value) {
     setContactFieldError(input, 'This field is required');
     return false;
   }
+
   if (input.type === 'email' && !isValidEmail(value)) {
     setContactFieldError(input, 'Please enter a valid email address');
     return false;
   }
+
+  if (input.id === 'contact_phone' && value && !/^\+?[0-9]*$/.test(value)) {
+    setContactFieldError(input, 'Please enter numbers only. A + is only allowed at the beginning.');
+    return false;
+  }
+
   clearContactFieldError(input);
   return true;
 }
