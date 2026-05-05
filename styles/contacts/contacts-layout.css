@@ -13,6 +13,10 @@
   background-color: #f6f7f8;
 }
 
+.contact__name--container {
+  width: 100%
+}
+
 .contact_avatar {
   width: 42px;
   height: 42px;
@@ -366,8 +370,17 @@
     height: 100%;
   }
 
+  .contact_detail_email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .contact_detail_name {
     font-size: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   body.contacts-mobile-detail-open .contactside_section {

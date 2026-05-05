@@ -357,7 +357,7 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
         <div class="contact_avatar contact_avatar--large" style="background-color:${bgColor}">
           ${initials}
         </div>
-        <div>
+        <div class="contact__name--container">
           <h2 class="contact_detail_name">${contact.name || ''}</h2>
           <div class="contact_detail_actions">
             <button type="button" class="link_btn button--icon" onclick="editContact('${contact.id}')">
@@ -477,7 +477,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
 
   return `
   <div class="task-overlay-content">
-   
+
         <div class="overlaytemplate-first-section flex-class">
           <p class="task__category--${category} overlaytemplate-category">${formatCategoryLabel(category)}</p>
           <button onclick="closeTaskOverlay()"><img src="../../assets/icons/close-icon.svg" class="close_overlay_icon_getTaskOverlayTemplate" alt=""></button>
@@ -527,7 +527,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
       </div>
 
       </div>
-    </div>        
+    </div>
       `;
 }
 
@@ -635,18 +635,18 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
         </div>
         <div class="subtask-list" id="edit_subtask_list_new"></div>
       </div>
-   
+
     </form>
-    
+
 
     </div>
        <div class="add-task__actions" style="margin-top: 0;">
         <button type="button" class="button add-task__button add-task__button--primary" onclick="saveEditedTask('${id}')">
           Ok <img src="../assets/icons/check-icon-white.svg" alt="">
         </button>
-      </div>        
-    
-  
+      </div>
+
+
   </div>
   `;
 }
