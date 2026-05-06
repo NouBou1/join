@@ -379,6 +379,30 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
 }
 
 /**
+ * Builds the HTML template string for one contact list entry.
+ *
+ * @param {Object} contact - The contact data to render.
+ * @param {string} contact.name - The contact name.
+ * @param {string} contact.email - The contact email address.
+ * @returns {string} HTML string representing the contact list item.
+ */
+export function getContactItemTemplate(contact) {
+  const initials = getInitials(contact.name);
+  const bgColor = getAvatarColor(contact.name);
+  return `
+        <section class="contact_container">
+            <div class="contact_avatar" style="background-color: ${bgColor}">
+                ${initials}
+            </div>
+            <div class="contact_info">
+                <div class="contact_name">${contact.name}</div>
+                <div class="contact_email">${contact.email}</div>
+            </div>
+        </section>
+    `;
+}
+
+/**
  * Generates the edit-contact overlay template.
  *
  * @param {string} contactId - The id of the contact being edited.

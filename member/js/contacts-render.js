@@ -4,7 +4,7 @@
  *
  * @module contacts-render
  */
-import { getActiveContactTemplate } from './member-templates.js';
+import { getActiveContactTemplate, getContactItemTemplate } from './member-templates.js';
 
 let contacts = {};
 
@@ -339,29 +339,6 @@ export function renderActiveContactTemplate(contact) {
   container.innerHTML = getActiveContactTemplate(contact, initials, bgColor, phone);
 }
 
-/**
- * Builds the HTML template string for one contact list entry.
- *
- * @param {Object} contact - The contact data to render.
- * @param {string} contact.name - The contact name.
- * @param {string} contact.email - The contact email address.
- * @returns {string} HTML string representing the contact list item.
- */
-function getContactItemTemplate(contact) {
-  const initials = getInitials(contact.name);
-  const bgColor = getAvatarColor(contact.name);
-  return `
-        <section class="contact_container">
-            <div class="contact_avatar" style="background-color: ${bgColor}">
-                ${initials}
-            </div>
-            <div class="contact_info">
-                <div class="contact_name">${contact.name}</div>
-                <div class="contact_email">${contact.email}</div>
-            </div>
-        </section>
-    `;
-}
 
 /**
  * Returns the DOM container used for contact detail rendering.

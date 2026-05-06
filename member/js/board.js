@@ -6,11 +6,7 @@ import { updateHTML, todos } from './drag-n-drop.js';
 import { initAssignees, trackContactsForUser, getAssignedNames } from './add-task-assignees.js';
 import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
 
-/**
- * Task collection loaded from Firebase, indexed by task id.
- *
- * @type {Object<string, Object>}
- */
+
 export let tasks = {};
 
 /**
@@ -148,14 +144,7 @@ async function toggleCheckbox(img) {
   }
 }
 
-/**
- * Delegates clicks on subtask checkbox icons
- * to the checkbox toggle handler.
- *
- * @event click
- * @listens Document#click
- * @returns {void}
- */
+
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("checkbox-icon")) {
     toggleCheckbox(e.target);

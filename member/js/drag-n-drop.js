@@ -14,9 +14,7 @@ import { ref, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 
 let activeSearchTerm = '';
-
 export let todos = {};
-
 let currentDraggedElement;
 
 /**

@@ -143,6 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+/**
+ * Opens the add-task overlay and starts the opening animation.
+ *
+ * Makes the overlay visible, activates the slide-in animation
+ * for the overlay content, and disables page scrolling.
+ *
+ * @param {HTMLElement} overlay - The add-task overlay element.
+ * @returns {void}
+ */
 function openAddTaskOverlay(overlay) {
   overlay.classList.remove('d_none');
   const content = overlay.querySelector('.overlay_add_task');
@@ -152,15 +161,29 @@ function openAddTaskOverlay(overlay) {
   }
   document.body.classList.add('no-scroll');
 }
+
+/**
+ * Registers click handlers for elements that open the add-task overlay.
+ *
+ * @listens Element#click
+ * @returns {void}
+ */
 document.querySelectorAll('.openAddTaskOverlay').forEach(btn => {
   btn.addEventListener('click', () => {
-
     const overlay = document.getElementById('add_task_overlay');
     openAddTaskOverlay(overlay);
   });
 });
 
-
+/**
+ * Closes the add-task overlay and starts the closing animation.
+ *
+ * If the overlay content exists, plays the slide-out animation first
+ * and hides the overlay after the animation ends. Otherwise hides it immediately.
+ *
+ * @param {HTMLElement} overlay - The add-task overlay element.
+ * @returns {void}
+ */
 function closeAddTaskOverlay(overlay) {
   const content = overlay.querySelector('.overlay_add_task');
   if (!content) {
@@ -177,12 +200,26 @@ function closeAddTaskOverlay(overlay) {
   }, { once: true });
 }
 
-
+/**
+ * Registers the click handler for the overlay open button.
+ *
+ * @param {HTMLElement} openBtn - The button that opens the overlay.
+ * @param {HTMLElement} overlay - The add-task overlay element.
+ * @returns {void}
+ */
 function setupOpenButton(openBtn, overlay) {
   openBtn.addEventListener('click', () => openAddTaskOverlay(overlay));
 }
 
-
+/**
+ * Registers click handling for closing the add-task overlay.
+ *
+ * Closes the overlay when the user clicks on the backdrop
+ * or on an element matching the close button selector.
+ *
+ * @param {HTMLElement} overlay - The add-task overlay element.
+ * @returns {void}
+ */
 function setupBackdropAndCloseButton(overlay) {
   overlay.addEventListener('click', (event) => {
     if (event.target === overlay || event.target.closest('.add-task-close-btn')) {
@@ -191,7 +228,14 @@ function setupBackdropAndCloseButton(overlay) {
   });
 }
 
-
+/**
+ * Initializes the add-task overlay controls.
+ *
+ * Looks up the open button and overlay element
+ * and registers the required overlay event handlers.
+ *
+ * @returns {void}
+ */
 function setupAddTaskOverlay() {
   const openBtn = document.getElementById('openAddTaskOverlay');
   const overlay = document.getElementById('add_task_overlay');
@@ -200,7 +244,14 @@ function setupAddTaskOverlay() {
   setupBackdropAndCloseButton(overlay);
 }
 
-
+/**
+ * Highlights the navigation item that matches the current page.
+ *
+ * Compares the current pathname with each navigation link target
+ * and toggles the active navigation class accordingly.
+ *
+ * @returns {void}
+ */
 function highlightActiveNavItem() {
   const currentPage = window.location.pathname.split('/').pop();
   document.querySelectorAll('.nav-item').forEach(link => {
@@ -209,7 +260,14 @@ function highlightActiveNavItem() {
   });
 }
 
-
+/**
+ * Renders the profile initials for the current authenticated user.
+ *
+ * Shows the matching contact initials for registered users
+ * and "G" for guest users.
+ *
+ * @returns {void}
+ */
 function renderProfileInitials() {
   auth.onAuthStateChanged((user) => {
     const initialsElem = document.getElementById('profileInitials');

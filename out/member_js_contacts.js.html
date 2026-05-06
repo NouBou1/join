@@ -36,20 +36,10 @@ import { ref, push, set, update, remove } from 'https://www.gstatic.com/firebase
 import { getAddOverlayTemplate, getEditOverlayTemplate } from './member-templates.js';
 import { renderContactsList as renderContactsListView, renderActiveContactTemplate, getContactDetailContainer, getInitials, getAvatarColor, getActiveContactId, setActiveContactId, closeMobileDetailView } from './contacts-render.js';
 
-/**
- * Stores the current contacts object indexed by contact id.
- *
- * @type {Object&lt;string, Object>}
- */
 let contacts = {};
-
-/**
- * Id of the contact currently being edited.
- *
- * @type {string|null}
- */
 let editingContactId = null;
-
+const MOBILE_ACTION_CLOSE_MS = 140;
+let mobileActionsCloseTimer = null;
 /**
  * Renders the contacts list using the shared contacts-render view module.
  *
@@ -75,8 +65,12 @@ export function showAddContactOverlay() {
   overlay.style.display = 'flex';
   const addBtn = document.querySelector('.contact_mobile_add_btn');
   if (addBtn) addBtn.style.display = 'none';
+  setupAddContactOverlayBackdrop();
   const form = document.getElementById('add_contact_form');
-  if (form) form.onsubmit = handleAddContact;
+  if (form) {
+    setupContactFormValidation(form);
+    form.onsubmit = handleAddContact;
+  }
 }
 
 /**
@@ -96,6 +90,24 @@ export function hideAddContactOverlay() {
 }
 
 /**
+ * Sets up backdrop click listener for the add-contact overlay.
+ * Closes overlay when clicking outside the modal content.
+ *
+ * @returns {void}
+ */
+function setupAddContactOverlayBackdrop() {
+  const overlay = document.getElementById('contact-add-overlay');
+  if (!overlay) return;
+
+  overlay.addEventListener('click', (event) => {
+    // Schließen nur wenn auf den Backdrop geklickt wird, nicht auf den Inhalt
+    if (event.target === overlay || event.target.classList.contains('addContact_overlay')) {
+      hideAddContactOverlay();
+    }
+  });
+}
+
+/**
  * Handles submission of the add-contact form.
  *
  * Validates the required fields, builds the contact payload,
@@ -108,8 +120,9 @@ export function hideAddContactOverlay() {
  */
 async function handleAddContact(event) {
   if (event) event.preventDefault();
-  const fields = getAddContactFields();
-  if (!hasRequiredAddContactFields(fields)) return;
+  const fields = getContactFormFields('add_contact_form');
+  if (!hasRequiredContactFields(fields)) return;
+  if (!validateContactFormFields(fields)) return;
   const payload = buildAddContactPayload(fields);
   if (!isValidAddContactPayload(payload)) return;
   const uid = getCurrentUserId();
@@ -128,11 +141,13 @@ async function handleAddContact(event) {
  *   phoneInput: HTMLInputElement|null
  * }} Object containing the add-contact form fields.
  */
-function getAddContactFields() {
+function getContactFormFields(formId) {
+  const form = document.getElementById(formId);
   return {
-    nameInput: document.getElementById('contact_name'),
-    emailInput: document.getElementById('contact_email'),
-    phoneInput: document.getElementById('contact_phone')
+    form,
+    nameInput: form?.querySelector('#contact_name') || null,
+    emailInput: form?.querySelector('#contact_email') || null,
+    phoneInput: form?.querySelector('#contact_phone') || null
   };
 }
 
@@ -146,10 +161,173 @@ function getAddContactFields() {
  * }} fields - The collected add-contact form fields.
  * @returns {boolean} True if the required fields exist, otherwise false.
  */
-function hasRequiredAddContactFields(fields) {
+function hasRequiredContactFields(fields) {
   const hasFields = Boolean(fields.nameInput &amp;&amp; fields.emailInput);
   if (!hasFields) console.error('Formular-Felder nicht gefunden!');
   return hasFields;
+}
+
+
+/**
+ * Sets up validation listeners for the contact form fields.
+ *
+ * Collects the relevant form inputs and forwards them
+ * to the contact form event binding logic.
+ *
+ * @param {HTMLFormElement} form - The contact form element.
+ * @returns {void}
+ */
+function setupContactFormValidation(form) {
+  const fields = {
+    nameInput: form.querySelector('#contact_name'),
+    emailInput: form.querySelector('#contact_email'),
+    phoneInput: form.querySelector('#contact_phone')
+  };
+  contactFormListener(fields);
+}
+
+/**
+ * Registers validation event listeners for the contact form fields.
+ *
+ * Validates fields on blur and re-validates them during input
+ * or change events when they are already marked as invalid.
+ *
+ * @param {{
+ *   nameInput: HTMLInputElement|null,
+ *   emailInput: HTMLInputElement|null,
+ *   phoneInput: HTMLInputElement|null
+ * }} fields - The contact form fields.
+ * @returns {void}
+ */
+function contactFormListener(fields) {
+  [fields.nameInput, fields.emailInput, fields.phoneInput].forEach((field) => {
+    field?.addEventListener('blur', () => {
+      validateContactField(field);
+    });
+    field?.addEventListener('input', () => {
+      if (field.classList.contains('input-error')) {
+        validateContactField(field);
+      }
+    });
+    field?.addEventListener('change', () => {
+      if (field.classList.contains('input-error')) {
+        validateContactField(field);
+      }
+    });
+  });
+}
+
+/**
+ * Validates all contact form fields and returns the combined result.
+ *
+ * @param {{
+ *   nameInput: HTMLInputElement|null,
+ *   emailInput: HTMLInputElement|null,
+ *   phoneInput: HTMLInputElement|null
+ * }} fields - The contact form fields to validate.
+ * @returns {boolean} True if all fields are valid, otherwise false.
+ */
+function validateContactFormFields(fields) {
+  const isNameValid = validateContactField(fields.nameInput);
+  const isEmailValid = validateContactField(fields.emailInput);
+  const isPhoneValid = validateContactField(fields.phoneInput);
+  return isNameValid &amp;&amp; isEmailValid &amp;&amp; isPhoneValid;
+}
+
+/**
+ * Validates a single contact form field.
+ *
+ * Checks required field rules, name rules, email format,
+ * and phone number format, then updates the field error state.
+ *
+ * @param {HTMLInputElement|null} input - The contact field to validate.
+ * @returns {boolean} True if the field is valid, otherwise false.
+ */
+function validateContactField(input) {
+  if (!input) return false;
+
+  const value = input.value.trim();
+
+  if (!validateInputNames(input, value)) {
+    return false;
+  }
+
+  if (input.type === 'email' &amp;&amp; !isValidEmail(value)) {
+    setContactFieldError(input, 'Please enter a valid email address');
+    return false;
+  }
+
+  if (input.id === 'contact_phone' &amp;&amp; value &amp;&amp; !/^\+?[0-9]*$/.test(value)) {
+    setContactFieldError(input, 'Please enter numbers only. A + is only allowed at the beginning.');
+    return false;
+  }
+
+  clearContactFieldError(input);
+  return true;
+}
+
+/**
+ * Validates name-related and required-field rules for contact inputs.
+ *
+ * Ensures that required fields are filled and that the contact name
+ * does not contain numeric characters.
+ *
+ * @param {HTMLInputElement} input - The contact field to validate.
+ * @param {string} value - The trimmed field value.
+ * @returns {boolean} True if the field passes these validation rules, otherwise false.
+ */
+function validateInputNames(input, value) {
+  if ((input.id === 'contact_name' || input.id === 'contact_email') &amp;&amp; !value) {
+    setContactFieldError(input, 'This field is required');
+    return false;
+  }
+
+  if (input.id === 'contact_name' &amp;&amp; /[0-9]/.test(value)) {
+    setContactFieldError(input, 'Please enter letters only');
+    return false;
+  }
+
+  return true;
+}
+
+/**
+* Adds visual error styles and message to a contact field.
+*
+* @param {HTMLInputElement} input - Field with validation error.
+* @param {string} message - Error message to display.
+* @returns {void}
+*/
+function setContactFieldError(input, message) {
+  const formField = input.closest('.form-field');
+  const errorMessage = formField?.querySelector('.error-message');
+  input.classList.add('input-error');
+  formField?.classList.add('error');
+  if (errorMessage) errorMessage.textContent = message;
+}
+
+/**
+ * Removes visual error styles and restores default message.
+ *
+ * @param {HTMLInputElement} input - Field to reset.
+ * @returns {void}
+ */
+function clearContactFieldError(input) {
+  const formField = input.closest('.form-field');
+  const errorMessage = formField?.querySelector('.error-message');
+  const defaultMessage = errorMessage?.dataset.defaultMessage || '';
+  input.classList.remove('input-error');
+  formField?.classList.remove('error');
+  if (errorMessage) errorMessage.textContent = defaultMessage;
+}
+
+/**
+ * Tests whether a string is a valid email address.
+ *
+ * @param {string} email - Email value to validate.
+ * @returns {boolean} True when email matches a basic email pattern.
+ */
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**
@@ -231,19 +409,6 @@ function showSuccessMessage(message) {
   }, 500);
 }
 
-/**
- * Animation duration used when closing the mobile actions menu.
- *
- * @type {number}
- */
-const MOBILE_ACTION_CLOSE_MS = 140;
-
-/**
- * Timer id used for delayed closing of the mobile actions menu.
- *
- * @type {number|null}
- */
-let mobileActionsCloseTimer = null;
 
 /**
  * Toggles the mobile contact actions menu.
@@ -420,7 +585,11 @@ function renderEditOverlay(overlay, contactId) {
   const color = getAvatarColor(contact.name || '');
   overlay.innerHTML = getEditOverlayTemplate(contactId, contact, initials, color);
   overlay.classList.remove('d_none');
-  overlay.onclick = closeEditOverlay;
+  overlay.onclick = (event) => {
+    if (event.target === overlay || event.target.classList.contains('addContact_overlay')) {
+      closeEditOverlay();
+    }
+  };
   const addBtn = document.querySelector('.contact_mobile_add_btn');
   if (addBtn) addBtn.style.display = 'none';
 }
@@ -433,6 +602,7 @@ function renderEditOverlay(overlay, contactId) {
 function bindEditFormSubmit() {
   const form = document.getElementById('edit_contact_form');
   if (!form) return;
+  setupContactFormValidation(form);
   form.removeEventListener('submit', saveEditedContact);
   form.addEventListener('submit', saveEditedContact);
 }
@@ -465,8 +635,27 @@ function closeEditOverlay() {
 async function saveEditedContact(event) {
   preventDefaultIfPresent(event);
   if (!canSaveEditedContact()) return;
-  const payload = getEditedContactPayload();
+  const fields = getContactFormFields('edit_contact_form');
+  if (!hasRequiredContactFields(fields)) return;
+  if (!validateContactFormFields(fields)) return;
+  const payload = getEditedContactPayload(fields);
   if (!isValidEditedContactPayload(payload)) return;
+  await saveEditedContactToDatabase(payload);
+}
+
+
+/**
+ * Saves the edited contact data to the database and updates the UI.
+ *
+ * Persists the edited contact payload, applies the updated values
+ * to the local contact cache, re-renders the contact list and detail view,
+ * and closes the edit overlay.
+ *
+ * @async
+ * @param {{name: string, email: string, phone: string}} payload - The edited contact data to save.
+ * @returns {Promise&lt;void>} Resolves when the save flow is complete.
+ */
+async function saveEditedContactToDatabase(payload) {
   try {
     await persistEditedContact(payload);
     applyEditedContactLocally(payload);
@@ -476,7 +665,6 @@ async function saveEditedContact(event) {
     logEditContactError(error);
   }
 }
-
 /**
  * Prevents the default browser behavior if an event was provided.
  *
@@ -501,22 +689,12 @@ function canSaveEditedContact() {
  *
  * @returns {{name: string, email: string, phone: string}} The normalized edited contact payload.
  */
-function getEditedContactPayload() {
+function getEditedContactPayload(fields) {
   return {
-    name: getTrimmedInputValue('contact_name'),
-    email: getTrimmedInputValue('contact_email'),
-    phone: getTrimmedInputValue('contact_phone')
+    name: fields.nameInput?.value.trim() || '',
+    email: fields.emailInput?.value.trim() || '',
+    phone: fields.phoneInput?.value.trim() || ''
   };
-}
-
-/**
- * Returns the trimmed value of an input element by id.
- *
- * @param {string} elementId - The id of the input element.
- * @returns {string} The trimmed input value, or an empty string if not found.
- */
-function getTrimmedInputValue(elementId) {
-  return document.getElementById(elementId)?.value.trim() || '';
 }
 
 /**
@@ -586,13 +764,7 @@ function logEditContactError(error) {
   console.error('Edit fehlgeschlagen:', error);
 }
 
-/**
- * Closes the mobile contact actions menu when clicking outside of it.
- *
- * @event click
- * @listens Document#click
- * @returns {void}
- */
+
 document.addEventListener('click', (event) => {
   const menu = document.getElementById('contact_mobile_actions_menu');
   if (!menu) return;
@@ -621,13 +793,13 @@ window.toggleContactMobileActions = toggleContactMobileActions;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-templates.html">member-templates</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="module-member-ui.html#~event:DOMContentLoaded">DOMContentLoaded</a></li><li><a href="module-contacts.html#event:click">click</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#columns">columns</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#tasks">tasks</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Apr 21 2026 19:05:09 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed May 06 2026 19:21:53 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

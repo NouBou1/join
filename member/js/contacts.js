@@ -8,12 +8,10 @@ import { ref, push, set, update, remove } from 'https://www.gstatic.com/firebase
 import { getAddOverlayTemplate, getEditOverlayTemplate } from './member-templates.js';
 import { renderContactsList as renderContactsListView, renderActiveContactTemplate, getContactDetailContainer, getInitials, getAvatarColor, getActiveContactId, setActiveContactId, closeMobileDetailView } from './contacts-render.js';
 
-
 let contacts = {};
-
-
 let editingContactId = null;
-
+const MOBILE_ACTION_CLOSE_MS = 140;
+let mobileActionsCloseTimer = null;
 /**
  * Renders the contacts list using the shared contacts-render view module.
  *
@@ -142,13 +140,38 @@ function hasRequiredContactFields(fields) {
 }
 
 
+/**
+ * Sets up validation listeners for the contact form fields.
+ *
+ * Collects the relevant form inputs and forwards them
+ * to the contact form event binding logic.
+ *
+ * @param {HTMLFormElement} form - The contact form element.
+ * @returns {void}
+ */
 function setupContactFormValidation(form) {
   const fields = {
     nameInput: form.querySelector('#contact_name'),
     emailInput: form.querySelector('#contact_email'),
     phoneInput: form.querySelector('#contact_phone')
   };
+  contactFormListener(fields);
+}
 
+/**
+ * Registers validation event listeners for the contact form fields.
+ *
+ * Validates fields on blur and re-validates them during input
+ * or change events when they are already marked as invalid.
+ *
+ * @param {{
+ *   nameInput: HTMLInputElement|null,
+ *   emailInput: HTMLInputElement|null,
+ *   phoneInput: HTMLInputElement|null
+ * }} fields - The contact form fields.
+ * @returns {void}
+ */
+function contactFormListener(fields) {
   [fields.nameInput, fields.emailInput, fields.phoneInput].forEach((field) => {
     field?.addEventListener('blur', () => {
       validateContactField(field);
@@ -166,7 +189,16 @@ function setupContactFormValidation(form) {
   });
 }
 
-
+/**
+ * Validates all contact form fields and returns the combined result.
+ *
+ * @param {{
+ *   nameInput: HTMLInputElement|null,
+ *   emailInput: HTMLInputElement|null,
+ *   phoneInput: HTMLInputElement|null
+ * }} fields - The contact form fields to validate.
+ * @returns {boolean} True if all fields are valid, otherwise false.
+ */
 function validateContactFormFields(fields) {
   const isNameValid = validateContactField(fields.nameInput);
   const isEmailValid = validateContactField(fields.emailInput);
@@ -174,18 +206,21 @@ function validateContactFormFields(fields) {
   return isNameValid && isEmailValid && isPhoneValid;
 }
 
-
+/**
+ * Validates a single contact form field.
+ *
+ * Checks required field rules, name rules, email format,
+ * and phone number format, then updates the field error state.
+ *
+ * @param {HTMLInputElement|null} input - The contact field to validate.
+ * @returns {boolean} True if the field is valid, otherwise false.
+ */
 function validateContactField(input) {
   if (!input) return false;
+
   const value = input.value.trim();
 
-  if ((input.id === 'contact_name' || input.id === 'contact_email') && !value) {
-    setContactFieldError(input, 'This field is required');
-    return false;
-  }
-
-  if (input.id === 'contact_name' && /[0-9]/.test(value)) {
-    setContactFieldError(input, 'Please enter letters only');
+  if (!validateInputNames(input, value)) {
     return false;
   }
 
@@ -204,12 +239,36 @@ function validateContactField(input) {
 }
 
 /**
- * Adds visual error styles and message to a contact field.
+ * Validates name-related and required-field rules for contact inputs.
  *
- * @param {HTMLInputElement} input - Field with validation error.
- * @param {string} message - Error message to display.
- * @returns {void}
+ * Ensures that required fields are filled and that the contact name
+ * does not contain numeric characters.
+ *
+ * @param {HTMLInputElement} input - The contact field to validate.
+ * @param {string} value - The trimmed field value.
+ * @returns {boolean} True if the field passes these validation rules, otherwise false.
  */
+function validateInputNames(input, value) {
+  if ((input.id === 'contact_name' || input.id === 'contact_email') && !value) {
+    setContactFieldError(input, 'This field is required');
+    return false;
+  }
+
+  if (input.id === 'contact_name' && /[0-9]/.test(value)) {
+    setContactFieldError(input, 'Please enter letters only');
+    return false;
+  }
+
+  return true;
+}
+
+/**
+* Adds visual error styles and message to a contact field.
+*
+* @param {HTMLInputElement} input - Field with validation error.
+* @param {string} message - Error message to display.
+* @returns {void}
+*/
 function setContactFieldError(input, message) {
   const formField = input.closest('.form-field');
   const errorMessage = formField?.querySelector('.error-message');
@@ -322,11 +381,6 @@ function showSuccessMessage(message) {
   }, 500);
 }
 
-
-const MOBILE_ACTION_CLOSE_MS = 140;
-
-
-let mobileActionsCloseTimer = null;
 
 /**
  * Toggles the mobile contact actions menu.
@@ -558,6 +612,22 @@ async function saveEditedContact(event) {
   if (!validateContactFormFields(fields)) return;
   const payload = getEditedContactPayload(fields);
   if (!isValidEditedContactPayload(payload)) return;
+  await saveEditedContactToDatabase(payload);
+}
+
+
+/**
+ * Saves the edited contact data to the database and updates the UI.
+ *
+ * Persists the edited contact payload, applies the updated values
+ * to the local contact cache, re-renders the contact list and detail view,
+ * and closes the edit overlay.
+ *
+ * @async
+ * @param {{name: string, email: string, phone: string}} payload - The edited contact data to save.
+ * @returns {Promise<void>} Resolves when the save flow is complete.
+ */
+async function saveEditedContactToDatabase(payload) {
   try {
     await persistEditedContact(payload);
     applyEditedContactLocally(payload);
@@ -567,7 +637,6 @@ async function saveEditedContact(event) {
     logEditContactError(error);
   }
 }
-
 /**
  * Prevents the default browser behavior if an event was provided.
  *
