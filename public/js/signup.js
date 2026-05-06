@@ -417,6 +417,16 @@ function redirectToLogin() {
 }
 
 
+/**
+ * Handles signup errors and shows the matching validation feedback.
+ *
+ * Re-enables the signup button, logs the Firebase error,
+ * resolves the corresponding user-facing message, and displays it
+ * on the affected signup field.
+ *
+ * @param {{code: string, message: string}} error - The Firebase signup error object.
+ * @returns {void}
+ */
 function handleSignupError(error) {
   signupBtn.disabled = false;
   console.error(error.code, error.message);
