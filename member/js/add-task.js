@@ -337,16 +337,7 @@ async function submitTask(taskData, createBtn, options = {}, priorityButtons, cl
   }
 }
 
-/**
- * Initializes the add-task page automatically after the DOM is ready.
- *
- * Looks up the add-task container and starts page mode initialization
- * if the container exists.
- *
- * @event DOMContentLoaded
- * @listens Document#DOMContentLoaded
- * @returns {void}
- */
+
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.add-task__container');
   if (!container) return;

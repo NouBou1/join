@@ -6,32 +6,12 @@
  */
 import { getActiveContactTemplate } from './member-templates.js';
 
-/**
- * Stores the current contacts object indexed by contact id.
- *
- * @type {Object<string, Object>}
- */
 let contacts = {};
 
-/**
- * Id of the currently active contact.
- *
- * @type {string|null}
- */
 let activeContactId = null;
 
-/**
- * Maximum viewport width considered mobile.
- *
- * @type {number}
- */
 const MOBILE_BREAKPOINT = 822;
 
-/**
- * Tracks whether the mobile detail view is currently open.
- *
- * @type {boolean}
- */
 let isMobileDetailOpen = false;
 
 /**
@@ -105,11 +85,6 @@ function groupContactsByLetter(contactsObjects) {
     grouped[firstLetter].push({
       id: id,
       ...contact
-      // spread operator ...contact -- open all properties of contact object
-      // other way
-      // contact.contact.id
-      // contact.contact.name
-      // contact.contact.email
     });
   });
   Object.keys(grouped).forEach(letter => {
@@ -215,7 +190,7 @@ function renderAlphabeticalContactSections(contactList, groupedContacts) {
  */
 function createLetterSectionHeader(contactList, letter) {
   const letterLabel = document.createElement('label');
-  letterLabel.className = 'labelfor_contactList'; 
+  letterLabel.className = 'labelfor_contactList';
   letterLabel.textContent = letter;
   contactList.appendChild(letterLabel);
   const divider = document.createElement('hr');

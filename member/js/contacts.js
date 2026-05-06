@@ -667,13 +667,7 @@ function logEditContactError(error) {
   console.error('Edit fehlgeschlagen:', error);
 }
 
-/**
- * Closes the mobile contact actions menu when clicking outside of it.
- *
- * @event click
- * @listens Document#click
- * @returns {void}
- */
+
 document.addEventListener('click', (event) => {
   const menu = document.getElementById('contact_mobile_actions_menu');
   if (!menu) return;

@@ -262,6 +262,7 @@ function emailHasAt() {
   return getEmail().includes("@");
 }
 
+
 function validateEmail() {
   if (!isFilled(signupEmail)) return true;
 
@@ -297,6 +298,7 @@ function passwordsMatch() {
   return signupPassword.value === signupConfirmPassword.value;
 }
 
+
 function showSignupEmailError(message = "Email must contain an @ character.") {
   const emailError = document.getElementById("signupEmailError");
   signupEmail.classList.add("signup__input--error");
@@ -304,16 +306,19 @@ function showSignupEmailError(message = "Email must contain an @ character.") {
   emailError.classList.add("show");
 }
 
+
 function clearSignupEmailError() {
   document.getElementById("signupEmailError")?.classList.remove("show");
   signupEmail.classList.remove("signup__input--error");
 }
+
 
 function showPasswordError(message = "Your passwords do not match. Please try again.") {
   signupConfirmPassword.classList.add("signup__input--error");
   signupPasswordError.textContent = message;
   signupPasswordError.classList.add("show");
 }
+
 
 function clearPasswordError() {
   signupConfirmPassword.classList.remove("signup__input--error");
@@ -354,6 +359,7 @@ function redirectToLogin() {
     window.location.href = "../index.html";
   }, 1500);
 }
+
 
 function handleSignupError(error) {
   signupBtn.disabled = false;

@@ -42,23 +42,6 @@ function syncTasksAndTodos() {
 
 initTasks();
 
-/**
- * References to the DOM containers (board columns) where tasks are rendered.
- *
- * Why this exists:
- * - You query the DOM *once* (instead of repeating `document.getElementById(...)` everywhere).
- * - Your code becomes cleaner: `columns.todo` is easier to read than `"todo"` strings everywhere.
- * - It centralizes the “IDs must exist” assumption in one place (good for debugging).
- *
- * Note: These can be `null` if the elements don’t exist in the current HTML page.
- *
- * @type {{
- *   todo: HTMLElement|null,
- *   inProgress: HTMLElement|null,
- *   awaitFeedback: HTMLElement|null,
- *   done: HTMLElement|null
- * }}
- */
 const columns = {
   /** @type {HTMLElement|null} */ todo: document.getElementById('todo'),
   /** @type {HTMLElement|null} */ inProgress: document.getElementById('inProgress'),

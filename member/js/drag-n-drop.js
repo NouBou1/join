@@ -12,57 +12,11 @@ import { generateTodosHTML } from './member-templates.js';
 import { getInitials, getAvatarColor } from './contacts-render.js';
 import { ref, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-/**
- * Possible board states.
- *
- * @typedef {"todo" | "in-progress" | "await-feedback" | "done"} SubtaskStatus
- */
 
-/**
- * Possible task categories.
- *
- * @typedef {"user-story" | "technical-task"} Category
- */
-
-/**
- * Possible priority values.
- *
- * @typedef {"low" | "medium" | "urgent"} Priority
- */
-
-/**
- * Represents a board task.
- *
- * @typedef {Object} Todo
- * @property {string} title - Task title.
- * @property {string} description - Task description.
- * @property {string} due_date - Due date in YYYY-MM-DD format or an empty string.
- * @property {Priority} priority - Task priority level.
- * @property {Object|Array|string} assigned_to - Assigned contacts.
- * @property {Category} category - Task category.
- * @property {SubtaskStatus} status - Current board column status.
- * @property {Object<string, {status?: boolean, completed?: boolean, title?: string}>} [subtasks] - Task subtasks.
- */
-
-/**
- * Current active search term used for board filtering.
- *
- * @type {string}
- */
 let activeSearchTerm = '';
 
-/**
- * Task collection indexed by id.
- *
- * @type {Record<string, Todo>}
- */
 export let todos = {};
 
-/**
- * Id of the currently dragged task card.
- *
- * @type {string|undefined}
- */
 let currentDraggedElement;
 
 /**
@@ -322,15 +276,6 @@ function clearDropCardPreview() {
   });
 }
 
-/**
- * Handles drag start on task cards.
- *
- * Stores the dragged task id and adds the dragging class.
- *
- * @listens Document#dragstart
- * @param {DragEvent} event - The browser dragstart event.
- * @returns {void}
- */
 document.addEventListener("dragstart", function (event) {
   const card = event.target.closest(".task__card");
   if (!card) return;
@@ -338,15 +283,6 @@ document.addEventListener("dragstart", function (event) {
   card.classList.add("task__card--dragging");
 });
 
-/**
- * Handles drag end on task cards.
- *
- * Removes drag-related UI state and clears the dragged task id.
- *
- * @listens Document#dragend
- * @param {DragEvent} event - The browser dragend event.
- * @returns {void}
- */
 document.addEventListener("dragend", function (event) {
   const card = event.target.closest(".task__card");
   if (!card) return;
@@ -356,15 +292,6 @@ document.addEventListener("dragend", function (event) {
   currentDraggedElement = undefined;
 });
 
-/**
- * Handles dragover on board drop zones.
- *
- * Enables dropping and shows the drop preview on the current task list.
- *
- * @listens Document#dragover
- * @param {DragEvent} event - The browser dragover event.
- * @returns {void}
- */
 document.addEventListener("dragover", function (event) {
   event.preventDefault();
   const dropZone = event.target.closest(".task__area");
@@ -376,16 +303,6 @@ document.addEventListener("dragover", function (event) {
   taskList.classList.add("task__list--preview");
 });
 
-/**
- * Handles dropping a task into a board column.
- *
- * Updates the local task status, refreshes the board,
- * and persists the new status to Firebase with rollback on failure.
- *
- * @listens Document#drop
- * @param {DragEvent} event - The browser drop event.
- * @returns {Promise<void>} Resolves when the drop handling is complete.
- */
 document.addEventListener("drop", async function (event) {
   event.preventDefault();
   const dropZone = event.target.closest(".task__area");
@@ -409,15 +326,6 @@ document.addEventListener("drop", async function (event) {
   }
 });
 
-/**
- * Handles dragleave on task areas.
- *
- * Removes the drop-zone highlight class.
- *
- * @listens Document#dragleave
- * @param {DragEvent} event - The browser dragleave event.
- * @returns {void}
- */
 document.addEventListener("dragleave", function (event) {
   const dropZone = event.target.closest(".task__area");
   if (!dropZone) return;

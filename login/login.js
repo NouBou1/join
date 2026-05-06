@@ -10,16 +10,6 @@ import { auth } from "../scripts/firebase/firebase.js";
 import { signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-/**
- * Initializes the login page after the DOM is ready.
- *
- * Collects all required DOM elements, synchronizes the splash logo
- * animation target, and binds login-related button events.
- *
- * @event DOMContentLoaded
- * @listens Document#DOMContentLoaded
- * @returns {void}
- */
 document.addEventListener("DOMContentLoaded", initLoginPage);
 
 /**

@@ -11,25 +11,8 @@ import { database, auth, BASE_URL } from './firebase.js';
 import { ref, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 import { renderContactsList } from '../../member/js/contacts.js';
 
-/**
- * Cached contacts object indexed by contact id.
- *
- * @type {Object<string, Object>}
- */
 let contacts = {};
-
-/**
- * Cached tasks object indexed by task id.
- *
- * @type {Object<string, Object>}
- */
 let tasks = {};
-
-/**
- * Cached category object.
- *
- * @type {Object<string, Object>}
- */
 let category = {};
 
 /**

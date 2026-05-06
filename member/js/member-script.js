@@ -123,23 +123,6 @@ function renderAddTask() {
 };
 
 
-/**
- * Injects the contact edit overlay template into `#editC_overlay`.
- *
- * @returns {void}
- */
-
-
-
-/**
- * Registers UI event listeners after the DOM is ready:
- * - Toggle header dropdown menu
- * - Sign out user and redirect to index page
- *
- * @event DOMContentLoaded
- * @listens Document#DOMContentLoaded
- * @returns {void}
- */
 document.addEventListener('DOMContentLoaded', () => {
   const profileBtn = document.getElementById('headerMenue');
   const logoutBtn = document.getElementById('logoutBtn');
@@ -256,7 +239,7 @@ async function renderBoard() {
 }
 
 
-// addtask-status-handling
+
 function setupAddTaskForAllColumns() {
   const overlay = document.getElementById('add_task_overlay');
   if (!overlay) return;
@@ -271,8 +254,6 @@ function setupAddTaskForAllColumns() {
     });
   });
 }
-
-
 renderBoard().then(() => {
   setupAddTaskOverlay();
   setupAddTaskForAllColumns();

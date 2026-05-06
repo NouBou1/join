@@ -1,26 +1,5 @@
 import { getInitials, getAvatarColor } from './contacts-render.js';
 
-/**
- * @file Provides HTML template factory functions for member pages.
- *
- * Includes templates for the member header, sidebar, add-task form,
- * contact overlays, signup success message, task overlays, board task cards,
- * and mobile footer.
- *
- * @module member-templates
- */
-
-/**
- * Task categories supported by the board UI.
- *
- * @typedef {"user-story" | "technical-task" | string} Category
- */
-
-/**
- * Priority values supported by the board UI.
- *
- * @typedef {"low" | "medium" | "urgent" | string} Priority
- */
 
 /**
  * Generates the header HTML for member pages.
