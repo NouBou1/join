@@ -8,18 +8,10 @@ import { ref, push, set, update, remove } from 'https://www.gstatic.com/firebase
 import { getAddOverlayTemplate, getEditOverlayTemplate } from './member-templates.js';
 import { renderContactsList as renderContactsListView, renderActiveContactTemplate, getContactDetailContainer, getInitials, getAvatarColor, getActiveContactId, setActiveContactId, closeMobileDetailView } from './contacts-render.js';
 
-/**
- * Stores the current contacts object indexed by contact id.
- *
- * @type {Object<string, Object>}
- */
+
 let contacts = {};
 
-/**
- * Id of the contact currently being edited.
- *
- * @type {string|null}
- */
+
 let editingContactId = null;
 
 /**
@@ -185,11 +177,15 @@ function validateContactFormFields(fields) {
 
 function validateContactField(input) {
   if (!input) return false;
-
   const value = input.value.trim();
 
   if ((input.id === 'contact_name' || input.id === 'contact_email') && !value) {
     setContactFieldError(input, 'This field is required');
+    return false;
+  }
+
+  if (input.id === 'contact_name' && /[0-9]/.test(value)) {
+    setContactFieldError(input, 'Please enter letters only');
     return false;
   }
 
@@ -326,18 +322,10 @@ function showSuccessMessage(message) {
   }, 500);
 }
 
-/**
- * Animation duration used when closing the mobile actions menu.
- *
- * @type {number}
- */
+
 const MOBILE_ACTION_CLOSE_MS = 140;
 
-/**
- * Timer id used for delayed closing of the mobile actions menu.
- *
- * @type {number|null}
- */
+
 let mobileActionsCloseTimer = null;
 
 /**
