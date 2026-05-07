@@ -86,6 +86,19 @@ select {
   padding: 10px 12px;
 }
 
+.custom-select__trigger:hover {
+  background: #fff;
+  background-color: #fff;
+  border-color: #a8a8a8;
+  box-shadow: none;
+}
+
+.add-task__input--select:hover {
+  background: #fff;
+  background-color: #fff;
+  border-color: #a8a8a8;
+}
+
 .add-task__input {
   margin-bottom: 22px;
 }
@@ -203,7 +216,7 @@ select {
   align-items: center;
   cursor: pointer;
   text-align: left;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .custom-select__trigger-label {
