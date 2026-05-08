@@ -236,8 +236,8 @@ export function getAddOverlayTemplate() {
                 </div>
 
                 <div class="buttons_add_contact">
-                    <button type="button" class="btn_save_contact" onclick="hideAddContactOverlay()">Cancel <img src="../../assets/icons/close-icon.svg" alt="Close Icon"></button>
-                    <button type="submit" form="add_contact_form" class="btn_cancel_contact">Create contact <img src="../../assets/icons/check-icon-white.svg" alt="Check Icon"></button>
+                    <button type="button" class="button btn_cancel_contact" onclick="hideAddContactOverlay()">Cancel <img src="../../assets/icons/close-icon.svg" alt="Close Icon"></button>
+                    <button type="submit" form="add_contact_form" class="button btn_save_contact">Create contact <img src="../../assets/icons/check-icon-white.svg" alt="Check Icon"></button>
                 </div>
 
             </div>
@@ -445,8 +445,8 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
               <span class="error-message" data-default-message=""></span>
             </div>
             <div class="buttons_add_contact">
-              <button type="button" class="btn_save_contact" onclick="deleteContact('${contactId}')">Delete</button>
-              <button type="submit" class="btn_cancel_contact">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
+              <button type="button" class="btn_cancel_contact" onclick="deleteContact('${contactId}')">Delete</button>
+              <button type="submit" class="btn_save_contact">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
             </div>
           </form>
         </div>
