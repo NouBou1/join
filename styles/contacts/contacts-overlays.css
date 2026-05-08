@@ -17,6 +17,7 @@
   display: none !important;
 }
 
+
 .addContact_overlay {
   position: fixed;
   inset: 0;
@@ -338,13 +339,16 @@
 }
 
 @media (max-width: 720px) {
-  .btn_save_contact {
-    display: none;
-  }
+
+    .btn_cancel_contact {
+      display: none;
+    }
+  
 
   .close_overlay_icon {
     display: block;
     z-index: 1200;
+    filter: invert(1);
   }
 }
 
@@ -438,6 +442,7 @@
     top: 16px;
     right: 16px;
     z-index: 10;
+    filter:invert(1)
   }
 
   .close_overlay_icon {

@@ -212,7 +212,7 @@ export function getAddOverlayTemplate() {
             <div class="overlay_add_contact_right">
 
                 <div class="close_overlay_icon_container">
-                    <img class="close_overlay_icon" src="../../assets/icons/close-icon.svg" alt="Close Overlay Icon" onclick="hideAddContactOverlay()">
+                    <img class="close_overlay_icon" src="../../assets/icons/close-white.svg" alt="Close Overlay Icon" onclick="hideAddContactOverlay()">
                 </div>
                 <div class="addContact_form_container">
 
