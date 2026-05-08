@@ -117,6 +117,17 @@ select {
   cursor: pointer;
 }
 
+.add-task__input:focus,
+.add-task__textarea:focus {
+  border-color: #29abe2;
+  outline: none;
+}
+
+.custom-select:has(.custom-select__options:not(.d_none)) .custom-select__trigger {
+  border-color: #29abe2;
+  outline: none;
+}
+
 .form-field {
   display: flex;
   flex-direction: column;
