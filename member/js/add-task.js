@@ -37,6 +37,7 @@ export function initAddTask(container, options = {}) {
   const dueInput = container.querySelector('#due_date');
   const categorySelect = container.querySelector('#category');
   const priorityButtons = container.querySelectorAll('.add-task__priority-button');
+  setMinimumDueDate(dueInput);
 
   setMinDueDate(dueInput);
 
@@ -142,7 +143,7 @@ export function initAddTask(container, options = {}) {
   createBtn?.addEventListener('click', async (event) => {
     event.preventDefault();
     const isTitleValid = validateRequiredField(titleInput);
-    const isDueValid = validateRequiredField(dueInput);
+    const isDueValid = validateDueDateField(dueInput);
     if (!isTitleValid || !isDueValid) return;
     const taskData = buildTaskData();
     if (!taskData) return;
@@ -274,6 +275,62 @@ function validateRequiredField(input) {
 }
 
 /**
+ * Returns today's date as a local YYYY-MM-DD string.
+ *
+ * Adjusts the current date by the local timezone offset
+ * so the resulting ISO date matches the user's local day.
+ *
+ * @returns {string} Today's date in YYYY-MM-DD format.
+ */
+function getTodayDateString() {
+  const today = new Date();
+  today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+  return today.toISOString().split('T')[0];
+}
+
+/**
+ * Sets the minimum selectable due date to today.
+ *
+ * Prevents selecting dates earlier than the current local date.
+ *
+ * @param {HTMLInputElement|null} input - The due date input field.
+ * @returns {void}
+ */
+function setMinimumDueDate(input) {
+  if (!input) return;
+
+  input.min = getTodayDateString();
+}
+
+/**
+ * Validates the due date field.
+ *
+ * First checks whether the field is filled. Then ensures
+ * the selected date is not earlier than today. Applies
+ * the error state when the date is invalid.
+ *
+ * @param {HTMLInputElement|null} input - The due date input field.
+ * @returns {boolean} True if the due date is valid, otherwise false.
+ */
+function validateDueDateField(input) {
+  if (!validateRequiredField(input)) return false;
+
+  const today = getTodayDateString();
+
+  if (input.value < today) {
+    const formField = input.closest('.form-field');
+
+    input.classList.add('input-error');
+    formField?.classList.add('error');
+
+    return false;
+  }
+
+  clearFieldError(input);
+  return true;
+}
+
+/**
  * Removes the visual error state from a field.
  *
  * @function clearFieldError
@@ -300,19 +357,36 @@ function clearFieldError(input) {
 function setupRequiredFieldValidation(fields) {
   fields.forEach((field) => {
     field?.addEventListener('blur', () => {
-      validateRequiredField(field);
+      validateField(field);
     });
+
     field?.addEventListener('input', () => {
       if (field.classList.contains('input-error')) {
-        validateRequiredField(field);
+        validateField(field);
       }
     });
+
     field?.addEventListener('change', () => {
-      if (field.classList.contains('input-error')) {
-        validateRequiredField(field);
-      }
+      validateField(field);
     });
   });
+}
+
+/**
+ * Validates a form field and delegates due date validation when needed.
+ *
+ * Uses the dedicated due date validation for the due date field
+ * and falls back to the generic required field validation for all other fields.
+ *
+ * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|null} field - The field to validate.
+ * @returns {boolean} True if the field is valid, otherwise false.
+ */
+function validateField(field) {
+  if (field?.id === 'due_date') {
+    return validateDueDateField(field);
+  }
+
+  return validateRequiredField(field);
 }
 
 /**

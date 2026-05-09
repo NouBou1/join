@@ -126,6 +126,24 @@
   color: var(--color-menu-bg);
 }
 
+.add-task__button--secondary:hover {
+  background-color: var(--color-background-input);
+  border-color: #29abe2;
+  color: #29abe2;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  border-width: 2px;
+}
+
+.add-task__button--secondary:hover img {
+  filter: invert(63%) sepia(60%) saturate(400%) hue-rotate(163deg) brightness(95%);
+}
+
+.add-task__button--primary:hover {
+  background-color: #29abe2;
+  border-color: #29abe2;
+  color: #fff;
+}
+
 .add-task__button--primary {
   background: var(--color-menu-bg);
   border: 1px solid var(--color-menu-bg);
@@ -152,6 +170,7 @@
 .add-task-close-btn:hover {
   background-color: rgba(58, 79, 237, 0.1) !important;
 }
+
 .overlay_add_task {
   position: relative;
   display: flex;

@@ -68,6 +68,10 @@ select {
   align-items: center;
   margin-top: 40px;
   gap: 16px;
+  position: sticky;
+  bottom: 44px;
+  padding-bottom: 16px;
+  z-index: 10;
 }
 
 .add-task__field-spacing {
@@ -97,6 +101,7 @@ select {
   background: #fff;
   background-color: #fff;
   border-color: #a8a8a8;
+  cursor: pointer;
 }
 
 .add-task__input {
@@ -116,6 +121,58 @@ select {
   padding-right: 44px;
   cursor: pointer;
 }
+
+.add-task__input:focus,
+.add-task__textarea:focus {
+  border-color: #29abe2;
+  outline: none;
+}
+
+.custom-select:has(.custom-select__options:not(.d_none)) .custom-select__trigger {
+  border-color: #29abe2;
+  outline: none;
+}
+
+.custom-select__option:hover {
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+.custom-select__option:has(input:checked) {
+  background-color: #2a3647;
+  border-radius: 10px;
+}
+
+.custom-select__option:has(input:checked) .custom-select__option-label {
+  color: #fff;
+}
+
+.custom-select__checkbox {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  flex-shrink: 0;
+  cursor: pointer;
+  background-image: url('../../../assets/icons/checkbox/checkbox-icon-unchecked.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.custom-select__option:has(input:checked) .custom-select__checkbox {
+  background-image: url('../../../assets/icons/checkbox/checkbox-icon-checked.svg');
+  filter: brightness(0) invert(1);
+}
+
+.custom-select__option:hover .custom-select__checkbox:not(:checked) {
+  background-image: url('../../../assets/icons/checkbox/checkbox-icon-unchecked-hover.svg');
+}
+
+.custom-select__checkbox:checked {
+  background-image: url('../../../assets/icons/checkbox/checkbox-icon-checked.svg');
+}
+
 
 .form-field {
   display: flex;
@@ -231,11 +288,9 @@ select {
 }
 
 .custom-select__options {
-  position: absolute;
-  z-index: 999;
-  top: calc(100% + 6px);
-  left: 0;
+  position: relative;
   width: 100%;
+  margin-top: 6px;
   max-height: 250px;
   overflow-y: auto;
   border-radius: 10px;
@@ -262,11 +317,6 @@ select {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.custom-select__checkbox {
-  width: 18px;
-  height: 18px;
 }
 
 .add-task__selected-assignees {
