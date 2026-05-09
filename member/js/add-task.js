@@ -2,6 +2,20 @@ import { pushTask } from '../../scripts/firebase/push-task.js';
 import { initAssignees, trackContactsForUser, getAssignedNames, clearSelectedAssignees } from './add-task-assignees.js';
 import { initSubtasks, getSubtasks, clearSubtasks } from './add-task-subtasks.js';
 
+
+/**
+ * Sets today's date as the minimum selectable due date.
+ *
+ * @param {HTMLInputElement|null} dueInput - The due date input field.
+ * @returns {void}
+ */
+function setMinDueDate(dueInput) {
+  if (!dueInput) return;
+  const today = new Date().toISOString().split('T')[0];
+  dueInput.min = today;
+}
+
+
 /**
  * Initializes the Add Task page after the DOM is fully loaded.
  *
@@ -23,6 +37,8 @@ export function initAddTask(container, options = {}) {
   const dueInput = container.querySelector('#due_date');
   const categorySelect = container.querySelector('#category');
   const priorityButtons = container.querySelectorAll('.add-task__priority-button');
+
+  setMinDueDate(dueInput);
 
   let selectedPriority = null;
 

@@ -9,6 +9,20 @@ import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
 
 export let tasks = {};
 
+
+/**
+ * Sets today's date as the minimum selectable edit due date.
+ *
+ * @returns {void}
+ */
+function setMinEditDueDate() {
+  const dueInput = document.getElementById('edit_due_date');
+  if (!dueInput) return;
+  const today = new Date().toISOString().split('T')[0];
+  dueInput.min = today;
+}
+
+
 /**
  * Loads all tasks from Firebase and stores them
  * in the local `tasks` collection.
@@ -260,6 +274,7 @@ function editTask(taskId) {
   const task = tasks[taskId];
   if (!task) return console.warn("Task nicht gefunden:", taskId);
   renderEditOverlay(taskId, task);
+  setMinEditDueDate();
   setupPriorityButtons();
   window.editAssigneeState = initializeEditAssignees();
   window.editSubtaskState = initializeEditSubtasks(document.getElementById("overlay_container"));
