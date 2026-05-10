@@ -146,18 +146,15 @@ export function getTaskTemplate() {
             <input type="hidden" id="assigned_to_input" name="assigned_to">
             <div class="add-task__selected-assignees" id="selected_assignees_display"></div>
 
-            <label>Category</label>
-              <div class="custom-select add-task__field-spacing" id="category_select">
-                <button type="button" class="custom-select__trigger" id="category_trigger">
-                  <span class="custom-select__trigger-label" id="category_label">Select task category</span>
-                  <span class="custom-select__arrow">▾</span>
-                </button>
-                <div class="custom-select__options d_none" id="category_options">
-                  <div class="custom-select__category-option" data-value="technical-task">Technical Task</div>
-                  <div class="custom-select__category-option" data-value="user-story">User Story</div>
-                </div>
-              </div>
-              <input type="hidden" id="category" name="category">
+            <label for="category">Category <span class="required">*</span></label>
+              <div class="select-native-wrapper add-task__field-spacing">
+                <select class="add-task__input add-task__input--select" id="category" name="category" required>
+                <option value="select_task_category">Select task category</option>
+                <option value="technical-task">Technical Task</option>
+                <option value="user-story">User Story</option>
+              </select>
+              <span class="custom-select__arrow">▾</span>
+            </div>
 
             <label for="subtask">Subtasks</label>
             <div class="add-task__subtask">

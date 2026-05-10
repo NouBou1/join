@@ -192,6 +192,10 @@
 }
 
 .custom-select__option-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--color-menu-bg);
 }
 
