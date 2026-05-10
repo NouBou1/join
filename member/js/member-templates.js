@@ -281,7 +281,13 @@ function formatCategoryLabel(category) {
   return labels[category] || category;
 }
 
-
+/**
+ * Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
+ *
+ * @param {string} text
+ * @param {string} maxLength
+ * @returns
+ */
 function limitText(text, maxLength) {
   const value = String(text || '');
 
