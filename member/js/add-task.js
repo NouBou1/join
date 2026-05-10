@@ -42,75 +42,11 @@ export function initAddTask(container, options = {}) {
   setMinDueDate(dueInput);
 
   let selectedPriority = null;
-
-  /**
-   * Sets the given priority button as selected and updates the priority state.
-   *
-   * @function applyPrioritySelection
-   * @param {HTMLButtonElement|null} button - The priority button to activate.
-   * @param {NodeListOf<HTMLButtonElement>} buttons - All available priority buttons.
-   * @returns {void}
-   */
-  function applyPrioritySelection(button, buttons) {
-    buttons.forEach((item) => item.classList.remove('selected'));
-
-    if (!button) {
-      selectedPriority = null;
-      return;
-    }
-    button.classList.add('selected');
-    selectedPriority =
-      button.value ||
-      button.getAttribute('value') ||
-      button.textContent.trim();
-  }
-
-  /**
- * Closes the add-task page view.
- *
- * Navigates back in browser history when the previous page belongs
- * to the same origin. Otherwise redirects to the board page.
- *
- * @returns {void}
- */
-  function closeAddTaskPage() {
-    const hasReferrer = Boolean(document.referrer);
-    const isInternalReferrer = hasReferrer && new URL(document.referrer).origin === window.location.origin;
-    if (isInternalReferrer && window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-    window.location.href = './board.html';
-  }
-
-  /**
-   * Finds a priority button by its priority value.
-   *
-   * @function findPriorityButton
-   * @param {NodeListOf<HTMLButtonElement>} buttons - All priority buttons.
-   * @param {string} priorityName - The priority value to search for.
-   * @returns {HTMLButtonElement|undefined} The matching button, if found.
-   */
-  function findPriorityButton(buttons, priorityName) {
-    return [...buttons].find((button) => {
-      const buttonPriority =
-        button.value ||
-        button.getAttribute('value') ||
-        button.textContent.trim();
-      return buttonPriority.toLowerCase() === priorityName.toLowerCase();
-    });
-  }
-
-  /**
-   * Sets the default priority to "medium" on page load.
-   *
-   * @function setDefaultPriority
-   * @returns {void}
-   */
-  function setDefaultPriority() {
-    const mediumButton = findPriorityButton(priorityButtons, 'medium');
-    applyPrioritySelection(mediumButton || null, priorityButtons);
-  }
+  // ausgelagerte funktionen versuch
+  applyPrioritySelection(button, buttons);
+  closeAddTaskPage();
+  findPriorityButton(buttons, priorityName);
+  setDefaultPriority();
 
   const requiredFields = [titleInput, dueInput];
   setupRequiredFieldValidation(requiredFields);
@@ -165,8 +101,82 @@ export function initAddTask(container, options = {}) {
       closeAddTaskPage();
     });
   }
+  // asugelagerte funktionen 2
+  selectPriority(event, button, buttons);
+  clearAddTaskForm(buttons);
+  buildTaskData();
+}
 
-  /**
+/**
+   * Sets the given priority button as selected and updates the priority state.
+   *
+   * @function applyPrioritySelection
+   * @param {HTMLButtonElement|null} button - The priority button to activate.
+   * @param {NodeListOf<HTMLButtonElement>} buttons - All available priority buttons.
+   * @returns {void}
+   */
+function applyPrioritySelection(button, buttons) {
+  buttons.forEach((item) => item.classList.remove('selected'));
+
+  if (!button) {
+    selectedPriority = null;
+    return;
+  }
+  button.classList.add('selected');
+  selectedPriority =
+    button.value ||
+    button.getAttribute('value') ||
+    button.textContent.trim();
+}
+
+/**
+* Closes the add-task page view.
+*
+* Navigates back in browser history when the previous page belongs
+* to the same origin. Otherwise redirects to the board page.
+*
+* @returns {void}
+*/
+function closeAddTaskPage() {
+  const hasReferrer = Boolean(document.referrer);
+  const isInternalReferrer = hasReferrer && new URL(document.referrer).origin === window.location.origin;
+  if (isInternalReferrer && window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = './board.html';
+}
+
+/**
+   * Finds a priority button by its priority value.
+   *
+   * @function findPriorityButton
+   * @param {NodeListOf<HTMLButtonElement>} buttons - All priority buttons.
+   * @param {string} priorityName - The priority value to search for.
+   * @returns {HTMLButtonElement|undefined} The matching button, if found.
+   */
+function findPriorityButton(buttons, priorityName) {
+  return [...buttons].find((button) => {
+    const buttonPriority =
+      button.value ||
+      button.getAttribute('value') ||
+      button.textContent.trim();
+    return buttonPriority.toLowerCase() === priorityName.toLowerCase();
+  });
+}
+
+/**
+   * Sets the default priority to "medium" on page load.
+   *
+   * @function setDefaultPriority
+   * @returns {void}
+   */
+function setDefaultPriority() {
+  const mediumButton = findPriorityButton(priorityButtons, 'medium');
+  applyPrioritySelection(mediumButton || null, priorityButtons);
+}
+
+/**
    * Handles priority button selection.
    *
    * Removes the "selected" class from all buttons,
@@ -178,12 +188,12 @@ export function initAddTask(container, options = {}) {
    * @param {NodeListOf<HTMLButtonElement>} buttons - All priority buttons.
    * @returns {void}
    */
-  function selectPriority(event, button, buttons) {
-    event.preventDefault();
-    applyPrioritySelection(button, buttons);
-  }
+function selectPriority(event, button, buttons) {
+  event.preventDefault();
+  applyPrioritySelection(button, buttons);
+}
 
-  /**
+/**
    * Resets the entire add-task form to its initial state.
    *
    * Clears:
@@ -198,20 +208,20 @@ export function initAddTask(container, options = {}) {
    * @param {NodeListOf<HTMLButtonElement>} buttons - List of all priority buttons.
    * @returns {void}
    */
-  function clearAddTaskForm(buttons) {
-    if (titleInput) titleInput.value = '';
-    if (descInput) descInput.value = '';
-    if (dueInput) dueInput.value = '';
-    if (categorySelect) categorySelect.selectedIndex = 0;
-    clearSelectedAssignees(assigneeState);
-    clearSubtasks(subtaskState);
-    clearFieldError(titleInput);
-    clearFieldError(dueInput);
-    const mediumButton = findPriorityButton(buttons, 'medium');
-    applyPrioritySelection(mediumButton || null, buttons);
-  }
+function clearAddTaskForm(buttons) {
+  if (titleInput) titleInput.value = '';
+  if (descInput) descInput.value = '';
+  if (dueInput) dueInput.value = '';
+  if (categorySelect) categorySelect.selectedIndex = 0;
+  clearSelectedAssignees(assigneeState);
+  clearSubtasks(subtaskState);
+  clearFieldError(titleInput);
+  clearFieldError(dueInput);
+  const mediumButton = findPriorityButton(buttons, 'medium');
+  applyPrioritySelection(mediumButton || null, buttons);
+}
 
-  /**
+/**
    * Builds the task object from current form values.
    *
    * Includes:
@@ -228,26 +238,24 @@ export function initAddTask(container, options = {}) {
    * @function buildTaskData
    * @returns {Object|null} The task data object, or null if required data is missing.
    */
-  function buildTaskData() {
-    const title = titleInput?.value?.trim();
-    const dueDate = dueInput?.value || '';
-    if (!title || !dueDate) return null;
-    const overlay = document.getElementById('add_task_overlay');
-    const status = overlay?.dataset.target || 'todo';
-    return {
-      title,
-      description: descInput?.value?.trim() || '',
-      due_date: dueDate,
-      priority: selectedPriority || 'medium',
-      assigned_to: getAssignedNames(assigneeState),
-      category: categorySelect?.value || '',
-      subtasks: getSubtasks(subtaskState),
-      status,
-      createdAt: new Date().toISOString()
-    };
-  }
+function buildTaskData() {
+  const title = titleInput?.value?.trim();
+  const dueDate = dueInput?.value || '';
+  if (!title || !dueDate) return null;
+  const overlay = document.getElementById('add_task_overlay');
+  const status = overlay?.dataset.target || 'todo';
+  return {
+    title,
+    description: descInput?.value?.trim() || '',
+    due_date: dueDate,
+    priority: selectedPriority || 'medium',
+    assigned_to: getAssignedNames(assigneeState),
+    category: categorySelect?.value || '',
+    subtasks: getSubtasks(subtaskState),
+    status,
+    createdAt: new Date().toISOString()
+  };
 }
-
 
 /**
  * Validates a required form field.
