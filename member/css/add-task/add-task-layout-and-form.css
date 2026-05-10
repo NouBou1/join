@@ -401,8 +401,8 @@ select {
   }
 
   .add-task__required-hint {
-    position: relative;
-    bottom: 21px;
+    position: static;
+    bottom: auto;
   }
 
   .add-task__main {
@@ -411,7 +411,7 @@ select {
     margin-top: 172px;
   }
 
- 
+
 
   .add-task__footer {
     flex-direction: column;
@@ -448,13 +448,13 @@ select {
     width: 100%;
   }
 
-.add-task__container {
-  padding: 24px 16px;
-}
+  .add-task__container {
+    padding: 24px 16px;
+  }
 
-form {
-  justify-content: center;
-}
+  form {
+    justify-content: center;
+  }
 }
 
 .gap-reduced {
