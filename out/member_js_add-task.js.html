@@ -70,75 +70,11 @@ export function initAddTask(container, options = {}) {
   setMinDueDate(dueInput);
 
   let selectedPriority = null;
-
-  /**
-   * Sets the given priority button as selected and updates the priority state.
-   *
-   * @function applyPrioritySelection
-   * @param {HTMLButtonElement|null} button - The priority button to activate.
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All available priority buttons.
-   * @returns {void}
-   */
-  function applyPrioritySelection(button, buttons) {
-    buttons.forEach((item) => item.classList.remove('selected'));
-
-    if (!button) {
-      selectedPriority = null;
-      return;
-    }
-    button.classList.add('selected');
-    selectedPriority =
-      button.value ||
-      button.getAttribute('value') ||
-      button.textContent.trim();
-  }
-
-  /**
- * Closes the add-task page view.
- *
- * Navigates back in browser history when the previous page belongs
- * to the same origin. Otherwise redirects to the board page.
- *
- * @returns {void}
- */
-  function closeAddTaskPage() {
-    const hasReferrer = Boolean(document.referrer);
-    const isInternalReferrer = hasReferrer &amp;&amp; new URL(document.referrer).origin === window.location.origin;
-    if (isInternalReferrer &amp;&amp; window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-    window.location.href = './board.html';
-  }
-
-  /**
-   * Finds a priority button by its priority value.
-   *
-   * @function findPriorityButton
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All priority buttons.
-   * @param {string} priorityName - The priority value to search for.
-   * @returns {HTMLButtonElement|undefined} The matching button, if found.
-   */
-  function findPriorityButton(buttons, priorityName) {
-    return [...buttons].find((button) => {
-      const buttonPriority =
-        button.value ||
-        button.getAttribute('value') ||
-        button.textContent.trim();
-      return buttonPriority.toLowerCase() === priorityName.toLowerCase();
-    });
-  }
-
-  /**
-   * Sets the default priority to "medium" on page load.
-   *
-   * @function setDefaultPriority
-   * @returns {void}
-   */
-  function setDefaultPriority() {
-    const mediumButton = findPriorityButton(priorityButtons, 'medium');
-    applyPrioritySelection(mediumButton || null, priorityButtons);
-  }
+  // ausgelagerte funktionen versuch
+  applyPrioritySelection(button, buttons);
+  closeAddTaskPage();
+  findPriorityButton(buttons, priorityName);
+  setDefaultPriority();
 
   const requiredFields = [titleInput, dueInput];
   setupRequiredFieldValidation(requiredFields);
@@ -193,8 +129,82 @@ export function initAddTask(container, options = {}) {
       closeAddTaskPage();
     });
   }
+  // asugelagerte funktionen 2
+  selectPriority(event, button, buttons);
+  clearAddTaskForm(buttons);
+  buildTaskData();
+}
 
-  /**
+/**
+   * Sets the given priority button as selected and updates the priority state.
+   *
+   * @function applyPrioritySelection
+   * @param {HTMLButtonElement|null} button - The priority button to activate.
+   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All available priority buttons.
+   * @returns {void}
+   */
+function applyPrioritySelection(button, buttons) {
+  buttons.forEach((item) => item.classList.remove('selected'));
+
+  if (!button) {
+    selectedPriority = null;
+    return;
+  }
+  button.classList.add('selected');
+  selectedPriority =
+    button.value ||
+    button.getAttribute('value') ||
+    button.textContent.trim();
+}
+
+/**
+* Closes the add-task page view.
+*
+* Navigates back in browser history when the previous page belongs
+* to the same origin. Otherwise redirects to the board page.
+*
+* @returns {void}
+*/
+function closeAddTaskPage() {
+  const hasReferrer = Boolean(document.referrer);
+  const isInternalReferrer = hasReferrer &amp;&amp; new URL(document.referrer).origin === window.location.origin;
+  if (isInternalReferrer &amp;&amp; window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = './board.html';
+}
+
+/**
+   * Finds a priority button by its priority value.
+   *
+   * @function findPriorityButton
+   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All priority buttons.
+   * @param {string} priorityName - The priority value to search for.
+   * @returns {HTMLButtonElement|undefined} The matching button, if found.
+   */
+function findPriorityButton(buttons, priorityName) {
+  return [...buttons].find((button) => {
+    const buttonPriority =
+      button.value ||
+      button.getAttribute('value') ||
+      button.textContent.trim();
+    return buttonPriority.toLowerCase() === priorityName.toLowerCase();
+  });
+}
+
+/**
+   * Sets the default priority to "medium" on page load.
+   *
+   * @function setDefaultPriority
+   * @returns {void}
+   */
+function setDefaultPriority() {
+  const mediumButton = findPriorityButton(priorityButtons, 'medium');
+  applyPrioritySelection(mediumButton || null, priorityButtons);
+}
+
+/**
    * Handles priority button selection.
    *
    * Removes the "selected" class from all buttons,
@@ -206,12 +216,12 @@ export function initAddTask(container, options = {}) {
    * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All priority buttons.
    * @returns {void}
    */
-  function selectPriority(event, button, buttons) {
-    event.preventDefault();
-    applyPrioritySelection(button, buttons);
-  }
+function selectPriority(event, button, buttons) {
+  event.preventDefault();
+  applyPrioritySelection(button, buttons);
+}
 
-  /**
+/**
    * Resets the entire add-task form to its initial state.
    *
    * Clears:
@@ -226,20 +236,20 @@ export function initAddTask(container, options = {}) {
    * @param {NodeListOf&lt;HTMLButtonElement>} buttons - List of all priority buttons.
    * @returns {void}
    */
-  function clearAddTaskForm(buttons) {
-    if (titleInput) titleInput.value = '';
-    if (descInput) descInput.value = '';
-    if (dueInput) dueInput.value = '';
-    if (categorySelect) categorySelect.selectedIndex = 0;
-    clearSelectedAssignees(assigneeState);
-    clearSubtasks(subtaskState);
-    clearFieldError(titleInput);
-    clearFieldError(dueInput);
-    const mediumButton = findPriorityButton(buttons, 'medium');
-    applyPrioritySelection(mediumButton || null, buttons);
-  }
+function clearAddTaskForm(buttons) {
+  if (titleInput) titleInput.value = '';
+  if (descInput) descInput.value = '';
+  if (dueInput) dueInput.value = '';
+  if (categorySelect) categorySelect.selectedIndex = 0;
+  clearSelectedAssignees(assigneeState);
+  clearSubtasks(subtaskState);
+  clearFieldError(titleInput);
+  clearFieldError(dueInput);
+  const mediumButton = findPriorityButton(buttons, 'medium');
+  applyPrioritySelection(mediumButton || null, buttons);
+}
 
-  /**
+/**
    * Builds the task object from current form values.
    *
    * Includes:
@@ -256,26 +266,24 @@ export function initAddTask(container, options = {}) {
    * @function buildTaskData
    * @returns {Object|null} The task data object, or null if required data is missing.
    */
-  function buildTaskData() {
-    const title = titleInput?.value?.trim();
-    const dueDate = dueInput?.value || '';
-    if (!title || !dueDate) return null;
-    const overlay = document.getElementById('add_task_overlay');
-    const status = overlay?.dataset.target || 'todo';
-    return {
-      title,
-      description: descInput?.value?.trim() || '',
-      due_date: dueDate,
-      priority: selectedPriority || 'medium',
-      assigned_to: getAssignedNames(assigneeState),
-      category: categorySelect?.value || '',
-      subtasks: getSubtasks(subtaskState),
-      status,
-      createdAt: new Date().toISOString()
-    };
-  }
+function buildTaskData() {
+  const title = titleInput?.value?.trim();
+  const dueDate = dueInput?.value || '';
+  if (!title || !dueDate) return null;
+  const overlay = document.getElementById('add_task_overlay');
+  const status = overlay?.dataset.target || 'todo';
+  return {
+    title,
+    description: descInput?.value?.trim() || '',
+    due_date: dueDate,
+    priority: selectedPriority || 'medium',
+    assigned_to: getAssignedNames(assigneeState),
+    category: categorySelect?.value || '',
+    subtasks: getSubtasks(subtaskState),
+    status,
+    createdAt: new Date().toISOString()
+  };
 }
-
 
 /**
  * Validates a required form field.
@@ -502,13 +510,13 @@ function clearTaskMessage() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#limitText">limitText</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinDueDate">setMinDueDate</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#limitText">limitText</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinDueDate">setMinDueDate</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 10 2026 12:32:25 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 10 2026 13:09:30 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
