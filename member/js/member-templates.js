@@ -281,6 +281,17 @@ function formatCategoryLabel(category) {
   return labels[category] || category;
 }
 
+
+function limitText(text, maxLength) {
+  const value = String(text || '');
+
+  if (value.length <= maxLength) {
+    return value;
+  }
+
+  return value.slice(0, maxLength) + '***';
+}
+
 /**
  * Generates the HTML string for a task card in the board view.
  *
@@ -295,17 +306,17 @@ function formatCategoryLabel(category) {
  */
 export function generateTodosHTML(id, title, category, description, priority, subtaskProgressHTML = '', assigneeAvatarsHTML = '') {
   return `
-            <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true" >
-              <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
-              <h4 class="task__title">${title}</h4><br>
-              <p class="task__text">${description}</p><br>
-              ${subtaskProgressHTML}
-              <div class="task__footer">
-                <div class="task__assignees">${assigneeAvatarsHTML}</div>
-                <img src="../assets/icons/${priority}-prio-icon.svg" alt="">
-              </div>
-            </div>
-          `;
+    <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true">
+      <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
+      <h4 class="task__title">${limitText(title, 18)}</h4><br>
+      <p class="task__text">${limitText(description, 30)}</p><br>
+      ${subtaskProgressHTML}
+      <div class="task__footer">
+        <div class="task__assignees">${assigneeAvatarsHTML}</div>
+        <img src="../assets/icons/${priority}-prio-icon.svg" alt="">
+      </div>
+    </div>
+  `;
 }
 
 /**
