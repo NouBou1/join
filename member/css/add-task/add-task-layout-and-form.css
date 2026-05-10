@@ -68,10 +68,6 @@ select {
   align-items: center;
   margin-top: 40px;
   gap: 16px;
-  position: sticky;
-  bottom: 44px;
-  padding-bottom: 16px;
-  z-index: 10;
 }
 
 .add-task__field-spacing {
@@ -395,14 +391,9 @@ select {
     padding: 0;
   }
 
-  .add-task__main {
-    bottom: 160px;
-    position: relative;
-  }
-
   .add-task__required-hint {
-    position: static;
-    bottom: auto;
+    position: relative;
+    bottom: 21px;
   }
 
   .add-task__main {
@@ -410,8 +401,6 @@ select {
     position: relative;
     margin-top: 172px;
   }
-
-
 
   .add-task__footer {
     flex-direction: column;
@@ -448,13 +437,13 @@ select {
     width: 100%;
   }
 
-  .add-task__container {
-    padding: 24px 16px;
-  }
+.add-task__container {
+  padding: 24px 16px;
+}
 
-  form {
-    justify-content: center;
-  }
+form {
+  justify-content: center;
+}
 }
 
 .gap-reduced {
