@@ -283,8 +283,14 @@ select {
 }
 
 .custom-select__arrow {
-  font-size: 18px;
+  font-size: 24px;
   color: #666;
+  transition: transform 0.2s ease;
+}
+
+.custom-select:has(.custom-select__options:not(.d_none)) .custom-select__arrow,
+#category_trigger[aria-expanded="true"] .custom-select__arrow {
+  transform: rotate(180deg);
 }
 
 .custom-select__options {
@@ -303,6 +309,9 @@ select {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
   padding: 8px 0;
   margin-top: -1px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #a7a1a1 #fff;
 }
 
 .custom-select__option {
@@ -323,6 +332,15 @@ select {
 
 #category_options .custom-select__option {
   justify-content: flex-start;
+}
+
+#category_options {
+  overflow-y: auto !important;
+  scrollbar-width: none;
+}
+
+#category_options::-webkit-scrollbar {
+  display: none;
 }
 
 #category_trigger.input-error {

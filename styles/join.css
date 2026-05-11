@@ -263,11 +263,11 @@ header {
 }
 
 .help-circle {
-  width: 16px;
-  height: 16px;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
   background: var(--color-background-input);
-  border: 1px solid var(--color-border-mid);
+  border: 2px solid var(--color-border-mid);
   color: var(--color-border-mid);
   display: flex;
   align-items: center;
@@ -276,6 +276,11 @@ header {
   font-size: 12px;
   cursor: default;
 }
+
+.help-circle:hover {
+  height: 22px;
+  width: 22px;
+  border: 2px solid;}
 
 .header-menue-nav {
   position: absolute;

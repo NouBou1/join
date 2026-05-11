@@ -633,6 +633,7 @@ async function saveEditedContactToDatabase(payload) {
     applyEditedContactLocally(payload);
     rerenderAfterContactEdit();
     closeEditOverlay();
+    showSuccessMessage('Contact successfully updated!');
   } catch (error) {
     logEditContactError(error);
   }
