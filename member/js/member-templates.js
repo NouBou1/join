@@ -461,7 +461,7 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
               <span class="error-message" data-default-message="This field is required">This field is required</span>
             </div>
             <div class="form-field">
-              <input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}" inputmode="tel" pattern="^\+?[0-9]*$" title="Please enter numbers only">
+              <input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}" inputmode="tel"  pattern="^\\+?[0-9]*$" title="Please enter numbers only">
               <span class="error-message" data-default-message=""></span>
             </div>
             <div class="buttons_add_contact">
