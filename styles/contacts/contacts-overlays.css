@@ -327,7 +327,7 @@
   .overlay_add_contact_right form {
     width: 100%;
     padding: 0;
-    margin-bottom: 46px;
+    margin-bottom: 25px;
   }
 
   .edit_overlay_avatar,
@@ -373,11 +373,13 @@
 
   .overlay_add_contact h2 {
     margin: 0;
+    font-size: 32px;
   }
 
   .overlay_add_contact_left p {
     display: block;
     margin: 0;
+    font-size: 16px;
   }
 
   .join_logo_overlay {
@@ -413,7 +415,7 @@
   }
 
   .addContact_form_container {
-    gap: 16px;
+    gap: 10px;
   }
 
   .form_add_contact {
@@ -428,8 +430,8 @@
   .buttons_add_contact {
     flex-direction: row;
     gap: 12px;
-    margin-top: 12px;
-    margin-bottom: 0;
+    margin-top: -8px;
+    margin-bottom: 7px;
     padding-right: 0;
     justify-content: center;
   }
@@ -440,6 +442,8 @@
     min-width: 120px;
     height: 44px;
     gap: 10px;
+    /* margin-top: -26px;
+    margin-bottom: 32px; */
   }
 
   .close_overlay_icon_container {
