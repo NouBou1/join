@@ -108,7 +108,7 @@ select {
 
 .add-task__textarea {
   min-height: 120px;
-  margin-bottom: 22px;
+  margin-bottom: 5px;
   resize: vertical;
 }
 
@@ -465,5 +465,9 @@ form {
 
 .gap-reduced {
   gap: 0px;
+}
+
+.form-field label {
+  padding-bottom: 5px;
 }
 
