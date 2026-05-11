@@ -80,10 +80,10 @@ export function getPublicFooterTemplate() {
       <img class="icon__mobile" src="../../assets/icons/menu/login__mobile.svg" alt="login mobile">
     </a>
     <div class="footer__mobile--right">
-      <a href="../privacy-policy-public.html" class="button button__mobile button__mobile--public">
+      <a href="../../public/privacy-policy-public.html" class="button button__mobile button__mobile--public">
         <span class="footer__mobile--font">Privacy Policy</span>
       </a>
-      <a href="../legal-notice-public.html" class="button button__mobile button__mobile--public">
+      <a href="../../public/legal-notice-public.html" class="button button__mobile button__mobile--public">
         <span class="footer__mobile--font">Legal Notice</span>
       </a>
     </div>
