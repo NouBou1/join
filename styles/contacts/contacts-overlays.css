@@ -111,7 +111,7 @@
   display: flex;
   flex-direction: column;
   padding: 0px 25px 20px 0px;
-  gap: 6px;
+  gap: 0px;
   width: 63%;
   border-radius: 16px;
 }
@@ -156,9 +156,9 @@
 .form_add_contact .error-message {
   display: block;
   visibility: hidden;
-  margin-top: 6px;
+  margin-top: 0px;
   margin-left: 6px;
-  min-height: 17px;
+  min-height: 10px;
   font-size: 14px;
   color: #ff3d00;
 }
@@ -419,21 +419,25 @@
   }
 
   .form_add_contact {
-    gap: 12px;
+    gap: 5px;
   }
 
   .input_add_contact {
     font-size: 16px;
-    height: 44px;
+    height: 30px;
   }
 
   .buttons_add_contact {
     flex-direction: row;
     gap: 12px;
-    margin-top: -18px;
-    margin-bottom: 20px;
+    margin-top: -16px;
+    margin-bottom: 13px;
     padding-right: 0;
     justify-content: center;
+  }
+
+  .btn_save_contact--edit {
+    margin-top: 30px;
   }
 
   .btn_save_contact,

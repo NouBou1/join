@@ -473,7 +473,7 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
             </div>
             <div class="buttons_add_contact">
               <button type="button" class="button btn_cancel_contact" onclick="deleteContact('${contactId}')">Delete</button>
-              <button type="submit" class="button btn_save_contact">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
+              <button type="submit" class="button btn_save_contact btn_save_contact--edit">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
             </div>
           </form>
         </div>
