@@ -92,6 +92,8 @@ export function clearAddTaskForm(state) {
   clearSubtasks(state.subtaskState);
   clearFieldError(state.titleInput);
   clearFieldError(state.dueInput);
+  clearFieldError(state.categoryInput);
+  state.categoryTrigger?.classList.remove('input-error');
   clearTaskMessage(state);
   setDefaultPriority(state);
 }
@@ -108,6 +110,13 @@ function clearInputValues(state) {
   if (state.descInput) state.descInput.value = '';
   if (state.dueInput) state.dueInput.value = '';
   if (state.categorySelect) state.categorySelect.selectedIndex = 0;
+  if (state.categoryInput) state.categoryInput.value = '';
+  if (state.categoryTriggerLabel) state.categoryTriggerLabel.textContent = 'Select task category';
+  state.categoryOptions?.querySelectorAll('.custom-select__option').forEach((item) => {
+    item.classList.remove('is-selected');
+  });
+  state.categoryOptions?.classList.add('d_none');
+  state.categoryTrigger?.setAttribute('aria-expanded', 'false');
 }
 
 
@@ -120,8 +129,9 @@ function clearInputValues(state) {
 export function buildTaskData(state) {
   const isTitleValid = validateRequiredField(state.titleInput);
   const isDueValid = validateDueDateField(state.dueInput);
+  const isCategoryValid = validateCategorySelection(state);
 
-  if (!isTitleValid || !isDueValid) return null;
+  if (!isTitleValid || !isDueValid || !isCategoryValid) return null;
 
   return createTaskData(state);
 }
@@ -140,11 +150,20 @@ function createTaskData(state) {
     due_date: state.dueInput.value,
     priority: state.selectedPriority || 'medium',
     assigned_to: getAssignedNames(state.assigneeState),
-    category: state.categorySelect?.value || '',
+    category: state.categoryInput?.value || state.categorySelect?.value || '',
     subtasks: getSubtasks(state.subtaskState),
     status: getTaskStatus(),
     createdAt: new Date().toISOString()
   };
+}
+
+
+function validateCategorySelection(state) {
+  if (!state.categoryInput) return true;
+  const isEmpty = state.categoryInput.value.trim() === '';
+  state.categoryTrigger?.classList.toggle('input-error', isEmpty);
+  state.categoryField?.classList.toggle('error', isEmpty);
+  return !isEmpty;
 }
 
 

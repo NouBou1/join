@@ -28,6 +28,7 @@ export function initAddTask(container, options = {}) {
 
   setupBaseForm(state);
   setupAssignees(state, container);
+  setupCategory(state);
   setupSubtasks(state, container);
   setupPriority(state);
   bindActionEvents(state);
@@ -45,17 +46,44 @@ function createAddTaskState(container, options) {
   return {
     container,
     options,
-    createBtn: container.querySelector('.add-task__button--primary'),
-    cancelBtn: container.querySelector('.add-task__button--secondary'),
-    closeBtn: container.querySelector('.add-task-close-btn--page'),
-    titleInput: container.querySelector('#title'),
-    descInput: container.querySelector('#description'),
-    dueInput: container.querySelector('#due_date'),
-    categorySelect: container.querySelector('#category'),
+    ...getActionElements(container),
+    ...getFormElements(container),
+    ...getCategoryElements(container),
     priorityButtons: container.querySelectorAll('.add-task__priority-button'),
     selectedPriority: null,
     assigneeState: null,
     subtaskState: null
+  };
+}
+
+
+function getActionElements(container) {
+  return {
+    createBtn: container.querySelector('.add-task__button--primary'),
+    cancelBtn: container.querySelector('.add-task__button--secondary'),
+    closeBtn: container.querySelector('.add-task-close-btn--page')
+  };
+}
+
+
+function getFormElements(container) {
+  return {
+    titleInput: container.querySelector('#title'),
+    descInput: container.querySelector('#description'),
+    dueInput: container.querySelector('#due_date'),
+    categorySelect: container.querySelector('#category')
+  };
+}
+
+
+function getCategoryElements(container) {
+  return {
+    categoryField: container.querySelector('#category_field'),
+    categoryContainer: container.querySelector('#category_select'),
+    categoryTrigger: container.querySelector('#category_trigger'),
+    categoryTriggerLabel: container.querySelector('#category_trigger_label'),
+    categoryOptions: container.querySelector('#category_options'),
+    categoryInput: container.querySelector('#category_input')
   };
 }
 
@@ -99,6 +127,60 @@ function getAssigneeElements(container) {
     assignedOptions: container.querySelector('#assigned_to_options'),
     selectedDisplay: container.querySelector('#selected_assignees_display')
   };
+}
+
+
+function setupCategory(state) {
+  bindCategoryToggle(state);
+  bindCategorySelect(state);
+  bindCategoryOutsideClose(state);
+}
+
+
+function bindCategoryToggle(state) {
+  state.categoryTrigger?.addEventListener('click', (event) => {
+    event.preventDefault();
+    const isClosed = state.categoryOptions?.classList.contains('d_none');
+    state.categoryOptions?.classList.toggle('d_none');
+    state.categoryTrigger?.setAttribute('aria-expanded', String(isClosed));
+  });
+}
+
+
+function bindCategorySelect(state) {
+  state.categoryOptions?.addEventListener('click', (event) => {
+    const option = event.target.closest('.custom-select__option');
+    if (!option) return;
+    applyCategoryOption(state, option);
+  });
+}
+
+
+function applyCategoryOption(state, option) {
+  const value = option.dataset.value || '';
+  const label = option.textContent?.trim() || 'Select task category';
+  if (state.categoryInput) state.categoryInput.value = value;
+  if (state.categoryTriggerLabel) state.categoryTriggerLabel.textContent = label;
+  state.categoryOptions?.querySelectorAll('.custom-select__option').forEach((item) => {
+    item.classList.toggle('is-selected', item === option);
+  });
+  state.categoryTrigger?.classList.remove('input-error');
+  state.categoryField?.classList.remove('error');
+  closeCategoryOptions(state);
+}
+
+
+function bindCategoryOutsideClose(state) {
+  document.addEventListener('click', (event) => {
+    if (state.categoryContainer?.contains(event.target)) return;
+    closeCategoryOptions(state);
+  });
+}
+
+
+function closeCategoryOptions(state) {
+  state.categoryOptions?.classList.add('d_none');
+  state.categoryTrigger?.setAttribute('aria-expanded', 'false');
 }
 
 

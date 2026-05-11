@@ -321,6 +321,20 @@ select {
   margin-bottom: 4px;
 }
 
+#category_options .custom-select__option {
+  justify-content: flex-start;
+}
+
+#category_options .custom-select__option.is-selected {
+  background-color: #2a3647;
+  color: #fff;
+  border-radius: 10px;
+}
+
+#category_trigger.input-error {
+  border: 1px solid #ff3d00 !important;
+}
+
 .custom-select__option-main {
   display: flex;
   align-items: center;
