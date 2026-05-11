@@ -388,6 +388,10 @@ select {
   .add-task__actions {
     justify-content: center;
   }
+  .add-task__actions__fix{
+    margin-top: -70px;
+  }
+
 }
 
 @media (max-width: 720px) {
@@ -462,3 +466,4 @@ form {
 .gap-reduced {
   gap: 0px;
 }
+
