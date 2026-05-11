@@ -94,161 +94,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="columns"><span class="type-signature">(constant) </span>columns<span class="type-signature"> :Object</span></h4>
-
-
-
-
-<div class="description">
-    References to the DOM containers (board columns) where tasks are rendered.
-
-Why this exists:
-- You query the DOM *once* (instead of repeating `document.getElementById(...)` everywhere).
-- Your code becomes cleaner: `columns.todo` is easier to read than `"todo"` strings everywhere.
-- It centralizes the “IDs must exist” assumption in one place (good for debugging).
-
-Note: These can be `null` if the elements don’t exist in the current HTML page.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line62">line 62</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="tasks"><span class="type-signature"></span>tasks<span class="type-signature"> :Object.&lt;string, Object></span></h4>
-
-
-
-
-<div class="description">
-    Task collection loaded from Firebase, indexed by task id.
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object.&lt;string, Object></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -267,10 +112,7 @@ Note: These can be `null` if the elements don’t exist in the current HTML page
 
 
 <div class="description">
-    Adds a new subtask or saves the currently edited subtask.
-
-Uses the current input value, updates the list,
-re-renders the UI and clears the input afterward.
+    Adds a new subtask or saves the currently edited subtask.Uses the current input value, updates the list,re-renders the UI and clears the input afterward.
 </div>
 
 
@@ -495,7 +337,7 @@ re-renders the UI and clears the input afterward.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line29">line 29</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -1506,7 +1348,7 @@ Includes:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line197">line 197</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -1575,10 +1417,7 @@ Includes:
 
 
 <div class="description">
-    Builds the update payload for an edited task.
-
-Combines the edited base fields with optional assignee updates
-and merged subtask data.
+    Builds the update payload for an edited task.Combines the edited base fields with optional assignee updatesand merged subtask data.
 </div>
 
 
@@ -1694,7 +1533,7 @@ and merged subtask data.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line336">line 336</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -1861,7 +1700,7 @@ Then restores "medium" as the default priority.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line169">line 169</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -2025,7 +1864,7 @@ Then restores "medium" as the default priority.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line260">line 260</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -2087,9 +1926,7 @@ Then restores "medium" as the default priority.
 
 
 <div class="description">
-    Clears all selected assignees and refreshes the UI.
-
-Resets the hidden input, avatar display and dropdown checkbox state.
+    Clears all selected assignees and refreshes the UI.Resets the hidden input, avatar display and dropdown checkbox state.
 </div>
 
 
@@ -2301,9 +2138,7 @@ Resets the hidden input, avatar display and dropdown checkbox state.
 
 
 <div class="description">
-    Clears all subtasks and resets the editing state.
-
-Re-renders the list and clears the input field.
+    Clears all subtasks and resets the editing state.Re-renders the list and clears the input field.
 </div>
 
 
@@ -2348,6 +2183,221 @@ Re-renders the list and clears the input field.
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="member_js_add-task-subtasks.js.html">member/js/add-task-subtasks.js</a>, <a href="member_js_add-task-subtasks.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="clearTaskMessage"><span class="type-signature"></span>clearTaskMessage<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Clears the task feedback message.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line463">line 463</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="closeAddTaskPage"><span class="type-signature"></span>closeAddTaskPage<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Closes the add-task page view.
+
+Navigates back in browser history when the previous page belongs
+to the same origin. Otherwise redirects to the board page.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -2559,7 +2609,7 @@ Re-renders the list and clears the input field.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line123">line 123</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -2621,10 +2671,7 @@ Re-renders the list and clears the input field.
 
 
 <div class="description">
-    Collects the current values from the edit-task form.
-
-Reads the edited title, description, due date, priority,
-selected assignees, and newly created subtasks.
+    Collects the current values from the edit-task form.Reads the edited title, description, due date, priority,selected assignees, and newly created subtasks.
 </div>
 
 
@@ -2668,7 +2715,7 @@ selected assignees, and newly created subtasks.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line315">line 315</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -2734,9 +2781,7 @@ selected assignees, and newly created subtasks.
 
 
 <div class="description">
-    Creates the action button container for one subtask item.
-
-Includes the edit and delete buttons.
+    Creates the action button container for one subtask item.Includes the edit and delete buttons.
 </div>
 
 
@@ -2988,7 +3033,7 @@ Includes the edit and delete buttons.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line445">line 445</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line435">line 435</a>
     </li></ul></dd>
     
 
@@ -3213,10 +3258,7 @@ Includes the edit and delete buttons.
 
 
 <div class="description">
-    Deletes an existing subtask from a task.
-
-Removes the subtask from Firebase, updates the local task state,
-refreshes the board UI, and reopens the task in edit mode.
+    Deletes an existing subtask from a task.Removes the subtask from Firebase, updates the local task state,refreshes the board UI, and reopens the task in edit mode.
 </div>
 
 
@@ -3332,7 +3374,7 @@ refreshes the board UI, and reopens the task in edit mode.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line418">line 418</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line408">line 408</a>
     </li></ul></dd>
     
 
@@ -3553,10 +3595,7 @@ refreshes the board UI, and reopens the task in edit mode.
 
 
 <div class="description">
-    Deletes a task from Firebase and updates the board UI.
-
-Removes the task from the database, deletes it from the local board state,
-closes the task overlay, and refreshes the board rendering.
+    Deletes a task from Firebase and updates the board UI.Removes the task from the database, deletes it from the local board state,closes the task overlay, and refreshes the board rendering.
 </div>
 
 
@@ -3649,7 +3688,7 @@ closes the task overlay, and refreshes the board rendering.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line192">line 192</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line178">line 178</a>
     </li></ul></dd>
     
 
@@ -3715,10 +3754,7 @@ closes the task overlay, and refreshes the board rendering.
 
 
 <div class="description">
-    Enables inline edit mode for an existing subtask.
-
-Replaces the subtask text element with an input field,
-focuses it, and registers the edit listeners.
+    Enables inline edit mode for an existing subtask.Replaces the subtask text element with an input field,focuses it, and registers the edit listeners.
 </div>
 
 
@@ -3834,7 +3870,7 @@ focuses it, and registers the edit listeners.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line484">line 484</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line474">line 474</a>
     </li></ul></dd>
     
 
@@ -3896,10 +3932,7 @@ focuses it, and registers the edit listeners.
 
 
 <div class="description">
-    Loads a subtask into the input field for editing.
-
-Sets the current edit index, shows the action buttons
-and focuses the input field.
+    Loads a subtask into the input field for editing.Sets the current edit index, shows the action buttonsand focuses the input field.
 </div>
 
 
@@ -4054,10 +4087,7 @@ and focuses the input field.
 
 
 <div class="description">
-    Opens the edit mode for a task.
-
-Renders the edit overlay, initializes priority handling,
-assignee handling, and subtask handling, and stores the current edit state globally.
+    Opens the edit mode for a task.Renders the edit overlay, initializes priority handling,assignee handling, and subtask handling, and stores the current edit state globally.
 </div>
 
 
@@ -4150,7 +4180,7 @@ assignee handling, and subtask handling, and stores the current edit state globa
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line287">line 287</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line273">line 273</a>
     </li></ul></dd>
     
 
@@ -4328,7 +4358,7 @@ assignee handling, and subtask handling, and stores the current edit state globa
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line69">line 69</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -4389,6 +4419,1028 @@ assignee handling, and subtask handling, and stores the current edit state globa
     
 
     
+    <h4 class="name" id="formatCategoryLabel"><span class="type-signature"></span>formatCategoryLabel<span class="signature">(category)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Formats an internal task category value into a user-friendly label.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The raw category value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line275">line 275</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The formatted category label.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateTodosHTML"><span class="type-signature"></span>generateTodosHTML<span class="signature">(id, title, category, description, priority, subtaskProgressHTML<span class="signature-attributes">opt</span>, assigneeAvatarsHTML<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the HTML string for a task card in the board view.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The task id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The task title.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Category</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The task category.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The task description.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Priority</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The task priority.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtaskProgressHTML</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
+            
+
+            <td class="description last">Prebuilt subtask progress HTML.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>assigneeAvatarsHTML</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
+            
+
+            <td class="description last">Prebuilt assignee avatar HTML.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line313">line 313</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the board task card.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getActiveContactTemplate"><span class="type-signature"></span>getActiveContactTemplate<span class="signature">(contact, initials, bgColor, phone)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the active-contact detail template.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contact</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact data.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact email.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact initials.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bgColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The avatar background color.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The displayed phone number.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line340">line 340</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the active contact details.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAddOverlayTemplate"><span class="type-signature"></span>getAddOverlayTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the add-contact overlay HTML.
+
+Intended to be injected into an overlay container element.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line201">line 201</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the add-contact overlay.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getAssignedNames"><span class="type-signature"></span>getAssignedNames<span class="signature">()</span><span class="type-signature"> &rarr; {Object.&lt;number, string>}</span></h4>
     
 
@@ -4397,14 +5449,7 @@ assignee handling, and subtask handling, and stores the current edit state globa
 
 
 <div class="description">
-    Transforms selected assignees into an indexed object
-suitable for Firebase storage.
-
-Each selected contact is stored as a separate entry:
-{
-  0: "Name1",
-  1: "Name2"
-}
+    Transforms selected assignees into an indexed objectsuitable for Firebase storage.Each selected contact is stored as a separate entry:{  0: "Name1",  1: "Name2"}
 </div>
 
 
@@ -4908,6 +5953,1023 @@ Each selected contact is stored as a separate entry:
     
 
     
+    <h4 class="name" id="getContactItemTemplate"><span class="type-signature"></span>getContactItemTemplate<span class="signature">(contact)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Builds the HTML template string for one contact list entry.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contact</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact data to render.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact email address.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line409">line 409</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the contact list item.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getEditOverlayTemplate"><span class="type-signature"></span>getEditOverlayTemplate<span class="signature">(contactId, contact, initials, color)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the edit-contact overlay template.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contactId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the contact being edited.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contact</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact data.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact name.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact email.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The contact phone number.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The contact initials.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The avatar background color.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line437">line 437</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the edit-contact overlay.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getEditTaskOverlayTemplate"><span class="type-signature"></span>getEditTaskOverlayTemplate<span class="signature">(id, category, title, description, due_date, priority, assigned_to, subtasks)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the edit-task overlay template.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Category</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task category.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task title.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task description.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>due_date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task due date.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Priority</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task priority.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>assigned_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Assigned contacts.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtasks</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line570">line 570</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the edit-task overlay.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getHeaderTemplate"><span class="type-signature"></span>getHeaderTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the header HTML for member pages.
+
+Includes the help link and the profile menu with legal, privacy,
+and logout actions.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the member header.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getInitials"><span class="type-signature"></span>getInitials<span class="signature">(name)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
@@ -4916,9 +6978,7 @@ Each selected contact is stored as a separate entry:
 
 
 <div class="description">
-    Creates initials from a contact name.
-
-Uses the first character of up to two words and converts them to uppercase.
+    Creates initials from a contact name.Uses the first character of up to two words and converts them to uppercase.
 </div>
 
 
@@ -5041,6 +7101,228 @@ Uses the first character of up to two words and converts them to uppercase.
         
 <div class="param-desc">
     The generated initials.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getMobileFooterTemplate"><span class="type-signature"></span>getMobileFooterTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the member mobile footer HTML.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line682">line 682</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the mobile footer.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getSidebarTemplate"><span class="type-signature"></span>getSidebarTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the sidebar HTML for member pages.
+
+Includes the main navigation and footer links.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the member sidebar.
 </div>
 
 
@@ -5220,19 +7502,7 @@ Uses the first character of up to two words and converts them to uppercase.
 
 
 <div class="description">
-    Transforms the internal subtask array into a structured object
-suitable for Firebase storage.
-
-Each subtask is converted into an object containing:
-- a unique key (e.g. "Subtask1", "Subtask2")
-- a boolean status (default: false)
-- the subtask title
-
-Example output:
-{
-  Subtask1: { status: false, title: "First subtask" },
-  Subtask2: { status: false, title: "Second subtask" }
-}
+    Transforms the internal subtask array into a structured objectsuitable for Firebase storage.Each subtask is converted into an object containing:- a unique key (e.g. "Subtask1", "Subtask2")- a boolean status (default: false)- the subtask titleExample output:{  Subtask1: { status: false, title: "First subtask" },  Subtask2: { status: false, title: "Second subtask" }}
 </div>
 
 
@@ -5436,6 +7706,550 @@ Example output:
     
 
     
+    <h4 class="name" id="getTaskOverlayTemplate"><span class="type-signature"></span>getTaskOverlayTemplate<span class="signature">(id, category, title, description, due_date, priority, assigned_to, subtasks)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the task-detail overlay template.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task id.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Category</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task category.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task title.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task description.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>due_date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task due date.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Priority</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The task priority.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>assigned_to</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Assigned contacts.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtasks</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line491">line 491</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the task-detail overlay.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getTaskTemplate"><span class="type-signature"></span>getTaskTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates the add-task form HTML.
+
+Returns markup only. Event handling and validation
+are implemented in the related controller script.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line90">line 90</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the add-task form.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getTodayDateString"><span class="type-signature"></span>getTodayDateString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Returns today's date as a local YYYY-MM-DD string.
+
+Adjusts the current date by the local timezone offset
+so the resulting ISO date matches the user's local day.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line293">line 293</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Today's date in YYYY-MM-DD format.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="handleOutsideClick"><span class="type-signature"></span>handleOutsideClick<span class="signature">(event)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
@@ -5599,10 +8413,7 @@ Example output:
 
 
 <div class="description">
-    Handles clicks on the task overlay backdrop.
-
-Closes the overlay when the user clicks directly
-on the overlay container outside the content.
+    Handles clicks on the task overlay backdrop.Closes the overlay when the user clicks directlyon the overlay container outside the content.
 </div>
 
 
@@ -5695,7 +8506,7 @@ on the overlay container outside the content.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line111">line 111</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line104">line 104</a>
     </li></ul></dd>
     
 
@@ -5757,9 +8568,7 @@ on the overlay container outside the content.
 
 
 <div class="description">
-    Handles the Enter key inside the subtask input.
-
-Prevents the default behavior and adds the current subtask.
+    Handles the Enter key inside the subtask input.Prevents the default behavior and adds the current subtask.
 </div>
 
 
@@ -5914,10 +8723,7 @@ Prevents the default behavior and adds the current subtask.
 
 
 <div class="description">
-    Handles clicks on edit and delete buttons inside the subtask list.
-
-Detects the clicked action using the data attributes
-and forwards the action to the correct handler.
+    Handles clicks on edit and delete buttons inside the subtask list.Detects the clicked action using the data attributesand forwards the action to the correct handler.
 </div>
 
 
@@ -6072,9 +8878,7 @@ and forwards the action to the correct handler.
 
 
 <div class="description">
-    Handles clicks on the assigned-to dropdown trigger.
-
-Prevents default button behavior and toggles the dropdown.
+    Handles clicks on the assigned-to dropdown trigger.Prevents default button behavior and toggles the dropdown.
 </div>
 
 
@@ -6388,10 +9192,7 @@ Prevents default button behavior and toggles the dropdown.
 
 
 <div class="description">
-    Initializes the assignee module with all required DOM elements.
-
-Stores references to the assigned-to UI elements and
-registers the necessary event listeners.
+    Initializes the assignee module with all required DOM elements.Stores references to the assigned-to UI elements andregisters the necessary event listeners.
 </div>
 
 
@@ -6702,10 +9503,7 @@ registers the necessary event listeners.
 
 
 <div class="description">
-    Initializes the subtask module with all required DOM elements.
-
-Stores references to the subtask UI elements
-and registers the required event listeners.
+    Initializes the subtask module with all required DOM elements.Stores references to the subtask UI elementsand registers the required event listeners.
 </div>
 
 
@@ -7016,8 +9814,7 @@ and registers the required event listeners.
 
 
 <div class="description">
-    Loads all tasks from Firebase and stores them
-in the local `tasks` collection.
+    Loads all tasks from Firebase and stores themin the local `tasks` collection.
 </div>
 
 
@@ -7061,7 +9858,7 @@ in the local `tasks` collection.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line23">line 23</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -7127,10 +9924,7 @@ in the local `tasks` collection.
 
 
 <div class="description">
-    Initializes the assignee module for edit mode.
-
-Collects all required edit-overlay DOM elements,
-starts contact tracking, and returns the assignee state object.
+    Initializes the assignee module for edit mode.Collects all required edit-overlay DOM elements,starts contact tracking, and returns the assignee state object.
 </div>
 
 
@@ -7174,7 +9968,7 @@ starts contact tracking, and returns the assignee state object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line248">line 248</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line234">line 234</a>
     </li></ul></dd>
     
 
@@ -7240,9 +10034,7 @@ starts contact tracking, and returns the assignee state object.
 
 
 <div class="description">
-    Initializes the subtasks module for edit mode.
-
-Uses the edit overlay elements and returns the subtask state object.
+    Initializes the subtasks module for edit mode.Uses the edit overlay elements and returns the subtask state object.
 </div>
 
 
@@ -7335,7 +10127,7 @@ Uses the edit overlay elements and returns the subtask state object.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line268">line 268</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -7552,6 +10344,172 @@ Uses the edit overlay elements and returns the subtask state object.
     
 
     
+    <h4 class="name" id="limitText"><span class="type-signature"></span>limitText<span class="signature">(text, maxLength)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxLength</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line291">line 291</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="openTaskOverlay"><span class="type-signature"></span>openTaskOverlay<span class="signature">(taskId)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
@@ -7560,10 +10518,7 @@ Uses the edit overlay elements and returns the subtask state object.
 
 
 <div class="description">
-    Opens the task detail overlay for the given task.
-
-Renders the task data into the overlay container,
-shows the overlay, and registers the backdrop click handler.
+    Opens the task detail overlay for the given task.Renders the task data into the overlay container,shows the overlay, and registers the backdrop click handler.
 </div>
 
 
@@ -7656,7 +10611,7 @@ shows the overlay, and registers the backdrop click handler.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line78">line 78</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -7718,10 +10673,7 @@ shows the overlay, and registers the backdrop click handler.
 
 
 <div class="description">
-    Populates the assigned-to dropdown with contact entries.
-
-Stores the current contacts and renders either the contact list
-or an empty-state message.
+    Populates the assigned-to dropdown with contact entries.Stores the current contacts and renders either the contact listor an empty-state message.
 </div>
 
 
@@ -8001,6 +10953,143 @@ or an empty-state message.
     
 
     
+    <h4 class="name" id="refreshBoardAndShowTask"><span class="type-signature">(async) </span>refreshBoardAndShowTask<span class="signature">(taskId)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Refreshes the board data and reopens the task overlay.Reloads all tasks, synchronizes board state, updates the board HTML,and shows the refreshed task details again.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>taskId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The id of the task to reopen.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line366">line 366</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="renderContactOptions"><span class="type-signature"></span>renderContactOptions<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
@@ -8155,9 +11244,7 @@ or an empty-state message.
 
 
 <div class="description">
-    Renders the edit-task overlay for the given task.
-
-Inserts the generated edit form HTML into the overlay container.
+    Renders the edit-task overlay for the given task.Inserts the generated edit form HTML into the overlay container.
 </div>
 
 
@@ -8273,7 +11360,7 @@ Inserts the generated edit form HTML into the overlay container.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line215">line 215</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -8800,7 +11887,7 @@ Inserts the generated edit form HTML into the overlay container.
     
 
     
-    <h4 class="name" id="saveEditedTask"><span class="type-signature">(async) </span>saveEditedTask<span class="signature">(taskId, taskId)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id="saveEditedTask"><span class="type-signature">(async) </span>saveEditedTask<span class="signature">(taskId)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
     
 
     
@@ -8808,10 +11895,7 @@ Inserts the generated edit form HTML into the overlay container.
 
 
 <div class="description">
-    Refreshes the board data and reopens the task overlay.
-
-Reloads all tasks, synchronizes board state, updates the board HTML,
-and shows the refreshed task details again.
+    Saves the edited task data.Collects the current edit form values, builds the update payload,updates the task in Firebase, and refreshes the board view.
 </div>
 
 
@@ -8843,29 +11927,6 @@ and shows the refreshed task details again.
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>taskId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The id of the task to reopen.</td>
-        </tr>
-
     
 
         <tr>
@@ -8927,7 +11988,7 @@ and shows the refreshed task details again.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line393">line 393</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -9148,10 +12209,7 @@ and shows the refreshed task details again.
 
 
 <div class="description">
-    Saves the edited title of an existing subtask.
-
-Updates the subtask in Firebase, synchronizes the local task data,
-refreshes the board UI, and reopens edit mode.
+    Saves the edited title of an existing subtask.Updates the subtask in Firebase, synchronizes the local task data,refreshes the board UI, and reopens edit mode.
 </div>
 
 
@@ -9290,7 +12348,7 @@ refreshes the board UI, and reopens edit mode.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line509">line 509</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line499">line 499</a>
     </li></ul></dd>
     
 
@@ -9356,8 +12414,7 @@ refreshes the board UI, and reopens edit mode.
 
 
 <div class="description">
-    Saves a subtask either as a new entry
-or as an edited existing entry.
+    Saves a subtask either as a new entryor as an edited existing entry.
 </div>
 
 
@@ -9654,7 +12711,7 @@ sets it on the clicked button, and updates the selected priority value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line152">line 152</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -9760,7 +12817,431 @@ sets it on the clicked button, and updates the selected priority value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line87">line 87</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setMinDueDate"><span class="type-signature"></span>setMinDueDate<span class="signature">(dueInput)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets today's date as the minimum selectable due date.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dueInput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLInputElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The due date input field.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setMinEditDueDate"><span class="type-signature"></span>setMinEditDueDate<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets today's date as the minimum selectable edit due date.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setMinimumDueDate"><span class="type-signature"></span>setMinimumDueDate<span class="signature">(input)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Sets the minimum selectable due date to today.
+
+Prevents selecting dates earlier than the current local date.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLInputElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The due date input field.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -9822,10 +13303,7 @@ sets it on the clicked button, and updates the selected priority value.
 
 
 <div class="description">
-    Registers click handlers for the priority buttons
-inside the edit-task overlay.
-
-Ensures that only one priority button is marked as selected.
+    Registers click handlers for the priority buttonsinside the edit-task overlay.Ensures that only one priority button is marked as selected.
 </div>
 
 
@@ -9869,7 +13347,7 @@ Ensures that only one priority button is marked as selected.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line231">line 231</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -10027,7 +13505,7 @@ while typing or changing the value.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line274">line 274</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line355">line 355</a>
     </li></ul></dd>
     
 
@@ -10089,10 +13567,7 @@ while typing or changing the value.
 
 
 <div class="description">
-    Registers the edit listeners for a subtask input field.
-
-Saves the edited subtask on blur or Enter,
-and restores edit mode on Escape.
+    Registers the edit listeners for a subtask input field.Saves the edited subtask on blur or Enter,and restores edit mode on Escape.
 </div>
 
 
@@ -10231,7 +13706,7 @@ and restores edit mode on Escape.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line466">line 466</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line456">line 456</a>
     </li></ul></dd>
     
 
@@ -10268,6 +13743,297 @@ and restores edit mode on Escape.
     <dd>
         
 <span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showTaskMessage"><span class="type-signature"></span>showTaskMessage<span class="signature">(message, type)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Displays a feedback message below the form.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Message text.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'success'</span>
+|
+
+<span class="param-type">'error'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Message type.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line446">line 446</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="signupMassegeTemplate"><span class="type-signature"></span>signupMassegeTemplate<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Generates a success message shown after a successful signup.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_member-templates.js.html">member/js/member-templates.js</a>, <a href="member_js_member-templates.js.html#line259">line 259</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    HTML string representing the signup success message.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
 
 
     </dd>
@@ -10482,7 +14248,7 @@ and redirects to the board page on success.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line302">line 302</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line400">line 400</a>
     </li></ul></dd>
     
 
@@ -10505,35 +14271,6 @@ and redirects to the board page on success.
 
 
 
-<h5>Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        Throws if Firebase push fails.
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
 
 
 <h5>Returns:</h5>
@@ -10751,10 +14488,7 @@ and redirects to the board page on success.
 
 
 <div class="description">
-    Synchronizes the local `tasks` collection with the board `todos` object.
-
-Updates only task entries that already exist in `todos`
-and replaces them with the latest task data.
+    Synchronizes the local `tasks` collection with the board `todos` object.Updates only task entries that already exist in `todos`and replaces them with the latest task data.
 </div>
 
 
@@ -10798,7 +14532,7 @@ and replaces them with the latest task data.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line35">line 35</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -10966,9 +14700,7 @@ and replaces them with the latest task data.
 
 
 <div class="description">
-    Adds or removes a contact from the current selection.
-
-After updating the selection, the hidden input and avatar display are refreshed.
+    Adds or removes a contact from the current selection.After updating the selection, the hidden input and avatar display are refreshed.
 </div>
 
 
@@ -11123,10 +14855,7 @@ After updating the selection, the hidden input and avatar display are refreshed.
 
 
 <div class="description">
-    Toggles the completion status of a subtask checkbox.
-
-Updates the subtask status in Firebase, synchronizes the local task data,
-swaps the checkbox icon, and refreshes the board UI.
+    Toggles the completion status of a subtask checkbox.Updates the subtask status in Firebase, synchronizes the local task data,swaps the checkbox icon, and refreshes the board UI.
 </div>
 
 
@@ -11219,7 +14948,7 @@ swaps the checkbox icon, and refreshes the board UI.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line143">line 143</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -11285,8 +15014,7 @@ swaps the checkbox icon, and refreshes the board UI.
 
 
 <div class="description">
-    Shows or hides the subtask action buttons
-depending on whether the input contains text.
+    Shows or hides the subtask action buttonsdepending on whether the input contains text.
 </div>
 
 
@@ -11392,10 +15120,7 @@ depending on whether the input contains text.
 
 
 <div class="description">
-    Starts listening for contact changes in Firebase.
-
-Whenever the contacts data changes, the assigned-to dropdown
-is re-rendered with the latest contact list.
+    Starts listening for contact changes in Firebase.Whenever the contacts data changes, the assigned-to dropdownis re-rendered with the latest contact list.
 </div>
 
 
@@ -11723,7 +15448,7 @@ is re-rendered with the latest contact list.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line362">line 362</a>
+        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line349">line 349</a>
     </li></ul></dd>
     
 
@@ -11764,6 +15489,343 @@ is re-rendered with the latest contact list.
     <dd>
         
 <span class="param-type">Promise.&lt;void></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="validateDueDateField"><span class="type-signature"></span>validateDueDateField<span class="signature">(input)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Validates the due date field.
+
+First checks whether the field is filled. Then ensures
+the selected date is not earlier than today. Applies
+the error state when the date is invalid.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLInputElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The due date input field.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line323">line 323</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the due date is valid, otherwise false.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="validateField"><span class="type-signature"></span>validateField<span class="signature">(field)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Validates a form field and delegates due date validation when needed.
+
+Uses the dedicated due date validation for the due date field
+and falls back to the generic required field validation for all other fields.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>field</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLInputElement</span>
+|
+
+<span class="param-type">HTMLTextAreaElement</span>
+|
+
+<span class="param-type">HTMLSelectElement</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The field to validate.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line392">line 392</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the field is valid, otherwise false.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -11894,7 +15956,7 @@ when the field is empty. Removes the error state when valid.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line235">line 235</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -11960,7 +16022,7 @@ when the field is empty. Removes the error state when valid.
     
 
     
-    <h4 class="name" id="~event:DOMContentLoaded">DOMContentLoaded</h4>
+    <h4 class="name" id="event:DOMContentLoaded">DOMContentLoaded</h4>
     
 
     
@@ -12019,7 +16081,7 @@ Sets up:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line5">line 5</a>
+        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -12044,232 +16106,6 @@ Sets up:
 
 
 
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~event:DOMContentLoaded">DOMContentLoaded</h4>
-    
-
-    
-
-
-
-<div class="description">
-    Initializes the add-task page automatically after the DOM is ready.
-
-Looks up the add-task container and starts page mode initialization
-if the container exists.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_add-task.js.html">member/js/add-task.js</a>, <a href="member_js_add-task.js.html#line343">line 343</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-<h5>Listens to Events:</h5>
-<ul>
-    <li>Document#event:DOMContentLoaded</li>
-</ul>
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="event:click">click</h4>
-    
-
-    
-
-
-
-<div class="description">
-    Delegates clicks on subtask checkbox icons
-to the checkbox toggle handler.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_board.js.html">member/js/board.js</a>, <a href="member_js_board.js.html#line168">line 168</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-<h5>Listens to Events:</h5>
-<ul>
-    <li>Document#event:click</li>
-</ul>
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -12287,13 +16123,13 @@ to the checkbox toggle handler.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-templates.html">member-templates</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="module-member-ui.html#~event:DOMContentLoaded">DOMContentLoaded</a></li><li><a href="module-contacts.html#event:click">click</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#columns">columns</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#tasks">tasks</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#limitText">limitText</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinDueDate">setMinDueDate</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Apr 21 2026 19:05:09 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 10 2026 13:09:30 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

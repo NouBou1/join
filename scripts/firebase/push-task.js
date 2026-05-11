@@ -20,7 +20,6 @@ import { ref, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-da
  * @returns {Promise<string|null>} Resolves with the generated Firebase key.
  * @throws {Error} Throws an error if the task could not be saved.
  */
-
 export async function pushTask(taskData) {
   try {
     const tasksRef = ref(database, "tasks");

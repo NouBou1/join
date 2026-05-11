@@ -10,16 +10,6 @@ import { auth } from "../scripts/firebase/firebase.js";
 import { signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-/**
- * Initializes the login page after the DOM is ready.
- *
- * Collects all required DOM elements, synchronizes the splash logo
- * animation target, and binds login-related button events.
- *
- * @event DOMContentLoaded
- * @listens Document#DOMContentLoaded
- * @returns {void}
- */
 document.addEventListener("DOMContentLoaded", initLoginPage);
 
 /**
@@ -198,6 +188,14 @@ export function loginAsGuest() {
     });
 }
 
+/**
+ * Show error state for the password input field.
+ *
+ * Adds an error class to the password input and shows the error text.
+ * This function is called when Login data is missing or when the email/password Login fails.
+ *
+ * @returns {Promise<void>} Resolves when the
+ */
 function showPasswordError() {
   const passwordInput = document.getElementById("password");
   const errorText = document.getElementById("passwordError");
@@ -208,6 +206,14 @@ function showPasswordError() {
   errorText.classList.add("show");
 }
 
+/**
+ * Clears the error state of the password input field.
+ *
+ * Removes the error class from the password input and hides the error text.
+ * This function is called when the user starts typing in either the email or password field to reset any previous error state.
+ *
+ * @returns
+ */
 function clearPasswordError() {
   const passwordInput = document.getElementById("password");
   const errorText = document.getElementById("passwordError");

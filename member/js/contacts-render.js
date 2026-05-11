@@ -4,34 +4,14 @@
  *
  * @module contacts-render
  */
-import { getActiveContactTemplate } from './member-templates.js';
+import { getActiveContactTemplate, getContactItemTemplate } from './member-templates.js';
 
-/**
- * Stores the current contacts object indexed by contact id.
- *
- * @type {Object<string, Object>}
- */
 let contacts = {};
 
-/**
- * Id of the currently active contact.
- *
- * @type {string|null}
- */
 let activeContactId = null;
 
-/**
- * Maximum viewport width considered mobile.
- *
- * @type {number}
- */
 const MOBILE_BREAKPOINT = 822;
 
-/**
- * Tracks whether the mobile detail view is currently open.
- *
- * @type {boolean}
- */
 let isMobileDetailOpen = false;
 
 /**
@@ -105,11 +85,6 @@ function groupContactsByLetter(contactsObjects) {
     grouped[firstLetter].push({
       id: id,
       ...contact
-      // spread operator ...contact -- open all properties of contact object
-      // other way
-      // contact.contact.id
-      // contact.contact.name
-      // contact.contact.email
     });
   });
   Object.keys(grouped).forEach(letter => {
@@ -215,7 +190,7 @@ function renderAlphabeticalContactSections(contactList, groupedContacts) {
  */
 function createLetterSectionHeader(contactList, letter) {
   const letterLabel = document.createElement('label');
-  letterLabel.className = 'labelfor_contactList'; 
+  letterLabel.className = 'labelfor_contactList';
   letterLabel.textContent = letter;
   contactList.appendChild(letterLabel);
   const divider = document.createElement('hr');
@@ -364,29 +339,6 @@ export function renderActiveContactTemplate(contact) {
   container.innerHTML = getActiveContactTemplate(contact, initials, bgColor, phone);
 }
 
-/**
- * Builds the HTML template string for one contact list entry.
- *
- * @param {Object} contact - The contact data to render.
- * @param {string} contact.name - The contact name.
- * @param {string} contact.email - The contact email address.
- * @returns {string} HTML string representing the contact list item.
- */
-function getContactItemTemplate(contact) {
-  const initials = getInitials(contact.name);
-  const bgColor = getAvatarColor(contact.name);
-  return `
-        <section class="contact_container">
-            <div class="contact_avatar" style="background-color: ${bgColor}">
-                ${initials}
-            </div>
-            <div class="contact_info">
-                <div class="contact_name">${contact.name}</div>
-                <div class="contact_email">${contact.email}</div>
-            </div>
-        </section>
-    `;
-}
 
 /**
  * Returns the DOM container used for contact detail rendering.
