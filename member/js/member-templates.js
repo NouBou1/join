@@ -146,16 +146,20 @@ export function getTaskTemplate() {
             <input type="hidden" id="assigned_to_input" name="assigned_to">
             <div class="add-task__selected-assignees" id="selected_assignees_display"></div>
 
-            <div class="form-field" id="category_field">
-              <label for="category">Category <span class="required">*</span></label>
-              <div class="select-native-wrapper add-task__field-spacing">
-                <select class="add-task__input add-task__input--select" id="category" name="category" required>
-                  <option value="select_task_category">Select task category</option>
-                  <option value="technical-task">Technical Task</option>
-                  <option value="user-story">User Story</option>
-                </select>
-                <span class="custom-select__arrow">▾</span>
+            <div class="form-field add-task__field-spacing" id="category_field">
+              <label for="category_input">Category <span class="required">*</span></label>
+              <div class="custom-select" id="category_select">
+                <button type="button" class="custom-select__trigger" id="category_trigger" aria-haspopup="listbox"
+                  aria-expanded="false">
+                  <span class="custom-select__trigger-label" id="category_trigger_label">Select task category</span>
+                  <span class="custom-select__arrow">▾</span>
+                </button>
+                <div class="custom-select__options d_none" id="category_options" role="listbox">
+                  <button type="button" class="custom-select__option" data-value="technical-task">Technical Task</button>
+                  <button type="button" class="custom-select__option" data-value="user-story">User Story</button>
+                </div>
               </div>
+              <input type="hidden" id="category_input" name="category" value="">
               <span class="error-message">This field is required</span>
             </div>
 
