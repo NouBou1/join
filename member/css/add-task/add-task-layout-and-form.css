@@ -415,7 +415,8 @@ select {
   .add-task__actions {
     justify-content: center;
   }
-  .add-task__actions__fix{
+
+  .add-task__actions__fix {
     margin-top: -70px;
   }
 
@@ -459,6 +460,7 @@ select {
     left: 0;
     width: 100%;
     padding: 24px 16px;
+    height: calc(100vh - 20px);
   }
 
   .add-task__title {
@@ -481,13 +483,13 @@ select {
     width: 100%;
   }
 
-.add-task__container {
-  padding: 24px 16px;
-}
+  .add-task__container {
+    padding: 24px 16px;
+  }
 
-form {
-  justify-content: center;
-}
+  form {
+    justify-content: center;
+  }
 }
 
 .gap-reduced {
@@ -497,4 +499,3 @@ form {
 .form-field label {
   padding-bottom: 5px;
 }
-
