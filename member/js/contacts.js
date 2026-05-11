@@ -299,7 +299,7 @@ function clearContactFieldError(input) {
  * @returns {boolean} True when email matches a basic email pattern.
  */
 function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return /^(?!.*\.\.)[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 /**
