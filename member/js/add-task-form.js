@@ -112,9 +112,6 @@ function clearInputValues(state) {
   if (state.categorySelect) state.categorySelect.selectedIndex = 0;
   if (state.categoryInput) state.categoryInput.value = '';
   if (state.categoryTriggerLabel) state.categoryTriggerLabel.textContent = 'Select task category';
-  state.categoryOptions?.querySelectorAll('.custom-select__option').forEach((item) => {
-    item.classList.remove('is-selected');
-  });
   state.categoryOptions?.classList.add('d_none');
   state.categoryTrigger?.setAttribute('aria-expanded', 'false');
 }

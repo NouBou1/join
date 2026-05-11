@@ -51,6 +51,7 @@ function createAddTaskState(container, options) {
     ...getCategoryElements(container),
     priorityButtons: container.querySelectorAll('.add-task__priority-button'),
     selectedPriority: null,
+    categorySelectionDuringOpen: false,
     assigneeState: null,
     subtaskState: null
   };
@@ -140,9 +141,8 @@ function setupCategory(state) {
 function bindCategoryToggle(state) {
   state.categoryTrigger?.addEventListener('click', (event) => {
     event.preventDefault();
-    const isClosed = state.categoryOptions?.classList.contains('d_none');
-    state.categoryOptions?.classList.toggle('d_none');
-    state.categoryTrigger?.setAttribute('aria-expanded', String(isClosed));
+    if (isCategoryClosed(state)) return openCategoryOptions(state);
+    closeCategoryOptions(state, true);
   });
 }
 
@@ -161,26 +161,50 @@ function applyCategoryOption(state, option) {
   const label = option.textContent?.trim() || 'Select task category';
   if (state.categoryInput) state.categoryInput.value = value;
   if (state.categoryTriggerLabel) state.categoryTriggerLabel.textContent = label;
-  state.categoryOptions?.querySelectorAll('.custom-select__option').forEach((item) => {
-    item.classList.toggle('is-selected', item === option);
-  });
+  state.categorySelectionDuringOpen = true;
   state.categoryTrigger?.classList.remove('input-error');
   state.categoryField?.classList.remove('error');
-  closeCategoryOptions(state);
+  closeCategoryOptions(state, false);
 }
 
 
 function bindCategoryOutsideClose(state) {
   document.addEventListener('click', (event) => {
     if (state.categoryContainer?.contains(event.target)) return;
-    closeCategoryOptions(state);
+    closeCategoryOptions(state, true);
   });
 }
 
 
-function closeCategoryOptions(state) {
+function closeCategoryOptions(state, resetOnNoSelection) {
+  if (resetOnNoSelection && !state.categorySelectionDuringOpen) resetCategoryValue(state);
+  ensureCategoryLabel(state);
   state.categoryOptions?.classList.add('d_none');
   state.categoryTrigger?.setAttribute('aria-expanded', 'false');
+}
+
+
+function isCategoryClosed(state) {
+  return state.categoryOptions?.classList.contains('d_none');
+}
+
+
+function openCategoryOptions(state) {
+  state.categorySelectionDuringOpen = false;
+  state.categoryOptions?.classList.remove('d_none');
+  state.categoryTrigger?.setAttribute('aria-expanded', 'true');
+}
+
+
+function resetCategoryValue(state) {
+  if (state.categoryInput) state.categoryInput.value = '';
+}
+
+
+function ensureCategoryLabel(state) {
+  if (state.categoryInput?.value?.trim()) return;
+  if (!state.categoryTriggerLabel) return;
+  state.categoryTriggerLabel.textContent = 'Select task category';
 }
 
 
