@@ -17,6 +17,11 @@
   display: none !important;
 }
 
+.close_overlay_icon {
+  filter: invert(1);
+  margin-top: 20px !important;
+}
+
 .addContact_overlay {
   position: fixed;
   inset: 0;
@@ -106,7 +111,7 @@
   display: flex;
   flex-direction: column;
   padding: 0px 25px 20px 0px;
-  gap: 6px;
+  gap: 0px;
   width: 63%;
   border-radius: 16px;
 }
@@ -151,9 +156,9 @@
 .form_add_contact .error-message {
   display: block;
   visibility: hidden;
-  margin-top: 6px;
+  margin-top: 0px;
   margin-left: 6px;
-  min-height: 17px;
+  min-height: 10px;
   font-size: 14px;
   color: #ff3d00;
 }
@@ -198,28 +203,38 @@
 .btn_save_contact,
 .btn_cancel_contact {
   height: 48px;
-  border-radius: 10px;
   padding: 0 20px;
   border: 1px solid var(--color-menu-bg);
-  cursor: pointer;
   font-size: 16px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: auto;
 }
 
-.btn_save_contact {
+.btn_cancel_contact {
   background: var(--color-background-input);
   color: var(--color-menu-bg);
 }
 
-.btn_cancel_contact {
+.btn_cancel_contact:hover {
+  background: var(--color-background-input);
+  color: var(--color-hover);
+  border: 2px solid var(--color-hover);
+  box-shadow: 0px 4px 4px 0px #00000040;
+  animation-timing-function: ease-in-out;
+  animation-duration: 100ms;
+}
+
+.btn_save_contact {
   background: var(--color-menu-bg);
   color: var(--color-text-button);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+}
+
+.btn_save_contact:hover {
+  background: var(--background__button--hover);
+  color: var(--color-text-button);
+  border: 1px solid #29ABE2;
+  animation-timing-function: ease-in-out;
+  animation-duration: 100ms;
 }
 
 .edit_overlay_avatar {
@@ -312,7 +327,7 @@
   .overlay_add_contact_right form {
     width: 100%;
     padding: 0;
-    margin-bottom: 46px;
+    margin-bottom: 25px;
   }
 
   .edit_overlay_avatar,
@@ -328,13 +343,16 @@
 }
 
 @media (max-width: 720px) {
-  .btn_save_contact {
+
+  .btn_cancel_contact {
     display: none;
   }
+
 
   .close_overlay_icon {
     display: block;
     z-index: 1200;
+    filter: invert(1);
   }
 }
 
@@ -355,11 +373,13 @@
 
   .overlay_add_contact h2 {
     margin: 0;
+    font-size: 32px;
   }
 
   .overlay_add_contact_left p {
     display: block;
     margin: 0;
+    font-size: 16px;
   }
 
   .join_logo_overlay {
@@ -395,25 +415,29 @@
   }
 
   .addContact_form_container {
-    gap: 16px;
+    gap: 10px;
   }
 
   .form_add_contact {
-    gap: 12px;
+    gap: 5px;
   }
 
   .input_add_contact {
     font-size: 16px;
-    height: 44px;
+    height: 30px;
   }
 
   .buttons_add_contact {
     flex-direction: row;
     gap: 12px;
-    margin-top: 12px;
-    margin-bottom: 0;
+    margin-top: -16px;
+    margin-bottom: 13px;
     padding-right: 0;
     justify-content: center;
+  }
+
+  .btn_save_contact--edit {
+    margin-top: 30px;
   }
 
   .btn_save_contact,
@@ -421,6 +445,7 @@
     width: auto;
     min-width: 120px;
     height: 44px;
+    gap: 10px;
   }
 
   .close_overlay_icon_container {
@@ -428,6 +453,7 @@
     top: 16px;
     right: 16px;
     z-index: 10;
+    filter: invert(1)
   }
 
   .close_overlay_icon {

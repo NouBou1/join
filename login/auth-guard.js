@@ -14,10 +14,6 @@
 import { auth } from "../scripts/firebase/firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/**
- * A function returned by Firebase listeners to remove/unregister the listener.
- * @typedef {function(): void} Unsubscribe
- */
 
 /**
  * Registers the Firebase auth state listener.

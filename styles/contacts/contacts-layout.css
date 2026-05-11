@@ -5,12 +5,17 @@
   padding: 12px 10px;
   cursor: pointer;
   border-radius: 8px;
-  width: 85%;
+  /* width: 85%; */
   transition: background-color 0.2s;
 }
 
 .contact_container:hover {
   background-color: #f6f7f8;
+  width: 85%;
+}
+
+.contact__name--container {
+  width: 100%
 }
 
 .contact_avatar {
@@ -44,6 +49,10 @@
   font-size: 16px;
   font-weight: 400;
   color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
 }
 
 .contact_item--active .contact_name {
@@ -54,6 +63,10 @@
 .contact_email {
   font-size: 15px;
   color: #007CEE;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .btn_cancel_contact img {
@@ -158,6 +171,9 @@
   font-weight: 700;
   line-height: 1.2;
   color: #000;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 400px;
 }
 
 .contact_detail_actions {
@@ -235,9 +251,9 @@
   background: #2a3647;
   color: #fff;
   border-radius: 10px;
-  min-width: 18rem;
+  min-width: 16rem;
   padding: 10px;
-  box-sizing: border-box;
+  max-width: 16rem;
 }
 
 .contact_mobile_fab_btn {
@@ -249,6 +265,10 @@
 }
 
 .contact_mobile_add_btn {
+  display: none;
+}
+
+.contact_mobile_heading_text {
   display: none;
 }
 
@@ -351,8 +371,17 @@
     height: 100%;
   }
 
+  .contact_detail_email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .contact_detail_name {
     font-size: 36px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   body.contacts-mobile-detail-open .contactside_section {
@@ -375,7 +404,7 @@
 
   .contact_mobile_heading_row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-start;
     margin-bottom: 8px;
   }
@@ -526,6 +555,12 @@
 
   .labelfor_contactList {
     padding-top: 32px;
+    padding-left: 10vw;
+  }
+
+  ol {
+    padding-left: 31px;
+    max-width: 330px;
   }
 
   .contact_mobile_add_btn {

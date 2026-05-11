@@ -79,6 +79,13 @@ function renderSidebar() {
 };
 
 
+/**
+ * Renders the mobile footer for public pages.
+ *
+ * Injects the public footer template into the mobile footer container.
+ *
+ * @returns {void}
+ */
 function renderMobileFooter() {
   const testRef = document.getElementById('footerMobilePublic');
   if (testRef) {
@@ -87,6 +94,7 @@ function renderMobileFooter() {
     console.error('Footer-Element not found!');
   }
 }
+
 // CHECK Why this function? Function don't used!
 /**
  * Renders the "Add Task" section by injecting the task template into `#add_task`.

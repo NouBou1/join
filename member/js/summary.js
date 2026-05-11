@@ -9,16 +9,6 @@ import { auth } from '../../scripts/firebase/firebase.js';
 import { loadTasks, getContacts, loadData } from '../../scripts/firebase/get-firebase.js';
 
 /**
- * Represents a summary task object.
- *
- * @typedef {Object} SummaryTask
- * @property {string} [status] - Current task status.
- * @property {string} [subtask] - Legacy fallback status value.
- * @property {string} [priority] - Task priority.
- * @property {string} [due_date] - Task due date in YYYY-MM-DD format.
- */
-
-/**
  * Counts tasks with status "todo" or "to do"
  * and updates the corresponding summary UI element.
  *
@@ -298,10 +288,5 @@ export async function initSummary() {
   });
 }
 
-/**
- * Initializes the summary page after the window has fully loaded.
- *
- * @listens Window#load
- * @returns {void}
- */
+
 window.addEventListener('load', initSummary);

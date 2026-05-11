@@ -6,12 +6,22 @@ import { updateHTML, todos } from './drag-n-drop.js';
 import { initAssignees, trackContactsForUser, getAssignedNames } from './add-task-assignees.js';
 import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
 
-/**
- * Task collection loaded from Firebase, indexed by task id.
- *
- * @type {Object<string, Object>}
- */
+
 export let tasks = {};
+
+
+/**
+ * Sets today's date as the minimum selectable edit due date.
+ *
+ * @returns {void}
+ */
+function setMinEditDueDate() {
+  const dueInput = document.getElementById('edit_due_date');
+  if (!dueInput) return;
+  const today = new Date().toISOString().split('T')[0];
+  dueInput.min = today;
+}
+
 
 /**
  * Loads all tasks from Firebase and stores them
@@ -42,23 +52,6 @@ function syncTasksAndTodos() {
 
 initTasks();
 
-/**
- * References to the DOM containers (board columns) where tasks are rendered.
- *
- * Why this exists:
- * - You query the DOM *once* (instead of repeating `document.getElementById(...)` everywhere).
- * - Your code becomes cleaner: `columns.todo` is easier to read than `"todo"` strings everywhere.
- * - It centralizes the “IDs must exist” assumption in one place (good for debugging).
- *
- * Note: These can be `null` if the elements don’t exist in the current HTML page.
- *
- * @type {{
- *   todo: HTMLElement|null,
- *   inProgress: HTMLElement|null,
- *   awaitFeedback: HTMLElement|null,
- *   done: HTMLElement|null
- * }}
- */
 const columns = {
   /** @type {HTMLElement|null} */ todo: document.getElementById('todo'),
   /** @type {HTMLElement|null} */ inProgress: document.getElementById('inProgress'),
@@ -165,14 +158,7 @@ async function toggleCheckbox(img) {
   }
 }
 
-/**
- * Delegates clicks on subtask checkbox icons
- * to the checkbox toggle handler.
- *
- * @event click
- * @listens Document#click
- * @returns {void}
- */
+
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("checkbox-icon")) {
     toggleCheckbox(e.target);
@@ -288,6 +274,7 @@ function editTask(taskId) {
   const task = tasks[taskId];
   if (!task) return console.warn("Task nicht gefunden:", taskId);
   renderEditOverlay(taskId, task);
+  setMinEditDueDate();
   setupPriorityButtons();
   window.editAssigneeState = initializeEditAssignees();
   window.editSubtaskState = initializeEditSubtasks(document.getElementById("overlay_container"));

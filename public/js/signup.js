@@ -40,6 +40,15 @@ function addInputListeners() {
   signupConfirmPassword?.addEventListener("input", validateForm);
 }
 
+/**
+ * Validates the signup form and updates the related error states.
+ *
+ * Checks whether all required fields are filled, validates the email format,
+ * verifies that both password fields match, updates the corresponding
+ * error messages, and enables or disables the signup button.
+ *
+ * @returns {void}
+ */
 function validateForm() {
   const nameFilled = signupName.value.trim() !== '';
   const emailValue = signupEmail.value.trim();
@@ -124,6 +133,14 @@ function validateBeforeSubmit() {
   return fieldsValid && emailValid && passwordValid && termsCheckbox.checked;
 }
 
+/**
+ * Validates that all required signup fields are filled.
+ *
+ * Shows the corresponding field-specific error messages
+ * when required inputs are empty and returns the overall validation result.
+ *
+ * @returns {boolean} True if all required fields are filled, otherwise false.
+ */
 function validateRequiredFields() {
   let isValid = true;
 
@@ -262,6 +279,15 @@ function emailHasAt() {
   return getEmail().includes("@");
 }
 
+
+/**
+ * Validates the signup email field.
+ *
+ * Returns true when the email field is empty or contains a valid "@"
+ * character. Otherwise shows the email error state and returns false.
+ *
+ * @returns {boolean} True if the email field passes validation, otherwise false.
+ */
 function validateEmail() {
   if (!isFilled(signupEmail)) return true;
 
@@ -297,6 +323,16 @@ function passwordsMatch() {
   return signupPassword.value === signupConfirmPassword.value;
 }
 
+
+/**
+ * Displays the signup email error message.
+ *
+ * Adds the error styling to the signup email input,
+ * updates the email error text, and shows the error message.
+ *
+ * @param {string} [message="Email must contain an @ character."] - The email error message to display.
+ * @returns {void}
+ */
 function showSignupEmailError(message = "Email must contain an @ character.") {
   const emailError = document.getElementById("signupEmailError");
   signupEmail.classList.add("signup__input--error");
@@ -304,17 +340,42 @@ function showSignupEmailError(message = "Email must contain an @ character.") {
   emailError.classList.add("show");
 }
 
+/**
+ * Clears the signup email error state.
+ *
+ * Hides the email error message and removes the error styling
+ * from the signup email input.
+ *
+ * @returns {void}
+ */
 function clearSignupEmailError() {
   document.getElementById("signupEmailError")?.classList.remove("show");
   signupEmail.classList.remove("signup__input--error");
 }
 
+/**
+ * Displays the signup password confirmation error message.
+ *
+ * Adds the error styling to the password confirmation input,
+ * updates the password error text, and shows the error message.
+ *
+ * @param {string} [message="Your passwords do not match. Please try again."] - The password error message to display.
+ * @returns {void}
+ */
 function showPasswordError(message = "Your passwords do not match. Please try again.") {
   signupConfirmPassword.classList.add("signup__input--error");
   signupPasswordError.textContent = message;
   signupPasswordError.classList.add("show");
 }
 
+/**
+ * Clears the signup password confirmation error state.
+ *
+ * Hides the password error message and removes the error styling
+ * from the password confirmation input.
+ *
+ * @returns {void}
+ */
 function clearPasswordError() {
   signupConfirmPassword.classList.remove("signup__input--error");
   signupPasswordError.classList.remove("show");
@@ -355,6 +416,17 @@ function redirectToLogin() {
   }, 1500);
 }
 
+
+/**
+ * Handles signup errors and shows the matching validation feedback.
+ *
+ * Re-enables the signup button, logs the Firebase error,
+ * resolves the corresponding user-facing message, and displays it
+ * on the affected signup field.
+ *
+ * @param {{code: string, message: string}} error - The Firebase signup error object.
+ * @returns {void}
+ */
 function handleSignupError(error) {
   signupBtn.disabled = false;
   console.error(error.code, error.message);

@@ -13,6 +13,4 @@ export async function pushContact(contactData) {
   } catch (error) {
     console.error("Fehler beim speichern des Contacts:", error.message);
   }
-  // const contactsRef = ref(database, 'contacts');
-  // return push(contactsRef, contactData);
 }

@@ -1,26 +1,5 @@
 import { getInitials, getAvatarColor } from './contacts-render.js';
 
-/**
- * @file Provides HTML template factory functions for member pages.
- *
- * Includes templates for the member header, sidebar, add-task form,
- * contact overlays, signup success message, task overlays, board task cards,
- * and mobile footer.
- *
- * @module member-templates
- */
-
-/**
- * Task categories supported by the board UI.
- *
- * @typedef {"user-story" | "technical-task" | string} Category
- */
-
-/**
- * Priority values supported by the board UI.
- *
- * @typedef {"low" | "medium" | "urgent" | string} Priority
- */
 
 /**
  * Generates the header HTML for member pages.
@@ -114,10 +93,10 @@ export function getTaskTemplate() {
       <button class="add-task-close-btn" type="button" aria-label="Close">
         <img src="../assets/icons/close-icon.svg" alt="">
       </button>
-
+      <div class="add-task__overlay-bg">
       <h1 class="add-task__title">Add Task</h1>
-
-      <form id="add_task_form">
+      
+      <form id="add_task_form" ">
         <section class="add-task__grid">
           <section class="add-task__column add-task__column--left">
             <div class="form-field">
@@ -167,14 +146,21 @@ export function getTaskTemplate() {
             <input type="hidden" id="assigned_to_input" name="assigned_to">
             <div class="add-task__selected-assignees" id="selected_assignees_display"></div>
 
-            <label for="category">Category</label>
-            <div class="select-native-wrapper add-task__field-spacing">
-              <select class="add-task__input add-task__input--select" id="category" name="category" required>
-                <option value="select_task_category">Select task category</option>
-                <option value="technical-task">Technical Task</option>
-                <option value="user-story">User Story</option>
-              </select>
-              <span class="custom-select__arrow">▾</span>
+            <div class="form-field add-task__field-spacing" id="category_field">
+              <label for="category_input">Category <span class="required">*</span></label>
+              <div class="custom-select" id="category_select">
+                <button type="button" class="custom-select__trigger" id="category_trigger" aria-haspopup="listbox"
+                  aria-expanded="false">
+                  <span class="custom-select__trigger-label" id="category_trigger_label">Select task category</span>
+                  <span class="custom-select__arrow">▾</span>
+                </button>
+                <div class="custom-select__options d_none" id="category_options" role="listbox">
+                  <button type="button" class="custom-select__option" data-value="technical-task">Technical Task</button>
+                  <button type="button" class="custom-select__option" data-value="user-story">User Story</button>
+                </div>
+              </div>
+              <input type="hidden" id="category_input" name="category" value="">
+              <span class="error-message">This field is required</span>
             </div>
 
             <label for="subtask">Subtasks</label>
@@ -205,6 +191,9 @@ export function getTaskTemplate() {
           </div>
         </section>
       </form>
+      </div>
+
+      
     </section>
   `;
 }
@@ -257,8 +246,8 @@ export function getAddOverlayTemplate() {
                 </div>
 
                 <div class="buttons_add_contact">
-                    <button type="button" class="btn_save_contact" onclick="hideAddContactOverlay()">Cancel <img src="../../assets/icons/close-white.svg" alt="Close Icon"></button>
-                    <button type="submit" form="add_contact_form" class="btn_cancel_contact">Create contact <img src="../../assets/icons/check-icon-white.svg" alt="Check Icon"></button>
+                    <button type="button" class="button btn_cancel_contact" onclick="hideAddContactOverlay()">Cancel <img src="../../assets/icons/close-icon.svg" alt="Close Icon"></button>
+                    <button type="submit" form="add_contact_form" class="button btn_save_contact">Create contact <img src="../../assets/icons/check-icon-white.svg" alt="Check Icon"></button>
                 </div>
 
             </div>
@@ -300,6 +289,23 @@ function formatCategoryLabel(category) {
 }
 
 /**
+ * Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
+ *
+ * @param {string} text
+ * @param {string} maxLength
+ * @returns
+ */
+function limitText(text, maxLength) {
+  const value = String(text || '');
+
+  if (value.length <= maxLength) {
+    return value;
+  }
+
+  return value.slice(0, maxLength) + '***';
+}
+
+/**
  * Generates the HTML string for a task card in the board view.
  *
  * @param {string} id - The task id.
@@ -313,17 +319,17 @@ function formatCategoryLabel(category) {
  */
 export function generateTodosHTML(id, title, category, description, priority, subtaskProgressHTML = '', assigneeAvatarsHTML = '') {
   return `
-            <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true" >
-              <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
-              <h4 class="task__title">${title}</h4><br>
-              <p class="task__text">${description}</p><br>
-              ${subtaskProgressHTML}
-              <div class="task__footer">
-                <div class="task__assignees">${assigneeAvatarsHTML}</div>
-                <img src="../assets/icons/${priority}-prio-icon.svg" alt="">
-              </div>
-            </div>
-          `;
+    <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true">
+      <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
+      <h4 class="task__title">${limitText(title, 18)}</h4><br>
+      <p class="task__text">${limitText(description, 30)}</p><br>
+      ${subtaskProgressHTML}
+      <div class="task__footer">
+        <div class="task__assignees">${assigneeAvatarsHTML}</div>
+        <img src="../assets/icons/${priority}-prio-icon.svg" alt="">
+      </div>
+    </div>
+  `;
 }
 
 /**
@@ -357,7 +363,7 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
         <div class="contact_avatar contact_avatar--large" style="background-color:${bgColor}">
           ${initials}
         </div>
-        <div>
+        <div class="contact__name--container">
           <h2 class="contact_detail_name">${contact.name || ''}</h2>
           <div class="contact_detail_actions">
             <button type="button" class="link_btn button--icon" onclick="editContact('${contact.id}')">
@@ -400,6 +406,30 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
 }
 
 /**
+ * Builds the HTML template string for one contact list entry.
+ *
+ * @param {Object} contact - The contact data to render.
+ * @param {string} contact.name - The contact name.
+ * @param {string} contact.email - The contact email address.
+ * @returns {string} HTML string representing the contact list item.
+ */
+export function getContactItemTemplate(contact) {
+  const initials = getInitials(contact.name);
+  const bgColor = getAvatarColor(contact.name);
+  return `
+        <section class="contact_container">
+            <div class="contact_avatar" style="background-color: ${bgColor}">
+                ${initials}
+            </div>
+            <div class="contact_info">
+                <div class="contact_name">${contact.name}</div>
+                <div class="contact_email">${contact.email}</div>
+            </div>
+        </section>
+    `;
+}
+
+/**
  * Generates the edit-contact overlay template.
  *
  * @param {string} contactId - The id of the contact being edited.
@@ -428,7 +458,7 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
             <div class="contact_avatar contact_avatar--large edit_overlay_avatar overlay_avatar" style="background-color:${color}">
                 ${initials}
             </div>
-          <form class="form_add_contact" id="edit_contact_form" novalidate>
+          <form class="form_add_contact" id="edit_contact_form">
             <div class="form-field">
               <input type="text" id="contact_name" class="input_add_contact" placeholder="Name" value="${contact.name || ''}">
               <span class="error-message" data-default-message="This field is required">This field is required</span>
@@ -438,12 +468,12 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
               <span class="error-message" data-default-message="This field is required">This field is required</span>
             </div>
             <div class="form-field">
-              <input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}">
+              <input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}" inputmode="tel"  pattern="^\\+?[0-9]*$" title="Please enter numbers only">
               <span class="error-message" data-default-message=""></span>
             </div>
             <div class="buttons_add_contact">
-              <button type="button" class="btn_save_contact" onclick="deleteContact('${contactId}')">Delete</button>
-              <button type="submit" class="btn_cancel_contact">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
+              <button type="button" class="button btn_cancel_contact" onclick="deleteContact('${contactId}')">Delete</button>
+              <button type="submit" class="button btn_save_contact btn_save_contact--edit">Save<img src="../../assets/icons/check-icon-white.svg" alt=""></button>
             </div>
           </form>
         </div>
@@ -477,7 +507,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
 
   return `
   <div class="task-overlay-content">
-   
+
         <div class="overlaytemplate-first-section flex-class">
           <p class="task__category--${category} overlaytemplate-category">${formatCategoryLabel(category)}</p>
           <button onclick="closeTaskOverlay()"><img src="../../assets/icons/close-icon.svg" class="close_overlay_icon_getTaskOverlayTemplate" alt=""></button>
@@ -527,7 +557,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
       </div>
 
       </div>
-    </div>        
+    </div>
       `;
 }
 
@@ -635,18 +665,18 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
         </div>
         <div class="subtask-list" id="edit_subtask_list_new"></div>
       </div>
-   
+
     </form>
-    
+
 
     </div>
        <div class="add-task__actions" style="margin-top: 0;">
         <button type="button" class="button add-task__button add-task__button--primary" onclick="saveEditedTask('${id}')">
           Ok <img src="../assets/icons/check-icon-white.svg" alt="">
         </button>
-      </div>        
-    
-  
+      </div>
+
+
   </div>
   `;
 }
