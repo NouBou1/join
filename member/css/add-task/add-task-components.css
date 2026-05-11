@@ -65,7 +65,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  padding-left: 14px;
+  padding-left: 26px;
 }
 
 .subtask-item-text {
@@ -177,7 +177,7 @@
   flex-direction: column;
   width: 53%;
   max-height: 90vh;
-  overflow-y: auto;
+
   background: var(--color-background-input);
   border-radius: 12px;
   box-shadow: 0 4px 8px var(--color-shadow-soft);
@@ -219,4 +219,10 @@
 .task-message--error {
   color: #e74c3c;
   visibility: visible;
+}
+
+.add-task__overlay-bg{
+  overflow-y: auto;
+  overflow-x: clip;
+  padding-right: 5px;
 }

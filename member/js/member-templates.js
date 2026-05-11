@@ -93,10 +93,10 @@ export function getTaskTemplate() {
       <button class="add-task-close-btn" type="button" aria-label="Close">
         <img src="../assets/icons/close-icon.svg" alt="">
       </button>
-
+      <div class="add-task__overlay-bg">
       <h1 class="add-task__title">Add Task</h1>
-
-      <form id="add_task_form">
+      
+      <form id="add_task_form" ">
         <section class="add-task__grid">
           <section class="add-task__column add-task__column--left">
             <div class="form-field">
@@ -184,6 +184,9 @@ export function getTaskTemplate() {
           </div>
         </section>
       </form>
+      </div>
+
+      
     </section>
   `;
 }
