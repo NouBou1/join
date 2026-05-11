@@ -95,11 +95,8 @@ select {
   box-shadow: none;
 }
 
-.add-task__input--select:hover {
-  background: #fff;
-  background-color: #fff;
+.select-native-wrapper:hover {
   border-color: #a8a8a8;
-  cursor: pointer;
 }
 
 .add-task__input {
@@ -112,12 +109,58 @@ select {
   resize: vertical;
 }
 
-.add-task__input--select {
+.select-native-wrapper {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.select-native-wrapper .add-task__input--select {
+  width: 100%;
+  height: 46px;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 10px;
+  outline: none;
+  background: #fff;
+  box-shadow: none;
+  padding: 10px 44px 10px 12px;
+  font-size: 20px;
+  line-height: 1.2;
+  cursor: pointer;
+
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 44px;
-  cursor: pointer;
+}
+
+.select-native-wrapper .custom-select__arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+  line-height: 1;
+  color: #666;
+}
+
+.select-native-wrapper:focus-within {
+  border-color: #29abe2;
+}
+
+.select-native-wrapper.add-task__field-spacing .custom-select__arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 18px;
+  line-height: 1;
+  color: #666;
 }
 
 .add-task__input:focus,
