@@ -192,8 +192,9 @@ function createSubtaskActions(index) {
   const actions = document.createElement('div');
   actions.className = 'subtask-item-actions';
   actions.innerHTML = `
-    <button type="button" class="subtask-icon-btn" data-edit="${index}">✎</button>
-    <button type="button" class="subtask-icon-btn" data-delete="${index}">🗑</button>
+    <button type="button" class="subtask-icon-btn" data-edit="${index}"><img src="../assets/icons/pencil-icon.svg" alt="Edit"></button>
+    <span class="subtask-item-divider">|</span>
+    <button type="button" class="subtask-icon-btn" data-delete="${index}"><img src="../assets/icons/trash-icon.svg" alt="Delete"></button>
   `;
   return actions;
 }

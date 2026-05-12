@@ -65,8 +65,11 @@
 .subtask-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
   padding-left: 26px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
 }
 
 .subtask-item-text {
@@ -81,15 +84,53 @@
   left: -14px;
 }
 
+.subtask-item img {
+  width: 16px;
+  height: 16px;
+  align-self: center;
+}
+
+.subtask-item span {
+  color: var(--color-menu-bg);
+  font-size: 16px;
+  align-self: center;
+}
+
 .subtask-item-actions {
   display: flex;
-  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.subtask-item:hover .subtask-item-actions {
+  opacity: 1;
+}
+
+.subtask-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 .subtask-icon-btn {
   border: none;
   background: transparent;
   cursor: pointer;
+}
+
+.subtask-icon-btn:hover {
+  opacity: 0.7;
+  background-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  outline: none;
+  border: none;
+  box-shadow: none;
+
+}
+.subtask-icon-btn img {
+  display: block;
+}
+
+.subtask-icon-btn:focus {
+  outline: none;
 }
 
 .add-task__required-hint {
