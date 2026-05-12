@@ -378,7 +378,7 @@ function showSuccessMessage(message) {
   document.body.appendChild(successDiv);
   setTimeout(() => {
     successDiv.remove();
-  }, 500);
+  }, 2000);
 }
 
 
