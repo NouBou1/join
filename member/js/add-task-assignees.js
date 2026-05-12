@@ -209,15 +209,35 @@ function updateAssignedInput(state) {
  * @function renderSelectedAssignees
  * @returns {void}
  */
+// function renderSelectedAssignees(state) {
+//   if (!state.selectedDisplay) return;
+//   state.selectedDisplay.innerHTML = state.selectedAssignees
+//     .map((item) => {
+//       return `<span class="add-task__avatar" title="${item.name}" style="background-color: ${item.avatarColor}">
+//         ${item.initials}
+//       </span>`;
+//     })
+//     .join('');
+// }
+
 function renderSelectedAssignees(state) {
   if (!state.selectedDisplay) return;
-  state.selectedDisplay.innerHTML = state.selectedAssignees
+  const visible = state.selectedAssignees.slice(0, 3); 
+  const remaining = state.selectedAssignees.length - 3;  
+  
+  const avatarsHTML = visible
     .map((item) => {
       return `<span class="add-task__avatar" title="${item.name}" style="background-color: ${item.avatarColor}">
         ${item.initials}
       </span>`;
     })
     .join('');
+  
+  const extraHTML = remaining > 0 
+    ? `<span class="add-task__avatar add-task__avatar--extra" title="${remaining} more assignees">+${remaining}</span>`
+    : '';
+  
+  state.selectedDisplay.innerHTML = avatarsHTML + extraHTML;
 }
 
 /**

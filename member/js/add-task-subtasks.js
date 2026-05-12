@@ -286,8 +286,9 @@ function deleteSubtask(state, index) {
  * @returns {void}
  */
 function handleSubtaskListClick(event, state) {
-  const editIndex = event.target.dataset.edit;
-  const deleteIndex = event.target.dataset.delete;
-  if (editIndex !== undefined) editSubtask(state, Number(editIndex));
-  if (deleteIndex !== undefined) deleteSubtask(state, Number(deleteIndex));
+  const editBtn = event.target.closest('[data-edit]');
+  const deleteBtn = event.target.closest('[data-delete]');
+  
+  if (editBtn) editSubtask(state, Number(editBtn.dataset.edit));
+  if (deleteBtn) deleteSubtask(state, Number(deleteBtn.dataset.delete));
 }

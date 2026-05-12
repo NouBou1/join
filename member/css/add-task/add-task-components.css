@@ -9,6 +9,15 @@
   color: var(--color-text-button);
   font-size: 16px;
   flex-shrink: 0;
+  position: relative;
+  border: 2px solid white;
+}
+
+.add-task__avatar--extra {
+  background-color: #2a3647;
+  color: white;
+  font-weight: 700;
+  opacity: 0.85;
 }
 
 .select-native-wrapper,
@@ -67,7 +76,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding-left: 26px;
+  padding-left: 20px;
   border-radius: 6px;
   transition: background-color 0.2s ease;
 }
@@ -76,6 +85,10 @@
   position: relative;
   flex: 1;
   font-size: 16px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .subtask-item-text::before {
@@ -125,6 +138,7 @@
   box-shadow: none;
 
 }
+
 .subtask-icon-btn img {
   display: block;
 }
