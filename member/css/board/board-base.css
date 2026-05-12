@@ -93,6 +93,7 @@ main {
   z-index: 2;
   margin-top: 20px;
   transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
 .task__card--dragging {
@@ -117,10 +118,19 @@ main {
 .task__title {
   font-weight: 700;
   padding-top: 10px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .task__text {
   color: var(--color-input-icon);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  max-height: calc(2 * 1.25em);
 }
 
 .task__bar {
@@ -208,13 +218,6 @@ main {
   gap: 8px;
 }
 
-/* .border {
-  width: 1px;
-  height: 30px;
-  background-color: #ccc;
-  border-radius: 2px;
-  transform: translateX(222px);
-} */
 
 .plus-icon {
   width: 24px;
@@ -263,7 +266,8 @@ main {
   height: auto;
   max-height: 72vh;
 }
-.task-overlay-content-scrollable{
+
+.task-overlay-content-scrollable {
   overflow-y: auto;
 }
 
@@ -276,6 +280,7 @@ main {
   gap: 10px;
   padding-bottom: 8px;
 }
+
 .flex-class {
   display: flex;
   justify-content: space-between;

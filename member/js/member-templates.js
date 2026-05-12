@@ -295,15 +295,15 @@ function formatCategoryLabel(category) {
  * @param {string} maxLength
  * @returns
  */
-function limitText(text, maxLength) {
-  const value = String(text || '');
+// function limitText(text, maxLength) {
+//   const value = String(text || '');
 
-  if (value.length <= maxLength) {
-    return value;
-  }
+//   if (value.length <= maxLength) {
+//     return value;
+//   }
 
-  return value.slice(0, maxLength) + '***';
-}
+//   return value.slice(0, maxLength) + '***';
+// }
 
 /**
  * Generates the HTML string for a task card in the board view.
@@ -321,8 +321,8 @@ export function generateTodosHTML(id, title, category, description, priority, su
   return `
     <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true">
       <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
-      <h4 class="task__title">${limitText(title, 18)}</h4><br>
-      <p class="task__text">${limitText(description, 30)}</p><br>
+      <h4 class="task__title">${(title)}</h4><br>
+      <p class="task__text">${(description)}</p><br>
       ${subtaskProgressHTML}
       <div class="task__footer">
         <div class="task__assignees">${assigneeAvatarsHTML}</div>
@@ -527,7 +527,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
             <div class="contact_avatar" style="background-color: ${getAvatarColor(person)}">
               ${getInitials(person)}
             </div>
-            <span>${person}</span>
+            <span class="assigned_contact_name">${person}</span>
           </div>
         `).join('')}
       </div>
@@ -537,14 +537,14 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
         <div class="overlaytemplate-subtask-checkbox">
 
           ${subtaskEntries.map(([key, s]) => {
-    const isChecked = s.status === true || s.completed === true;
-    const iconSrc = isChecked
+          const isChecked = s.status === true || s.completed === true;
+          const iconSrc = isChecked
       ? "../assets/icons/checkbox/checkbox-icon-checked.svg"
       : "../assets/icons/checkbox/checkbox-icon-unchecked.svg";
-    return `
+          return `
             <div class="subtask-item-taskoverlay">
               <img class="checkbox-icon" src="${iconSrc}" alt="" data-task-id="${id}" data-subtask-key="${key}">
-              ${s.title}
+              <span class="subtask-item-text">${s.title}</span>
             </div>
           `}).join('')}
         </div>
@@ -650,7 +650,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
             <div class="subtask-item" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0; font-size: 16px; color: #2a3647;">
               <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
                 <span style="line-height: 1.5;">•</span>
-                <span style="line-height: 1.5; flex: 1;" id="subtask_text_${key}">${s.title}</span>
+                <span class="subtask-item-text" style="line-height: 1.5;" id="subtask_text_${key}">${s.title}</span>
               </div>
               <div class="subtask-item-actions" style="display: flex; gap: 8px;">
                 <button type="button" class="subtask-icon-btn" onclick="editExistingSubtask('${id}', '${key}')" title="Edit" style="border: none; background: transparent; cursor: pointer; font-size: 18px; padding: 0;">

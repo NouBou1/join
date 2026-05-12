@@ -11,12 +11,21 @@
 
 .task-overlay-content p {
   font-size: 24px;
+}
 
+.overlaytemplate-title {
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
 }
 
 .overlaytemplate-description {
   padding-bottom: 20px;
   padding-top: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
 .overlaytemplate-due_date {
@@ -42,7 +51,16 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
   padding-top: 8px;
+}
+
+.assigned_contact_name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .overlaytemplate-subtask {
@@ -54,6 +72,10 @@
   gap: 8px;
   padding-top: 6px;
   padding-bottom: 16px;
+}
+
+.subtask-item-taskoverlay .checkbox-icon {
+  flex-shrink: 0;
 }
 
 .taskoverlay_detail_actions {
@@ -211,13 +233,15 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
 }
 
 /* Edit Task Overlay Styles */
-.padding-right-class{
+.padding-right-class {
   padding-right: 27px;
 }
+
 .edit-task-content {
-  padding-right: 16px; 
-  overflow-y: auto; 
+  padding-right: 16px;
+  overflow-y: auto;
 }
+
 .edit-task-form {
   max-height: 85vh;
   height: 715px;
@@ -248,4 +272,3 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
   font-size: 16px;
   color: var(--color-menu-bg);
 }
-
