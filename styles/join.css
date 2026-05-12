@@ -69,7 +69,7 @@ form {
 
 .contact_list {
   gap: 15px;
-  flex: 1;       
+  flex: 1;
   overflow-y: auto;
   width: 100%;
   background-color: white;
@@ -280,7 +280,8 @@ header {
 .help-circle:hover {
   height: 22px;
   width: 22px;
-  border: 2px solid;}
+  border: 2px solid;
+}
 
 .header-menue-nav {
   position: absolute;
@@ -413,6 +414,29 @@ footer {
     justify-content: space-between;
   }
 
+  .footer__responsive {
+    display: flex;
+    height: 80px;
+    padding: 0 20px;
+    background-color: var(--background__menu);
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .topbar {
+    left: 0;
+    width: 100%;
+  }
+
   .topbar-right {
     padding-right: 20px;
   }
@@ -472,21 +496,6 @@ footer {
     margin: 20px auto 0 auto;
     display: flex;
     gap: 24px
-  }
-
-  .footer__responsive {
-    height: 80px;
-    padding: 0 20px;
-    margin: 0;
-    background-color: var(--background__menu);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
   }
 
   .footer__responsive--public {
