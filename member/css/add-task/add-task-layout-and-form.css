@@ -379,6 +379,7 @@ label {
   padding-bottom: 5px;
 }
 
+
 @media (max-width: 1000px) {
   .add-task__grid {
     display: flex;
@@ -437,9 +438,10 @@ label {
 
   .add-task__required-hint {
     position: relative;
-    bottom: 34px;
+    bottom: auto;
   }
 
+  
   .add-task__main {
     bottom: 160px;
     position: relative;
@@ -451,7 +453,16 @@ label {
     gap: 16px;
     justify-content: center;
     align-items: stretch;
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
   }
+  
+  .add-task__required-hint {
+    position: relative;
+    bottom: auto;
+  }
+
 }
 
 @media (max-width: 601px) {
@@ -459,7 +470,7 @@ label {
     left: 0;
     width: 100%;
     padding: 24px 16px;
-    height: calc(100vh - 20px);
+    height: calc(100vh - 95px);
   }
 
   .add-task__title {
@@ -480,10 +491,6 @@ label {
     justify-content: center;
     position: static;
     width: 100%;
-  }
-
-  .add-task__container {
-    padding: 24px 16px;
   }
 
   form {

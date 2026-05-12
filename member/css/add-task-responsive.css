@@ -83,11 +83,7 @@
     flex-direction: row;
     height: 45px;
     font-size: 14px;
-  }
-
-  .add-task__actions {
-    bottom: 25px;
-  }
+  } 
 
   .add-task__title {
     font-size: 46px;

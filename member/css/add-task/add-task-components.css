@@ -95,6 +95,7 @@
 .add-task__required-hint {
   font-size: 14px;
   color: var(--color-menu-bg);
+  margin-top: -20px;
 }
 
 .add-task__required-star {

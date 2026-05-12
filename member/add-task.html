@@ -96,7 +96,8 @@
                     <span class="custom-select__arrow">▾</span>
                   </button>
                   <div class="custom-select__options d_none" id="category_options" role="listbox">
-                    <button type="button" class="custom-select__option" data-value="technical-task">Technical Task</button>
+                    <button type="button" class="custom-select__option" data-value="technical-task">Technical
+                      Task</button>
                     <button type="button" class="custom-select__option" data-value="user-story">User Story</button>
                   </div>
                 </div>
@@ -115,24 +116,24 @@
                 </div>
               </div>
               <div class="subtask-list" id="subtask_list"></div>
-            </section>
-          </section>
 
-          <div id="task_message" class="task-message"></div>
+              <!-- Hinweis HIER, vor dem Footer -->
+              <span class="add-task__required-hint">
+                <span class="add-task__required-star">*</span> <span class="add-task__required-text">This field is
+                  required</span>
+              </span>
 
-          <section class="add-task__footer">
-            <span class="add-task__required-hint ">
-              <span class="add-task__required-star add-task__required-star__fix">*</span> <span class="add-task__required-text add-task__required-text__fix">This field is required</span>
-            </span>
-            <div class="add-task__actions add-task__actions__fix">
-              <button class="button add-task__button add-task__button--secondary" type="button">
-                Clear <img src="../assets/icons/close-icon.svg" alt="" />
-              </button>
-              <button class="button add-task__button add-task__button--primary" type="button">
-                Create Task <img src="../assets/icons/check-icon-white.svg" alt="" />
-              </button>
-            </div>
-          </section>
+              <!-- Footer NUR mit Buttons -->
+              <section class="add-task__footer">
+                <div class="add-task__actions add-task__actions__fix">
+                  <button class="button add-task__button add-task__button--secondary" type="button">
+                    Clear <img src="../assets/icons/close-icon.svg" alt="" />
+                  </button>
+                  <button class="button add-task__button add-task__button--primary" type="button">
+                    Create Task <img src="../assets/icons/check-icon-white.svg" alt="" />
+                  </button>
+                </div>
+              </section>
         </form>
       </div>
     </main>
