@@ -102,10 +102,6 @@ select {
   cursor: pointer;
 }
 
-.add-task__input {
-  margin-bottom: 22px;
-}
-
 .add-task__textarea {
   min-height: 120px;
   margin-bottom: 5px;
