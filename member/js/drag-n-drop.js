@@ -16,7 +16,12 @@ import { ref, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 let activeSearchTerm = '';
 export let todos = {};
 let currentDraggedElement;
-
+let touchDraggedElement;
+let touchDragStarted = false;
+let touchStartX = 0;
+let touchStartY = 0;
+let suppressNextCardClick = false;
+const TOUCH_DRAG_THRESHOLD = 10;
 /**
  * Loads all tasks from Firebase and initializes the board view.
  *
@@ -276,6 +281,20 @@ function clearDropCardPreview() {
   });
 }
 
+function getTouchDropZone(touch) {
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  return el ? el.closest(".task__area") : null;
+}
+
+document.addEventListener("click", function (event) {
+  if (!suppressNextCardClick) return;
+  if (event.target.closest(".task__card")) {
+    event.preventDefault();
+    event.stopPropagation();
+    suppressNextCardClick = false;
+  }
+}, true);
+
 document.addEventListener("dragstart", function (event) {
   const card = event.target.closest(".task__card");
   if (!card) return;
@@ -331,6 +350,73 @@ document.addEventListener("dragleave", function (event) {
   if (!dropZone) return;
   dropZone.classList.remove("task__area--highlight");
 });
+
+// mobile drag and drop support
+
+document.addEventListener("touchstart", function (event) {
+const card = event.target.closest(".task__card");
+if (!card) return;
+const t = event.touches[0];
+touchStartX = t.clientX;
+touchStartY = t.clientY;
+touchDraggedElement = card.id;
+touchDragStarted = false;
+}, { passive: true });
+
+
+document.addEventListener("touchmove", function (event) {
+if (!touchDraggedElement) return;
+const t = event.touches[0];
+const dx = Math.abs(t.clientX - touchStartX);
+const dy = Math.abs(t.clientY - touchStartY);
+
+if (!touchDragStarted && (dx > TOUCH_DRAG_THRESHOLD || dy > TOUCH_DRAG_THRESHOLD)) {
+touchDragStarted = true;
+}
+if (!touchDragStarted) return;
+
+event.preventDefault();
+clearDropHighlights();
+clearDropCardPreview();
+const dropZone = getTouchDropZone(t);
+if (!dropZone) return;
+const taskList = dropZone.querySelector(".task__list");
+if (!taskList) return;
+taskList.classList.add("task__list--preview");
+}, { passive: false });
+
+document.addEventListener("touchend", async function (event) {
+if (!touchDraggedElement) return;
+
+const wasDragging = touchDragStarted;
+const touch = event.changedTouches[0];
+const dropZone = touch ? getTouchDropZone(touch) : null;
+
+clearDropHighlights();
+clearDropCardPreview();
+
+if (wasDragging && dropZone) {
+const newStatus = dropZone.dataset.status;
+const oldStatus = todos[touchDraggedElement]?.status;
+todos[touchDraggedElement].status = newStatus;
+updateHTML();
+try {
+await updateTaskStatus(touchDraggedElement, newStatus);
+} catch (error) {
+console.error("Firebase-Update fehlgeschlagen:", error);
+if (todos[touchDraggedElement]) {
+todos[touchDraggedElement].status = oldStatus;
+updateHTML();
+}
+alert("Status konnte nicht gespeichert.");
+}
+}
+if (wasDragging) {
+suppressNextCardClick = true;
+}
+touchDraggedElement = undefined;
+touchDragStarted = false;
+}, { passive: true });
 
 /**
  * Checks whether a task matches the active board search term.

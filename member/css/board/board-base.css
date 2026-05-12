@@ -95,6 +95,7 @@ main {
   overflow: hidden;
   cursor: grab;
   user-select: none;
+  touch-action: none;
 }
 
 .task__card--dragging {

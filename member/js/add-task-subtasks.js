@@ -175,7 +175,7 @@ function saveSubtaskValue(state, value) {
 function createSubtaskText(text) {
   const span = document.createElement('span');
   span.className = 'subtask-item-text';
-  span.textContent = text;
+  span.textContent = "•" + text;
   return span;
 }
 

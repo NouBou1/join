@@ -513,8 +513,10 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
           <button onclick="closeTaskOverlay()"><img src="../../assets/icons/close-icon.svg" class="close_overlay_icon_getTaskOverlayTemplate" alt=""></button>
         </div>
      <div class="task-overlay-content-scrollable">
-      <h2 class="overlaytemplate-title">${title}</h2>
-      <p class="overlaytemplate-description">${description}</p>
+      <h2 class="overlaytemplate-title has-tooltip" data-tooltip="${title}"> <span class="overlaytemplate-title-text">${title}</span> </h2>
+      <p class="overlaytemplate-description has-tooltip" data-tooltip="${description}">
+        <span class="overlaytemplate-description-text">${description}</span>
+      </p>
       <p class="overlaytemplate-due_date">Due date: ${due_date.replace(/-/g, "/")}</p>
       <div class="overlaytemplate__priority--container">
           <p class="overlaytemplate__priority">Priority: ${priority}</p>
@@ -537,11 +539,11 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
         <div class="overlaytemplate-subtask-checkbox">
 
           ${subtaskEntries.map(([key, s]) => {
-          const isChecked = s.status === true || s.completed === true;
-          const iconSrc = isChecked
+    const isChecked = s.status === true || s.completed === true;
+    const iconSrc = isChecked
       ? "../assets/icons/checkbox/checkbox-icon-checked.svg"
       : "../assets/icons/checkbox/checkbox-icon-unchecked.svg";
-          return `
+    return `
             <div class="subtask-item-taskoverlay">
               <img class="checkbox-icon" src="${iconSrc}" alt="" data-task-id="${id}" data-subtask-key="${key}">
               <span class="subtask-item-text">${s.title}</span>
