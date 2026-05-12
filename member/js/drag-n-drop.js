@@ -56,7 +56,10 @@ function calculateSubtaskProgress(subtasks = {}) {
   const subtaskArray = Object.values(subtasks);
   const totalSubtasks = subtaskArray.length;
   if (totalSubtasks === 0) return '';
-  const completedSubtasks = subtaskArray.filter(s => s.status === true || s.completed === true).length;
+  const completedSubtasks = subtaskArray.filter(
+    s => s.status === true || s.completed === true
+  ).length;
+  if (completedSubtasks === 0) return '';
   const progressPercent = (completedSubtasks / totalSubtasks) * 100;
   return `
     <div class="task__progress">
@@ -66,7 +69,6 @@ function calculateSubtaskProgress(subtasks = {}) {
       <span class="task__progress--text">${completedSubtasks}/${totalSubtasks} Subtasks</span>
     </div>`;
 }
-
 /**
  * Generates the HTML for task assignee avatars.
  *
