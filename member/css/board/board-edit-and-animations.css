@@ -107,6 +107,7 @@
   width: 100%;
   max-width: 1050px;
   min-height: 640px;
+  max-height: 81vh;
   height: auto;
   margin: 0 auto;
 }
