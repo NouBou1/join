@@ -183,7 +183,7 @@ select {
 
 .error-message {
   display: none;
-  margin-top: -8px;
+  margin-top: 0px;
   margin-bottom: 12px;
   font-size: 14px;
   color: #ff3d00;
@@ -459,7 +459,7 @@ label {
 
   .add-task__required-hint {
     position: relative;
-    bottom: 21px;
+    bottom: 34px;
   }
 
   .add-task__main {

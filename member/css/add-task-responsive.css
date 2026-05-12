@@ -77,6 +77,7 @@
 }
 }
 
+
 @media(max-width: 735px) {
   .button.add-task__priority-button {
     flex-direction: row;
