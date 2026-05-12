@@ -294,10 +294,7 @@ select {
 }
 
 .custom-select__options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 20;
+  position: static;
   width: 100%;
   box-sizing: border-box;
   max-height: 250px;
@@ -309,9 +306,13 @@ select {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
   padding: 8px 0;
   margin-top: -1px;
-  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #a7a1a1 #fff;
+}
+
+.custom-select {
+  display: flex;
+  flex-direction: column;
 }
 
 .custom-select__option {
@@ -356,11 +357,14 @@ select {
 }
 
 .add-task__selected-assignees {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.add-task__selected-assignees:not(:empty) {
+  display: flex;
   margin: 8px 0 15px;
-  min-height: 40px;
 }
 
 .gap-reduced {
