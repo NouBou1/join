@@ -228,8 +228,8 @@ select {
   color: #2a3647;
   height: 41px;
   border-radius: 10px;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 400;
+  font-size: 20px;
 }
 
 .add-task__priority-button img {
@@ -243,6 +243,8 @@ select {
 .add-task__priority-button.selected {
   color: #fff;
   border-color: transparent;
+  font-weight: 700;
+  font-size: 21px;
 }
 
 .add-task__priority-button.selected img {
@@ -409,7 +411,7 @@ label {
   .add-task__container {
     left: 0;
     width: 100%;
-    padding: 24px 16px;
+    padding: 24px 16px 90px 16px;
   }
 
   .add-task__actions {
@@ -418,8 +420,12 @@ label {
 
   .add-task__actions__fix {
     margin-top: -70px;
+    padding-top: 16px;
   }
 
+  .button.add-task__priority-button {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -441,7 +447,7 @@ label {
     bottom: auto;
   }
 
-  
+
   .add-task__main {
     bottom: 160px;
     position: relative;
@@ -457,7 +463,7 @@ label {
     bottom: 100px;
     right: 30px;
   }
-  
+
   .add-task__required-hint {
     position: relative;
     bottom: auto;
