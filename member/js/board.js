@@ -321,6 +321,7 @@ function collectEditFormData() {
  * @param {Object} formData - The collected edit form data.
  * @returns {Object} The task update object for Firebase.
  */
+
 function buildTaskUpdateObject(taskId, formData) {
   const updatedTask = {
     title: formData.title,
@@ -328,14 +329,31 @@ function buildTaskUpdateObject(taskId, formData) {
     due_date: formData.due_date,
     priority: formData.priority
   };
+  
   if (Object.keys(formData.assignedNames).length > 0) {
     updatedTask.assigned_to = formData.assignedNames;
   }
+  
   const existingSubtasks = tasks[taskId]?.subtasks || {};
-  const mergedSubtasks = { ...existingSubtasks, ...formData.newSubtasks };
+  const existingKeys = Object.keys(existingSubtasks);
+  let maxNumber = 0;
+  existingKeys.forEach(key => {
+    const match = key.match(/Subtask(\d+)/);
+    if (match) {
+      maxNumber = Math.max(maxNumber, parseInt(match[1]));
+    }
+  });
+  const renumberedNewSubtasks = {};
+  Object.values(formData.newSubtasks).forEach((subtask, index) => {
+    renumberedNewSubtasks[`Subtask${maxNumber + index + 1}`] = subtask;
+  });
+  
+  const mergedSubtasks = { ...existingSubtasks, ...renumberedNewSubtasks };
+  
   if (Object.keys(mergedSubtasks).length > 0) {
     updatedTask.subtasks = mergedSubtasks;
   }
+  
   return updatedTask;
 }
 
