@@ -95,7 +95,7 @@ export function getTaskTemplate() {
       </button>
       <div class="add-task__overlay-bg">
       <h1 class="add-task__title">Add Task</h1>
-      
+
       <form id="add_task_form" ">
         <section class="add-task__grid">
           <section class="add-task__column add-task__column--left">
@@ -192,8 +192,6 @@ export function getTaskTemplate() {
         </section>
       </form>
       </div>
-
-      
     </section>
   `;
 }
@@ -284,26 +282,9 @@ function formatCategoryLabel(category) {
     'user-story': 'User Story',
     'technical-task': 'Technical Task'
   };
-
   return labels[category] || category;
 }
 
-/**
- * Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
- *
- * @param {string} text
- * @param {string} maxLength
- * @returns
- */
-// function limitText(text, maxLength) {
-//   const value = String(text || '');
-
-//   if (value.length <= maxLength) {
-//     return value;
-//   }
-
-//   return value.slice(0, maxLength) + '***';
-// }
 
 /**
  * Generates the HTML string for a task card in the board view.
@@ -670,14 +651,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
 
     </form>
 
-
     </div>
        <div class="add-task__actions" style="margin-top: 0;">
         <button type="button" class="button add-task__button add-task__button--primary" onclick="saveEditedTask('${id}')">
           Ok <img src="../assets/icons/check-icon-white.svg" alt="">
         </button>
       </div>
-
 
   </div>
   `;
