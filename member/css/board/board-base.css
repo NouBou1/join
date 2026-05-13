@@ -95,7 +95,6 @@ main {
   overflow: hidden;
   cursor: grab;
   user-select: none;
-  touch-action: none;
 }
 
 .task__card--dragging {
@@ -120,7 +119,7 @@ main {
 
 body.board--dragging,
 body.board--dragging * {
-cursor: grabbing !important;
+  cursor: grabbing !important;
 }
 
 .task__title {
