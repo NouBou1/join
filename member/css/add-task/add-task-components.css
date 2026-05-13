@@ -76,7 +76,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding-left: 20px;
+  padding-left: 0px;
   border-radius: 6px;
   transition: background-color 0.2s ease;
 }
