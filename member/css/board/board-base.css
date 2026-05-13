@@ -167,7 +167,7 @@ body.board--dragging * {
 }
 
 .task__progress--text {
-  font-size: 12px;
+  font-size: 16px;
   color: #2a3647;
   font-weight: 400;
   white-space: nowrap;
@@ -187,7 +187,7 @@ body.board--dragging * {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
   border: 2px solid white;
   position: relative;
