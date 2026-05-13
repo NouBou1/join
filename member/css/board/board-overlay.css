@@ -38,9 +38,12 @@
 .overlaytemplate-description-text {
   display: block;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: normal;
   text-overflow: ellipsis;
-  word-break: normal;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .overlaytemplate-due_date {

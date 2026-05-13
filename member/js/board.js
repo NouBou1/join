@@ -85,6 +85,7 @@ function openTaskOverlay(taskId) {
   overlayContainer.classList.remove('d_none');
   setTimeout(() => {
     overlayContainer.classList.add('show');
+    conditionallyEnableTooltips();
   }, 10);
   overlayContainer.addEventListener('click', handleOverlayClick);
 }
@@ -513,4 +514,24 @@ async function saveSubtaskEdit(taskId, subtaskKey, input) {
   } catch (error) {
     console.error("Error saving subtask:", error);
   }
+}
+
+/**
+ * Aktiviert Tooltips nur für Elemente, deren Text tatsächlich abgeschnitten wird.
+ * Entfernt die has-tooltip Klasse, wenn kein Overflow vorliegt.
+ *
+ * @returns {void}
+ */
+function conditionallyEnableTooltips() {
+  const tooltipElements = document.querySelectorAll('.has-tooltip');
+  
+  tooltipElements.forEach(element => {
+    const textElement = element.querySelector('span');
+    if (!textElement) return;
+    const isOverflowing = textElement.scrollWidth > textElement.clientWidth || 
+                         textElement.scrollHeight > textElement.clientHeight;
+    if (!isOverflowing) {
+      element.classList.remove('has-tooltip');
+    }
+  });
 }
