@@ -365,6 +365,7 @@ select {
   margin: 8px 0 15px;
 }
 
+
 .gap-reduced {
   gap: 0px;
 }
@@ -465,6 +466,23 @@ label {
     bottom: auto;
   }
 
+  .overlay_add_task .add-task__footer {
+    position: static;
+    bottom: auto;
+    right: auto;
+  }
+
+  #add_task_overlay .overlay_add_task {
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  #add_task_overlay .overlay_add_task::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
 }
 
 @media (max-width: 601px) {

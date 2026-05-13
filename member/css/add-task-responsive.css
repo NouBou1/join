@@ -2,7 +2,7 @@
 @media (max-width: 1001px) {
   .overlay_add_task {
     gap: 0;
-    padding: 21px;
+    padding: 18px;
   }
 
   .add-task__title {
