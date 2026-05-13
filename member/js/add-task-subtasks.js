@@ -173,10 +173,18 @@ function saveSubtaskValue(state, value) {
  * @returns {HTMLSpanElement} The created subtask text element.
  */
 function createSubtaskText(text) {
-  const span = document.createElement('span');
-  span.className = 'subtask-item-text';
-  span.textContent = "•" + text;
-  return span;
+  const container = document.createElement('div');
+  container.style.cssText = 'display: flex; align-items: center; gap: 8px; flex: 1;';
+  
+  const bullet = document.createElement('span');
+  bullet.textContent = '•';
+  
+  const textSpan = document.createElement('span');
+  textSpan.className = 'subtask-item-text';
+  textSpan.textContent = text;
+  
+  container.append(bullet, textSpan);
+  return container;
 }
 
 /**

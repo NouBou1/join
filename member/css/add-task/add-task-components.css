@@ -91,12 +91,6 @@
   text-overflow: ellipsis;
 }
 
-.subtask-item-text::before {
-  content: "•";
-  position: absolute;
-  left: -14px;
-}
-
 .subtask-item img {
   width: 16px;
   height: 16px;
