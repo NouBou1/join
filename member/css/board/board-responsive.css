@@ -141,7 +141,6 @@
   }
 
   .task__list {
-    display: flex;
     width: 100%;
     max-width: 100vw;
   }
@@ -225,7 +224,6 @@
 
   .task__list {
     min-height: 24px;
-    display: flex;
     align-items: center;
   }
 
@@ -241,7 +239,6 @@
     margin-right: 16px;
   }
 }
-
 
 @media (max-width: 541px) {
   .content {
@@ -261,8 +258,6 @@
 
 /*task-overlay-content*/
 @media (max-width: 992px) {
-
-
   .task-overlay-content {
     width: 369px;
   }
@@ -459,7 +454,6 @@
   }
 
   .overlaytemplate__priority--container {
-
     gap: 3px;
   }
 
@@ -518,5 +512,4 @@
   .overlaytemplate__priority--container {
     gap: 0;
   }
-
 }
