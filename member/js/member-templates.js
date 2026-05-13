@@ -610,11 +610,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
           <div class="custom-select__options d_none" id="edit_assigned_to_options"></div>
         </div>
         <div class="add-task__selected-assignees input__text__editoverlay" id="edit_selected_assignees_display" style="display: flex; gap: 8px; margin-bottom: 22px;">
-          ${assignedArray.map(person => `
-            <div class="add-task__avatar" style="background-color: ${getAvatarColor(person)}; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 500; font-size: 14px;">
-              ${getInitials(person)}
-            </div>
-          `).join('')}
+         ${assignedArray.slice(0, 3).map(person => `
+  <span class="add-task__avatar" title="${person}" style="background-color: ${getAvatarColor(person)}">
+    ${getInitials(person)}
+  </span>
+`).join('')}
+${assignedArray.length > 3 ? `<span class="add-task__avatar add-task__avatar--extra" title="${assignedArray.length - 3} more assignees">+${assignedArray.length - 3}</span>` : ''}
         </div>
       </div>
 
