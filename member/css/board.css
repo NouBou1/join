@@ -2,5 +2,4 @@
 @import url('./board/board-overlay.css');
 @import url('./board/board-edit-and-animations.css');
 @import url('./board/board-responsive.css');
-
-
+@import url('./board/board-add-overlay-responsive.css');
