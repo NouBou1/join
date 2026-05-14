@@ -106,7 +106,7 @@
 #add_task .overlay_add_task {
   width: 100%;
   max-width: 1050px;
-  min-height: 640px;
+  max-height: 81vh;
   height: auto;
   margin: 0 auto;
 }
@@ -141,6 +141,18 @@
 
 .overlay_add_task--slide-out {
   animation: addTaskSlideOut 260ms ease-in forwards;
+}
+
+#add_task_overlay .add-task__overlay-bg {
+  overflow-y: auto;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;   
+}
+
+#add_task_overlay .add-task__overlay-bg::-webkit-scrollbar {
+  display: none;        
+  width: 0;
+  height: 0;
 }
 
 .add-task__footer {

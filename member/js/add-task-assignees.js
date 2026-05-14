@@ -180,16 +180,22 @@ function getContactData(id, contact) {
   return { id, name, initials: getInitials(name), avatarColor: getAvatarColor(name) };
 }
 
+
 /**
  * Checks whether a contact is currently selected.
  *
  * @function isSelected
+ * @param {Object} state - The current assignee state.
  * @param {string} id - The contact id.
- * @returns {boolean} True if the contact is selected, otherwise false.
+ * @returns {boolean} True if the contact is selected.
  */
 function isSelected(state, id) {
-  return state.selectedAssignees.some((item) => item.id === id);
+  const contactName = state.currentContacts?.[id]?.name;
+  return state.selectedAssignees.some((item) => {
+    return item.id === id || item.name === contactName;
+  });
 }
+
 
 /**
  * Updates the hidden input with the selected assignee names.
@@ -209,33 +215,69 @@ function updateAssignedInput(state) {
  * @function renderSelectedAssignees
  * @returns {void}
  */
-function renderSelectedAssignees(state) {
+// function renderSelectedAssignees(state) {
+//   if (!state.selectedDisplay) return;
+//   state.selectedDisplay.innerHTML = state.selectedAssignees
+//     .map((item) => {
+//       return `<span class="add-task__avatar" title="${item.name}" style="background-color: ${item.avatarColor}">
+//         ${item.initials}
+//       </span>`;
+//     })
+//     .join('');
+// }
+
+export function renderSelectedAssignees(state) {
   if (!state.selectedDisplay) return;
-  state.selectedDisplay.innerHTML = state.selectedAssignees
+  const visible = state.selectedAssignees.slice(0, 3); 
+  const remaining = state.selectedAssignees.length - 3;  
+  
+  const avatarsHTML = visible
     .map((item) => {
       return `<span class="add-task__avatar" title="${item.name}" style="background-color: ${item.avatarColor}">
         ${item.initials}
       </span>`;
     })
     .join('');
+  
+  const extraHTML = remaining > 0 
+    ? `<span class="add-task__avatar add-task__avatar--extra" title="${remaining} more assignees">+${remaining}</span>`
+    : '';
+  
+  state.selectedDisplay.innerHTML = avatarsHTML + extraHTML;
 }
+
 
 /**
  * Adds or removes a contact from the current selection.
  *
- * After updating the selection, the hidden input and avatar display are refreshed.
- *
  * @function toggleAssignee
+ * @param {Object} state - The current assignee state.
  * @param {{id: string, name: string, initials: string, avatarColor: string}} contactData - The contact to toggle.
  * @returns {void}
  */
 function toggleAssignee(state, contactData) {
   state.selectedAssignees = isSelected(state, contactData.id)
-    ? state.selectedAssignees.filter((item) => item.id !== contactData.id)
+    ? removeSelectedAssignee(state, contactData)
     : [...state.selectedAssignees, contactData];
   updateAssignedInput(state);
   renderSelectedAssignees(state);
 }
+
+
+/**
+ * Removes a selected assignee by id or name.
+ *
+ * @function removeSelectedAssignee
+ * @param {Object} state - The current assignee state.
+ * @param {{id: string, name: string}} contactData - The contact to remove.
+ * @returns {Array<Object>} Updated selected assignees.
+ */
+function removeSelectedAssignee(state, contactData) {
+  return state.selectedAssignees.filter((item) => {
+    return item.id !== contactData.id && item.name !== contactData.name;
+  });
+}
+
 
 /**
  * Creates a checkbox element for a contact option.
@@ -342,27 +384,69 @@ function renderContactOptions(state, entries) {
   );
 }
 
+
+/**
+ * Replaces fallback assignees with real contact data.
+ *
+ * @function syncSelectedAssigneesWithContacts
+ * @param {Object} state - The current assignee state.
+ * @returns {void}
+ */
+function syncSelectedAssigneesWithContacts(state) {
+  state.selectedAssignees = state.selectedAssignees.map((item) => {
+    const match = findContactByAssignee(state, item);
+    return match ? getContactData(match[0], match[1]) : item;
+  });
+}
+
+
+/**
+ * Finds the matching contact for a selected assignee.
+ *
+ * @function findContactByAssignee
+ * @param {Object} state - The current assignee state.
+ * @param {{id: string, name: string}} assignee - The selected assignee.
+ * @returns {Array|null} Matching contact entry or null.
+ */
+function findContactByAssignee(state, assignee) {
+  const entries = Object.entries(state.currentContacts || {});
+  return entries.find(([id, contact]) => {
+    return id === assignee.id || contact.name === assignee.name;
+  }) || null;
+}
+
+
 /**
  * Populates the assigned-to dropdown with contact entries.
  *
- * Stores the current contacts and renders either the contact list
- * or an empty-state message.
- *
  * @function populateAssignedToDropdown
- * @param {Object<string, Object>} contacts - The contacts object from Firebase.
+ * @param {Object} state - The current assignee state.
+ * @param {Object<string, Object>} contacts - Contacts from Firebase.
  * @returns {void}
  */
 function populateAssignedToDropdown(state, contacts) {
   if (!state.assignedOptions) return;
   state.currentContacts = contacts || {};
+  syncSelectedAssigneesWithContacts(state);
+  renderSelectedAssignees(state);
+  renderAssignedOptions(state);
+}
+
+
+/**
+ * Renders assigned-to dropdown options.
+ *
+ * @function renderAssignedOptions
+ * @param {Object} state - The current assignee state.
+ * @returns {void}
+ */
+function renderAssignedOptions(state) {
   state.assignedOptions.innerHTML = '';
   const entries = getSortedContacts(state.currentContacts);
-  if (entries.length === 0) {
-    renderNoContacts(state);
-    return;
-  }
+  if (entries.length === 0) return renderNoContacts(state);
   renderContactOptions(state, entries);
 }
+
 
 /**
  * Closes the assigned-to dropdown menu.
