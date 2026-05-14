@@ -3,7 +3,7 @@ import { getTaskOverlayTemplate, getEditTaskOverlayTemplate } from './member-tem
 import { ref, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 import { database } from "../../scripts/firebase/firebase.js";
 import { updateHTML, todos } from './drag-n-drop.js';
-import { initAssignees, trackContactsForUser, getAssignedNames } from './add-task-assignees.js';
+import { initAssignees, trackContactsForUser, getAssignedNames, renderSelectedAssignees } from './add-task-assignees.js';
 import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
 
 
@@ -224,25 +224,97 @@ function setupPriorityButtons() {
   });
 }
 
+
+/**
+ * Normalizes assigned task values into contact names.
+ *
+ * @param {Array|string|Object} assignedTo - Assigned task value.
+ * @returns {Array<string>} Normalized assignee names.
+ */
+function normalizeAssignedNames(assignedTo) {
+  if (Array.isArray(assignedTo)) return assignedTo;
+  if (typeof assignedTo === 'string') return splitAssignedNames(assignedTo);
+  if (assignedTo && typeof assignedTo === 'object') return Object.values(assignedTo);
+  return [];
+}
+
+
+/**
+ * Splits a comma separated assignee string into names.
+ *
+ * @param {string} assignedTo - Comma separated assignee names.
+ * @returns {Array<string>} Clean assignee names.
+ */
+function splitAssignedNames(assignedTo) {
+  return assignedTo
+    .split(',')
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+
+/**
+ * Creates fallback assignee objects from stored names.
+ *
+ * @param {Array<string>} names - Stored assignee names.
+ * @returns {Array<Object>} Assignee objects for the edit state.
+ */
+function createFallbackAssignees(names) {
+  return names.map((name) => ({
+    id: name,
+    name,
+    initials: getNameInitials(name),
+    avatarColor: '#2A3647'
+  }));
+}
+
+
+/**
+ * Creates initials from a full name.
+ *
+ * @param {string} name - Full assignee name.
+ * @returns {string} Initials with max two letters.
+ */
+function getNameInitials(name) {
+  return name
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase())
+    .slice(0, 2)
+    .join('');
+}
+
+
 /**
  * Initializes the assignee module for edit mode.
  *
- * Collects all required edit-overlay DOM elements,
- * starts contact tracking, and returns the assignee state object.
- *
+ * @param {Array|string|Object} assignedTo - Existing task assignees.
  * @returns {Object} The initialized assignee state.
  */
-function initializeEditAssignees() {
-  const assigneeState = initAssignees({
+function initializeEditAssignees(assignedTo) {
+  const assigneeState = initAssignees(getEditAssigneeElements());
+  const assignedNames = normalizeAssignedNames(assignedTo);
+  assigneeState.selectedAssignees = createFallbackAssignees(assignedNames);
+  renderSelectedAssignees(assigneeState);
+  trackContactsForUser(assigneeState);
+  return assigneeState;
+}
+
+
+/**
+ * Gets all edit assignee DOM elements.
+ *
+ * @returns {Object} DOM elements for the assignee module.
+ */
+function getEditAssigneeElements() {
+  return {
     assignedContainer: document.getElementById('edit_assigned_to'),
     assignedInput: document.getElementById('edit_assigned_to_input'),
     assignedTrigger: document.getElementById('edit_assigned_to_trigger'),
     assignedOptions: document.getElementById('edit_assigned_to_options'),
     selectedDisplay: document.getElementById('edit_selected_assignees_display')
-  });
-  trackContactsForUser(assigneeState);
-  return assigneeState;
+  };
 }
+
 
 /**
  * Initializes the subtasks module for edit mode.
@@ -277,7 +349,7 @@ function editTask(taskId) {
   renderEditOverlay(taskId, task);
   setMinEditDueDate();
   setupPriorityButtons();
-  window.editAssigneeState = initializeEditAssignees();
+  window.editAssigneeState = initializeEditAssignees(task.assigned_to);
   window.editSubtaskState = initializeEditSubtasks(document.getElementById("overlay_container"));
   window.currentTaskId = taskId;
 }
