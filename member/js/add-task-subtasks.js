@@ -173,10 +173,18 @@ function saveSubtaskValue(state, value) {
  * @returns {HTMLSpanElement} The created subtask text element.
  */
 function createSubtaskText(text) {
-  const span = document.createElement('span');
-  span.className = 'subtask-item-text';
-  span.textContent = text;
-  return span;
+  const container = document.createElement('div');
+  container.style.cssText = 'display: flex; align-items: center; gap: 8px; flex: 1;';
+  
+  const bullet = document.createElement('span');
+  bullet.textContent = '•';
+  
+  const textSpan = document.createElement('span');
+  textSpan.className = 'subtask-item-text';
+  textSpan.textContent = text;
+  
+  container.append(bullet, textSpan);
+  return container;
 }
 
 /**
@@ -192,8 +200,9 @@ function createSubtaskActions(index) {
   const actions = document.createElement('div');
   actions.className = 'subtask-item-actions';
   actions.innerHTML = `
-    <button type="button" class="subtask-icon-btn" data-edit="${index}">✎</button>
-    <button type="button" class="subtask-icon-btn" data-delete="${index}">🗑</button>
+    <button type="button" class="subtask-icon-btn" data-edit="${index}"><img src="../assets/icons/pencil-icon.svg" alt="Edit"></button>
+    <span class="subtask-item-divider">|</span>
+    <button type="button" class="subtask-icon-btn" data-delete="${index}"><img src="../assets/icons/trash-icon.svg" alt="Delete"></button>
   `;
   return actions;
 }
@@ -285,8 +294,9 @@ function deleteSubtask(state, index) {
  * @returns {void}
  */
 function handleSubtaskListClick(event, state) {
-  const editIndex = event.target.dataset.edit;
-  const deleteIndex = event.target.dataset.delete;
-  if (editIndex !== undefined) editSubtask(state, Number(editIndex));
-  if (deleteIndex !== undefined) deleteSubtask(state, Number(deleteIndex));
+  const editBtn = event.target.closest('[data-edit]');
+  const deleteBtn = event.target.closest('[data-delete]');
+  
+  if (editBtn) editSubtask(state, Number(editBtn.dataset.edit));
+  if (deleteBtn) deleteSubtask(state, Number(deleteBtn.dataset.delete));
 }

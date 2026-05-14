@@ -3,7 +3,7 @@ import { getTaskOverlayTemplate, getEditTaskOverlayTemplate } from './member-tem
 import { ref, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 import { database } from "../../scripts/firebase/firebase.js";
 import { updateHTML, todos } from './drag-n-drop.js';
-import { initAssignees, trackContactsForUser, getAssignedNames } from './add-task-assignees.js';
+import { initAssignees, trackContactsForUser, getAssignedNames, renderSelectedAssignees } from './add-task-assignees.js';
 import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
 
 
@@ -85,6 +85,7 @@ function openTaskOverlay(taskId) {
   overlayContainer.classList.remove('d_none');
   setTimeout(() => {
     overlayContainer.classList.add('show');
+    conditionallyEnableTooltips();
   }, 10);
   overlayContainer.addEventListener('click', handleOverlayClick);
 }
@@ -223,25 +224,97 @@ function setupPriorityButtons() {
   });
 }
 
+
+/**
+ * Normalizes assigned task values into contact names.
+ *
+ * @param {Array|string|Object} assignedTo - Assigned task value.
+ * @returns {Array<string>} Normalized assignee names.
+ */
+function normalizeAssignedNames(assignedTo) {
+  if (Array.isArray(assignedTo)) return assignedTo;
+  if (typeof assignedTo === 'string') return splitAssignedNames(assignedTo);
+  if (assignedTo && typeof assignedTo === 'object') return Object.values(assignedTo);
+  return [];
+}
+
+
+/**
+ * Splits a comma separated assignee string into names.
+ *
+ * @param {string} assignedTo - Comma separated assignee names.
+ * @returns {Array<string>} Clean assignee names.
+ */
+function splitAssignedNames(assignedTo) {
+  return assignedTo
+    .split(',')
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+
+/**
+ * Creates fallback assignee objects from stored names.
+ *
+ * @param {Array<string>} names - Stored assignee names.
+ * @returns {Array<Object>} Assignee objects for the edit state.
+ */
+function createFallbackAssignees(names) {
+  return names.map((name) => ({
+    id: name,
+    name,
+    initials: getNameInitials(name),
+    avatarColor: '#2A3647'
+  }));
+}
+
+
+/**
+ * Creates initials from a full name.
+ *
+ * @param {string} name - Full assignee name.
+ * @returns {string} Initials with max two letters.
+ */
+function getNameInitials(name) {
+  return name
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase())
+    .slice(0, 2)
+    .join('');
+}
+
+
 /**
  * Initializes the assignee module for edit mode.
  *
- * Collects all required edit-overlay DOM elements,
- * starts contact tracking, and returns the assignee state object.
- *
+ * @param {Array|string|Object} assignedTo - Existing task assignees.
  * @returns {Object} The initialized assignee state.
  */
-function initializeEditAssignees() {
-  const assigneeState = initAssignees({
+function initializeEditAssignees(assignedTo) {
+  const assigneeState = initAssignees(getEditAssigneeElements());
+  const assignedNames = normalizeAssignedNames(assignedTo);
+  assigneeState.selectedAssignees = createFallbackAssignees(assignedNames);
+  renderSelectedAssignees(assigneeState);
+  trackContactsForUser(assigneeState);
+  return assigneeState;
+}
+
+
+/**
+ * Gets all edit assignee DOM elements.
+ *
+ * @returns {Object} DOM elements for the assignee module.
+ */
+function getEditAssigneeElements() {
+  return {
     assignedContainer: document.getElementById('edit_assigned_to'),
     assignedInput: document.getElementById('edit_assigned_to_input'),
     assignedTrigger: document.getElementById('edit_assigned_to_trigger'),
     assignedOptions: document.getElementById('edit_assigned_to_options'),
     selectedDisplay: document.getElementById('edit_selected_assignees_display')
-  });
-  trackContactsForUser(assigneeState);
-  return assigneeState;
+  };
 }
+
 
 /**
  * Initializes the subtasks module for edit mode.
@@ -276,7 +349,7 @@ function editTask(taskId) {
   renderEditOverlay(taskId, task);
   setMinEditDueDate();
   setupPriorityButtons();
-  window.editAssigneeState = initializeEditAssignees();
+  window.editAssigneeState = initializeEditAssignees(task.assigned_to);
   window.editSubtaskState = initializeEditSubtasks(document.getElementById("overlay_container"));
   window.currentTaskId = taskId;
 }
@@ -320,6 +393,7 @@ function collectEditFormData() {
  * @param {Object} formData - The collected edit form data.
  * @returns {Object} The task update object for Firebase.
  */
+
 function buildTaskUpdateObject(taskId, formData) {
   const updatedTask = {
     title: formData.title,
@@ -327,14 +401,31 @@ function buildTaskUpdateObject(taskId, formData) {
     due_date: formData.due_date,
     priority: formData.priority
   };
+  
   if (Object.keys(formData.assignedNames).length > 0) {
     updatedTask.assigned_to = formData.assignedNames;
   }
+  
   const existingSubtasks = tasks[taskId]?.subtasks || {};
-  const mergedSubtasks = { ...existingSubtasks, ...formData.newSubtasks };
+  const existingKeys = Object.keys(existingSubtasks);
+  let maxNumber = 0;
+  existingKeys.forEach(key => {
+    const match = key.match(/Subtask(\d+)/);
+    if (match) {
+      maxNumber = Math.max(maxNumber, parseInt(match[1]));
+    }
+  });
+  const renumberedNewSubtasks = {};
+  Object.values(formData.newSubtasks).forEach((subtask, index) => {
+    renumberedNewSubtasks[`Subtask${maxNumber + index + 1}`] = subtask;
+  });
+  
+  const mergedSubtasks = { ...existingSubtasks, ...renumberedNewSubtasks };
+  
   if (Object.keys(mergedSubtasks).length > 0) {
     updatedTask.subtasks = mergedSubtasks;
   }
+  
   return updatedTask;
 }
 
@@ -513,4 +604,24 @@ async function saveSubtaskEdit(taskId, subtaskKey, input) {
   } catch (error) {
     console.error("Error saving subtask:", error);
   }
+}
+
+/**
+ * Aktiviert Tooltips nur für Elemente, deren Text tatsächlich abgeschnitten wird.
+ * Entfernt die has-tooltip Klasse, wenn kein Overflow vorliegt.
+ *
+ * @returns {void}
+ */
+function conditionallyEnableTooltips() {
+  const tooltipElements = document.querySelectorAll('.has-tooltip');
+  
+  tooltipElements.forEach(element => {
+    const textElement = element.querySelector('span');
+    if (!textElement) return;
+    const isOverflowing = textElement.scrollWidth > textElement.clientWidth || 
+                         textElement.scrollHeight > textElement.clientHeight;
+    if (!isOverflowing) {
+      element.classList.remove('has-tooltip');
+    }
+  });
 }

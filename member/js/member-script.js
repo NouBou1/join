@@ -43,7 +43,6 @@ init();
  */
 async function init() {
   await render();
-  // renderBoard();
 };
 
 
@@ -116,7 +115,6 @@ function renderAddTask() {
         updateHTML();
       }
     });
-
   } else {
     console.error('Add Task-Element oder Overlay nicht gefunden!');
   }
@@ -162,6 +160,7 @@ function openAddTaskOverlay(overlay) {
   document.body.classList.add('no-scroll');
 }
 
+
 /**
  * Registers click handlers for elements that open the add-task overlay.
  *
@@ -174,6 +173,7 @@ document.querySelectorAll('.openAddTaskOverlay').forEach(btn => {
     openAddTaskOverlay(overlay);
   });
 });
+
 
 /**
  * Closes the add-task overlay and starts the closing animation.
@@ -200,6 +200,7 @@ function closeAddTaskOverlay(overlay) {
   }, { once: true });
 }
 
+
 /**
  * Registers the click handler for the overlay open button.
  *
@@ -210,6 +211,7 @@ function closeAddTaskOverlay(overlay) {
 function setupOpenButton(openBtn, overlay) {
   openBtn.addEventListener('click', () => openAddTaskOverlay(overlay));
 }
+
 
 /**
  * Registers click handling for closing the add-task overlay.
@@ -228,6 +230,7 @@ function setupBackdropAndCloseButton(overlay) {
   });
 }
 
+
 /**
  * Initializes the add-task overlay controls.
  *
@@ -244,6 +247,7 @@ function setupAddTaskOverlay() {
   setupBackdropAndCloseButton(overlay);
 }
 
+
 /**
  * Highlights the navigation item that matches the current page.
  *
@@ -258,7 +262,12 @@ function highlightActiveNavItem() {
     const linkPage = link.getAttribute('href').split('/').pop();
     link.classList.toggle('nav-item--active', linkPage === currentPage);
   });
+  document.querySelectorAll('.footer__responsive a').forEach(link => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    link.classList.toggle('footer__responsive--active', linkPage === currentPage);
+  });
 }
+
 
 /**
  * Renders the profile initials for the current authenticated user.
@@ -283,6 +292,8 @@ function renderProfileInitials() {
     }
   });
 }
+
+
 /**
  * Triggers the board rendering.
  *
@@ -296,8 +307,11 @@ async function renderBoard() {
   updateHTML();
 }
 
-
-
+/**
+ * Sets up click handlers for all "add task" buttons in the board collumns.
+ *
+ * @returns {Promise<void}
+ */
 function setupAddTaskForAllColumns() {
   const overlay = document.getElementById('add_task_overlay');
   if (!overlay) return;
@@ -328,7 +342,6 @@ renderBoard().then(() => {
 function initGoBackButton() {
   const btn = document.getElementById('goBack');
   if (!btn) return;
-
   btn.addEventListener('click', () => {
     if (window.history.length > 1) window.history.back();
     else window.location.href = './index.html';

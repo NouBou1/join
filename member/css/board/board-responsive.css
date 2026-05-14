@@ -10,9 +10,6 @@
 
   .task__title {
     width: 100%;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
@@ -144,7 +141,6 @@
   }
 
   .task__list {
-    display: flex;
     width: 100%;
     max-width: 100vw;
   }
@@ -228,7 +224,6 @@
 
   .task__list {
     min-height: 24px;
-    display: flex;
     align-items: center;
   }
 
@@ -244,7 +239,6 @@
     margin-right: 16px;
   }
 }
-
 
 @media (max-width: 541px) {
   .content {
@@ -264,8 +258,6 @@
 
 /*task-overlay-content*/
 @media (max-width: 992px) {
-
-
   .task-overlay-content {
     width: 369px;
   }
@@ -286,7 +278,7 @@
   .assigned_contact,
   .overlaytemplate-subtask-checkbox,
   .taskoverlay_detail_actions button {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .taskoverlay_detail_actions img {
@@ -302,6 +294,10 @@
 
   .task-overlay-content {
     width: 281px;
+  }
+
+  .assigned_contact_name {
+    max-width: 190px;
   }
 
   .task-overlay-content h2 {
@@ -320,7 +316,7 @@
   .assigned_contact,
   .overlaytemplate-subtask-checkbox,
   .taskoverlay_detail_actions button {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .taskoverlay_detail_actions img {
@@ -332,194 +328,4 @@
     width: 16px;
     height: 16px;
   }
-}
-
-/* overlay_add_task */
-@media (max-width: 1001px) {
-  .overlay_add_task {
-    gap: 0;
-    padding: 28px;
-  }
-
-  .add-task__title {
-    font-size: 52px;
-    margin-bottom: 20px;
-  }
-
-  .add-task-close-btn {
-    top: 50px;
-    display: none;
-  }
-
-  .add-task__input,
-  .add-task__textarea,
-  .custom-select__trigger {
-    font-size: 16px;
-  }
-
-  .add-task__divider {
-    display: none;
-  }
-
-  .add-task__grid {
-    gap: 0;
-  }
-
-  .add-task__selected-assignees {
-    margin: 0;
-    min-height: 0;
-  }
-
-  form {
-    gap: 0;
-  }
-
-  .add-task__column {
-    gap: 2px;
-  }
-
-  .add-task__field-spacing {
-    margin-bottom: 5px;
-  }
-
-  .add-task__input {
-    margin-bottom: 10px;
-  }
-
-  .add-task__footer {
-    margin-top: 0;
-    gap: 0;
-  }
-
-  .add-task__priority {
-    margin-bottom: 10px;
-  }
-
-  .add-task__textarea {
-    min-height: 85px;
-  }
-
-  .button.add-task__priority-button {
-    font-size: 16px;
-  }
-
-  .button.add-task__button {
-    height: 40px;
-    font-size: 16px;
-  }
-}
-
-@media(max-width: 735px) {
-  .button.add-task__priority-button {
-    flex-direction: row;
-    height: 45px;
-    font-size: 14px;
-  }
-
-  .add-task__actions {
-    bottom: 25px;
-  }
-
-  .add-task__title {
-    font-size: 46px;
-  }
-
-  .button.add-task__button {
-    height: 40px;
-    font-size: 16px;
-    padding: 0px 11px;
-    font-weight: 400;
-    gap: 0px;
-  }
-
-  .overlay_add_task {
-    height: 836px;
-  }
-
-  .add-task__priority-button img {
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 430px) {
-  .board-overlay__content {
-    width: min(1100px, calc(116vw - 64px));
-  }
-
-  .button.add-task__priority-button {
-    font-size: 12px;
-  }
-
-  .add-task__priority-button[value="medium"].selected {
-    padding-left: 14px;
-  }
-}
-
-/* edit-task-form */
-@media(max-width: 993px) {
-  .task-overlay-content {
-    padding: 20px;
-  }
-
-  .overlaytemplate__priority--container {
-
-    gap: 3px;
-  }
-
-  .overlaytemplate__priority--container img {
-    width: 30px;
-    height: 26px;
-  }
-
-  .add-task__priority-options {
-    gap: 5px !important;
-  }
-
-  .add-task__priority-button img {
-    margin-left: 0 !important;
-  }
-}
-
-@media (max-width: 537px) {
-  .task-overlay-content {
-    padding: 12px;
-  }
-
-  .button.add-task__priority-button {
-    font-size: 12px !important;
-  }
-
-  .add-task__priority-icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .edit-task-content {
-    padding-right: 6px;
-  }
-
-  .add-task__input {
-    font-size: 12px;
-  }
-
-  .input__text__editoverlay {
-    font-size: 13px !important;
-  }
-
-  .edit-task-form .add-task__input {
-    font-size: 14px;
-  }
-
-  .padding-right-class {
-    padding-right: 18px;
-  }
-
-  .overlaytemplate__priority--container img {
-    height: 22px;
-  }
-
-  .overlaytemplate__priority--container {
-    gap: 0;
-  }
-
 }

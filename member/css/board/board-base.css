@@ -52,7 +52,6 @@ main {
 
 .task__area--placeholder {
   width: 260px;
-  /* height: 48px; */
   color: var(--color__placeholder--board);
   padding: 13px 0px;
   border: 1px dashed var(--border__task--highlight);
@@ -93,11 +92,15 @@ main {
   z-index: 2;
   margin-top: 20px;
   transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
 }
 
 .task__card--dragging {
   opacity: 0.7;
   transform: rotate(5deg);
+  cursor: grabbing;
 }
 
 .task__category--user-story {
@@ -114,13 +117,27 @@ main {
   border-radius: 10px;
 }
 
+body.board--dragging,
+body.board--dragging * {
+  cursor: grabbing !important;
+}
+
 .task__title {
   font-weight: 700;
   padding-top: 10px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .task__text {
   color: var(--color-input-icon);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  max-height: calc(2 * 1.25em);
 }
 
 .task__bar {
@@ -150,7 +167,7 @@ main {
 }
 
 .task__progress--text {
-  font-size: 12px;
+  font-size: 16px;
   color: #2a3647;
   font-weight: 400;
   white-space: nowrap;
@@ -170,7 +187,7 @@ main {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 400;
   border: 2px solid white;
   position: relative;
@@ -208,13 +225,6 @@ main {
   gap: 8px;
 }
 
-/* .border {
-  width: 1px;
-  height: 30px;
-  background-color: #ccc;
-  border-radius: 2px;
-  transform: translateX(222px);
-} */
 
 .plus-icon {
   width: 24px;
@@ -263,7 +273,8 @@ main {
   height: auto;
   max-height: 72vh;
 }
-.task-overlay-content-scrollable{
+
+.task-overlay-content-scrollable {
   overflow-y: auto;
 }
 
@@ -276,6 +287,7 @@ main {
   gap: 10px;
   padding-bottom: 8px;
 }
+
 .flex-class {
   display: flex;
   justify-content: space-between;

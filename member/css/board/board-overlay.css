@@ -2,8 +2,6 @@
   padding-bottom: 2px;
 }
 
-
-
 .task-overlay-content h2 {
   font-size: 35px;
   font-weight: bold;
@@ -11,12 +9,41 @@
 
 .task-overlay-content p {
   font-size: 24px;
+}
 
+.overlaytemplate-title {
+  overflow: visible;
+  white-space: normal;
+  position: relative;
+}
+
+.overlaytemplate-title-text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-text-primary);
 }
 
 .overlaytemplate-description {
   padding-bottom: 20px;
   padding-top: 10px;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-break: normal;
+  position: relative;
+}
+
+.overlaytemplate-description-text {
+  display: block;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .overlaytemplate-due_date {
@@ -29,7 +56,6 @@
 
 .overlaytemplate__assigned-to {
   padding-bottom: 20px;
-
 }
 
 .overlaytemplate__priority--container {
@@ -42,7 +68,18 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
   padding-top: 8px;
+}
+
+.assigned_contact_name {
+  display: block;
+  min-width: 0;
+  max-width: 360px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .overlaytemplate-subtask {
@@ -56,6 +93,10 @@
   padding-bottom: 16px;
 }
 
+.subtask-item-taskoverlay .checkbox-icon {
+  flex-shrink: 0;
+}
+
 .taskoverlay_detail_actions {
   margin-top: auto;
   display: flex;
@@ -64,7 +105,6 @@
   text-align: center;
   gap: 10px;
   padding-right: 16px;
-
 }
 
 .taskoverlay_detail_actions button {
@@ -90,14 +130,11 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 17px;
-
 }
 
 .overlaytemplate-first-section button:hover {
   background-color: rgba(58, 79, 237, 0.1);
 }
-
-
 
 button img.close_overlay_icon_getTaskOverlayTemplate {
   display: block;
@@ -131,7 +168,6 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
 }
 
 /* Overlay Styles End */
-
 .board__header {
   display: flex;
   align-items: center;
@@ -159,7 +195,6 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
   position: absolute;
   top: 50%;
   right: 58px;
-  /* direkt links vom Icon */
   transform: translateY(-50%);
   width: 1px;
   height: 24px;
@@ -210,14 +245,48 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
   width: 152px;
 }
 
+.has-tooltip {
+  position: relative;
+}
+
+.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  max-width: 420px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--color-background-input);
+  color: var(--color-text-primary);
+  font-size: 16px;
+  line-height: 1.3;
+  white-space: normal;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+  z-index: 20;
+  word-break: break-word;
+}
+
+.has-tooltip:hover::after,
+.has-tooltip:active::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Edit Task Overlay Styles */
-.padding-right-class{
+.padding-right-class {
   padding-right: 27px;
 }
+
 .edit-task-content {
-  padding-right: 16px; 
-  overflow-y: auto; 
+  padding-right: 16px;
+  overflow-y: auto;
 }
+
 .edit-task-form {
   max-height: 85vh;
   height: 715px;
@@ -237,7 +306,7 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
 
 .edit-task-form label {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 4px;
   color: #2a3647;
   font-weight: 400;
@@ -248,4 +317,3 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
   font-size: 16px;
   color: var(--color-menu-bg);
 }
-

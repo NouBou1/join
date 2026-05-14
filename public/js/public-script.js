@@ -46,6 +46,7 @@ function render() {
   renderHeader();
   renderSidebar();
   renderMobileFooter();
+  highlightActiveNavItem();
 };
 
 
@@ -95,24 +96,23 @@ function renderMobileFooter() {
   }
 }
 
-// CHECK Why this function? Function don't used!
+
 /**
- * Renders the "Add Task" section by injecting the task template into `#add_task`.
+ * Highlights the navigation item that matches the current page.
  *
- * DOM requirement:
- * - An element with id `add_task` must exist on the page.
- *
- * Dependencies:
- * - `getTaskTemplate()` must be available in scope (imported or defined elsewhere)
- *   and must return a HTML string.
+ * Compares the current pathname with each navigation link target
+ * and toggles the active navigation class accordingly.
  *
  * @returns {void}
  */
-function renderAddTask() {
-  const addTaskRef = document.getElementById('add_task');
-  if (addTaskRef) {
-    addTaskRef.innerHTML = getTaskTemplate();
-  } else {
-    console.error('Add Task-Element nicht gefunden!');
-  }
-};
+function highlightActiveNavItem() {
+  const currentPage = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.nav-item').forEach(link => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    link.classList.toggle('nav-item--active', linkPage === currentPage);
+  });
+  document.querySelectorAll('.footer__responsive a').forEach(link => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    link.classList.toggle('footer__responsive--active', linkPage === currentPage);
+  });
+}

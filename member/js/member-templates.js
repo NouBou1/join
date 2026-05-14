@@ -95,7 +95,7 @@ export function getTaskTemplate() {
       </button>
       <div class="add-task__overlay-bg">
       <h1 class="add-task__title">Add Task</h1>
-      
+
       <form id="add_task_form" ">
         <section class="add-task__grid">
           <section class="add-task__column add-task__column--left">
@@ -192,8 +192,6 @@ export function getTaskTemplate() {
         </section>
       </form>
       </div>
-
-      
     </section>
   `;
 }
@@ -284,26 +282,9 @@ function formatCategoryLabel(category) {
     'user-story': 'User Story',
     'technical-task': 'Technical Task'
   };
-
   return labels[category] || category;
 }
 
-/**
- * Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
- *
- * @param {string} text
- * @param {string} maxLength
- * @returns
- */
-function limitText(text, maxLength) {
-  const value = String(text || '');
-
-  if (value.length <= maxLength) {
-    return value;
-  }
-
-  return value.slice(0, maxLength) + '***';
-}
 
 /**
  * Generates the HTML string for a task card in the board view.
@@ -321,8 +302,8 @@ export function generateTodosHTML(id, title, category, description, priority, su
   return `
     <div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true">
       <span class="task__category--${category}">${formatCategoryLabel(category)}</span><br>
-      <h4 class="task__title">${limitText(title, 18)}</h4><br>
-      <p class="task__text">${limitText(description, 30)}</p><br>
+      <h4 class="task__title">${(title)}</h4><br>
+      <p class="task__text">${(description)}</p><br>
       ${subtaskProgressHTML}
       <div class="task__footer">
         <div class="task__assignees">${assigneeAvatarsHTML}</div>
@@ -513,8 +494,10 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
           <button onclick="closeTaskOverlay()"><img src="../../assets/icons/close-icon.svg" class="close_overlay_icon_getTaskOverlayTemplate" alt=""></button>
         </div>
      <div class="task-overlay-content-scrollable">
-      <h2 class="overlaytemplate-title">${title}</h2>
-      <p class="overlaytemplate-description">${description}</p>
+      <h2 class="overlaytemplate-title has-tooltip" data-tooltip="${title}"> <span class="overlaytemplate-title-text">${title}</span> </h2>
+      <p class="overlaytemplate-description has-tooltip" data-tooltip="${description}">
+        <span class="overlaytemplate-description-text">${description}</span>
+      </p>
       <p class="overlaytemplate-due_date">Due date: ${due_date.replace(/-/g, "/")}</p>
       <div class="overlaytemplate__priority--container">
           <p class="overlaytemplate__priority">Priority: ${priority}</p>
@@ -527,7 +510,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
             <div class="contact_avatar" style="background-color: ${getAvatarColor(person)}">
               ${getInitials(person)}
             </div>
-            <span>${person}</span>
+            <span class="assigned_contact_name">${person}</span>
           </div>
         `).join('')}
       </div>
@@ -544,7 +527,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
     return `
             <div class="subtask-item-taskoverlay">
               <img class="checkbox-icon" src="${iconSrc}" alt="" data-task-id="${id}" data-subtask-key="${key}">
-              ${s.title}
+              <span class="subtask-item-text">${s.title}</span>
             </div>
           `}).join('')}
         </div>
@@ -627,11 +610,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
           <div class="custom-select__options d_none" id="edit_assigned_to_options"></div>
         </div>
         <div class="add-task__selected-assignees input__text__editoverlay" id="edit_selected_assignees_display" style="display: flex; gap: 8px; margin-bottom: 22px;">
-          ${assignedArray.map(person => `
-            <div class="add-task__avatar" style="background-color: ${getAvatarColor(person)}; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 500; font-size: 14px;">
-              ${getInitials(person)}
-            </div>
-          `).join('')}
+         ${assignedArray.slice(0, 3).map(person => `
+  <span class="add-task__avatar" title="${person}" style="background-color: ${getAvatarColor(person)}">
+    ${getInitials(person)}
+  </span>
+`).join('')}
+${assignedArray.length > 3 ? `<span class="add-task__avatar add-task__avatar--extra" title="${assignedArray.length - 3} more assignees">+${assignedArray.length - 3}</span>` : ''}
         </div>
       </div>
 
@@ -650,7 +634,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
             <div class="subtask-item" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0; font-size: 16px; color: #2a3647;">
               <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
                 <span style="line-height: 1.5;">•</span>
-                <span style="line-height: 1.5; flex: 1;" id="subtask_text_${key}">${s.title}</span>
+                <span class="subtask-item-text" style="line-height: 1.5;" id="subtask_text_${key}">${s.title}</span>
               </div>
               <div class="subtask-item-actions" style="display: flex; gap: 8px;">
                 <button type="button" class="subtask-icon-btn" onclick="editExistingSubtask('${id}', '${key}')" title="Edit" style="border: none; background: transparent; cursor: pointer; font-size: 18px; padding: 0;">
@@ -668,14 +652,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
 
     </form>
 
-
     </div>
        <div class="add-task__actions" style="margin-top: 0;">
         <button type="button" class="button add-task__button add-task__button--primary" onclick="saveEditedTask('${id}')">
           Ok <img src="../assets/icons/check-icon-white.svg" alt="">
         </button>
       </div>
-
 
   </div>
   `;
