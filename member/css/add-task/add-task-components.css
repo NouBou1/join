@@ -93,7 +93,7 @@
 }
 
 .add-task__required-hint {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-menu-bg);
   margin-top: -20px;
 }
@@ -206,7 +206,7 @@
 .task-message {
   min-height: 20px;
   margin-bottom: 16px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   visibility: hidden;
 }

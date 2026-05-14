@@ -286,7 +286,7 @@
   .assigned_contact,
   .overlaytemplate-subtask-checkbox,
   .taskoverlay_detail_actions button {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .taskoverlay_detail_actions img {
@@ -320,7 +320,7 @@
   .assigned_contact,
   .overlaytemplate-subtask-checkbox,
   .taskoverlay_detail_actions button {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .taskoverlay_detail_actions img {
@@ -413,7 +413,7 @@
   .button.add-task__priority-button {
     flex-direction: row;
     height: 45px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .add-task__actions {
@@ -447,7 +447,7 @@
   }
 
   .button.add-task__priority-button {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .add-task__priority-button[value="medium"].selected {
@@ -486,7 +486,7 @@
   }
 
   .button.add-task__priority-button {
-    font-size: 12px !important;
+    font-size: 16px !important;
   }
 
   .add-task__priority-icon {
@@ -499,15 +499,15 @@
   }
 
   .add-task__input {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .input__text__editoverlay {
-    font-size: 13px !important;
+    font-size: 16px !important;
   }
 
   .edit-task-form .add-task__input {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .padding-right-class {

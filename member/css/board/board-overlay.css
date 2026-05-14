@@ -215,8 +215,8 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
   padding-right: 27px;
 }
 .edit-task-content {
-  padding-right: 16px; 
-  overflow-y: auto; 
+  padding-right: 16px;
+  overflow-y: auto;
 }
 .edit-task-form {
   max-height: 85vh;
@@ -237,7 +237,7 @@ button img.close_overlay_icon_getTaskOverlayTemplate {
 
 .edit-task-form label {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 4px;
   color: #2a3647;
   font-weight: 400;

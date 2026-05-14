@@ -77,21 +77,6 @@
 }
 }
 
-/* @media (max-width: 735px) {
-  .add-task__footer .add-task__required-hint {
-    display: none;
-  }
-
-  .add-task__column--right .subtask-list::after {
-    content: "* This field is required";
-    display: block;
-    margin-top: 0px;
-    font-size: 14px;
-    line-height: 1.2;
-    color: var(--color-menu-bg);
-  }
-} */
-
 @media (min-width: 736px) {
   .add-task__required-hint--mobile {
     display: none;
@@ -106,7 +91,7 @@
   .add-task__required-hint--mobile {
     display: block;
     margin-top: -20px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.2;
   }
   .add-task__required-hint--mobile .add-task__required-star {
@@ -118,8 +103,8 @@
   .button.add-task__priority-button {
     flex-direction: row;
     height: 45px;
-    font-size: 14px;
-  } 
+    font-size: 16px;
+  }
 
   .add-task__title {
     font-size: 46px;
@@ -150,7 +135,7 @@
   }
 
   .button.add-task__priority-button {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .add-task__priority-button[value="medium"].selected {
