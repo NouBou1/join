@@ -353,69 +353,126 @@ document.addEventListener("dragleave", function (event) {
 
 // mobile drag and drop support
 
+let touchDragTimer;
+let touchDraggedCard;
+const TOUCH_DRAG_START_DELAY = 180;
+
+function startTouchDrag() {
+  if (!touchDraggedCard || !touchDraggedElement) return;
+  touchDragStarted = true;
+  touchDraggedCard.classList.add("task__card--dragging");
+  document.body.classList.add("board--dragging");
+  document.body.style.overflow = "hidden";
+  document.body.style.touchAction = "none";
+}
+
+function endTouchDragVisuals() {
+  if (touchDraggedCard) touchDraggedCard.classList.remove("task__card--dragging");
+  document.body.classList.remove("board--dragging");
+  document.body.style.overflow = "";
+  document.body.style.touchAction = "";
+  touchDraggedCard = undefined;
+}
+
+function clearTouchDragTimer() {
+  if (touchDragTimer) {
+    clearTimeout(touchDragTimer);
+    touchDragTimer = undefined;
+  }
+}
+
 document.addEventListener("touchstart", function (event) {
-const card = event.target.closest(".task__card");
-if (!card) return;
-const t = event.touches[0];
-touchStartX = t.clientX;
-touchStartY = t.clientY;
-touchDraggedElement = card.id;
-touchDragStarted = false;
+  const card = event.target.closest(".task__card");
+  if (!card) return;
+
+  const t = event.touches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  touchDraggedElement = card.id;
+  touchDraggedCard = card;
+  touchDragStarted = false;
+
+  clearTouchDragTimer();
+  touchDragTimer = setTimeout(startTouchDrag, TOUCH_DRAG_START_DELAY);
 }, { passive: true });
 
-
 document.addEventListener("touchmove", function (event) {
-if (!touchDraggedElement) return;
-const t = event.touches[0];
-const dx = Math.abs(t.clientX - touchStartX);
-const dy = Math.abs(t.clientY - touchStartY);
+  if (!touchDraggedElement) return;
 
-if (!touchDragStarted && (dx > TOUCH_DRAG_THRESHOLD || dy > TOUCH_DRAG_THRESHOLD)) {
-touchDragStarted = true;
-}
-if (!touchDragStarted) return;
+  const t = event.touches[0];
+  const dx = Math.abs(t.clientX - touchStartX);
+  const dy = Math.abs(t.clientY - touchStartY);
 
-event.preventDefault();
-clearDropHighlights();
-clearDropCardPreview();
-const dropZone = getTouchDropZone(t);
-if (!dropZone) return;
-const taskList = dropZone.querySelector(".task__list");
-if (!taskList) return;
-taskList.classList.add("task__list--preview");
+  // drag stop if user is scrolling instead of dragging
+  if (!touchDragStarted && (dx > TOUCH_DRAG_THRESHOLD || dy > TOUCH_DRAG_THRESHOLD)) {
+    clearTouchDragTimer();
+    touchDraggedElement = undefined;
+    touchDraggedCard = undefined;
+    return;
+  }
+
+  if (!touchDragStarted) return;
+
+  event.preventDefault();
+  clearDropHighlights();
+  clearDropCardPreview();
+
+  const dropZone = getTouchDropZone(t);
+  if (!dropZone) return;
+
+  const taskList = dropZone.querySelector(".task__list");
+  if (!taskList) return;
+  taskList.classList.add("task__list--preview");
 }, { passive: false });
 
 document.addEventListener("touchend", async function (event) {
-if (!touchDraggedElement) return;
+  const wasDragging = touchDragStarted;
+  clearTouchDragTimer();
 
-const wasDragging = touchDragStarted;
-const touch = event.changedTouches[0];
-const dropZone = touch ? getTouchDropZone(touch) : null;
+  if (!touchDraggedElement) {
+    touchDragStarted = false;
+    endTouchDragVisuals();
+    return;
+  }
 
-clearDropHighlights();
-clearDropCardPreview();
+  const touch = event.changedTouches[0];
+  const dropZone = touch ? getTouchDropZone(touch) : null;
 
-if (wasDragging && dropZone) {
-const newStatus = dropZone.dataset.status;
-const oldStatus = todos[touchDraggedElement]?.status;
-todos[touchDraggedElement].status = newStatus;
-updateHTML();
-try {
-await updateTaskStatus(touchDraggedElement, newStatus);
-} catch (error) {
-console.error("Firebase-Update fehlgeschlagen:", error);
-if (todos[touchDraggedElement]) {
-todos[touchDraggedElement].status = oldStatus;
-updateHTML();
-}
-alert("Status konnte nicht gespeichert.");
-}
-}
-if (wasDragging) {
-suppressNextCardClick = true;
-}
-touchDraggedElement = undefined;
-touchDragStarted = false;
+  clearDropHighlights();
+  clearDropCardPreview();
+
+  if (wasDragging && dropZone) {
+    const newStatus = dropZone.dataset.status;
+    const oldStatus = todos[touchDraggedElement]?.status;
+    todos[touchDraggedElement].status = newStatus;
+    updateHTML();
+
+    try {
+      await updateTaskStatus(touchDraggedElement, newStatus);
+    } catch (error) {
+      console.error("Firebase-Update fehlgeschlagen:", error);
+      if (todos[touchDraggedElement]) {
+        todos[touchDraggedElement].status = oldStatus;
+        updateHTML();
+      }
+      alert("Status konnte nicht gespeichert.");
+    }
+  }
+
+  if (wasDragging) suppressNextCardClick = true;
+
+  touchDraggedElement = undefined;
+  touchDragStarted = false;
+  endTouchDragVisuals();
+}, { passive: true });
+
+document.addEventListener("touchcancel", function () {
+  clearTouchDragTimer();
+  touchDraggedElement = undefined;
+  touchDragStarted = false;
+  clearDropHighlights();
+  clearDropCardPreview();
+  endTouchDragVisuals();
 }, { passive: true });
 
 /**
