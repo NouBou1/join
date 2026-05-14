@@ -296,6 +296,10 @@
     width: 281px;
   }
 
+  .assigned_contact_name {
+    max-width: 190px;
+  }
+
   .task-overlay-content h2 {
     font-size: 26px;
   }

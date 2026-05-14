@@ -56,7 +56,6 @@
 
 .overlaytemplate__assigned-to {
   padding-bottom: 20px;
-
 }
 
 .overlaytemplate__priority--container {
@@ -70,15 +69,17 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
+  max-width: 100%;
   padding-top: 8px;
 }
 
 .assigned_contact_name {
+  display: block;
   min-width: 0;
+  max-width: 360px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: block;
 }
 
 .overlaytemplate-subtask {
