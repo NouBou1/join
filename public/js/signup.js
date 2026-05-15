@@ -53,7 +53,7 @@ function validateForm() {
   const nameFilled = signupName.value.trim() !== '';
   const emailValue = signupEmail.value.trim();
   const emailFilled = emailValue !== '';
-  const emailValid = emailValue.includes('@');
+  const emailValid = isValidEmail(emailValue);
 
   const passwordFilled = signupPassword.value !== '';
   const confirmFilled = signupConfirmPassword.value !== '';
@@ -275,10 +275,13 @@ function getEmail() {
  *
  * @returns {boolean}
  */
-function emailHasAt() {
-  return getEmail().includes("@");
-}
+// function emailHasAt() {
+//   return getEmail().includes("@");
+// }
 
+function isValidEmail(email) {
+  return /^(?!.*\.\.)[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 /**
  * Validates the signup email field.
@@ -291,12 +294,12 @@ function emailHasAt() {
 function validateEmail() {
   if (!isFilled(signupEmail)) return true;
 
-  if (emailHasAt()) {
+  if (isValidEmail(getEmail())) {
     clearSignupEmailError();
     return true;
   }
 
-  showSignupEmailError();
+  showSignupEmailError("Please enter a valid email address.");
   return false;
 }
 
