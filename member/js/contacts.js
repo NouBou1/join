@@ -230,7 +230,7 @@ function validateContactField(input) {
   }
 
   if (input.id === 'contact_phone' && value && !/^\+?[0-9]*$/.test(value)) {
-    setContactFieldError(input, 'Please enter numbers only. A + is only allowed at the beginning.');
+    setContactFieldError(input, 'Please enter a valid phone number');
     return false;
   }
 

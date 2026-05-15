@@ -110,7 +110,7 @@
 .overlay_add_contact_right form {
   display: flex;
   flex-direction: column;
-  padding: 0px 25px 20px 0px;
+  padding: 0px 25px 0px 0px;
   gap: 0px;
   width: 63%;
   border-radius: 16px;
@@ -130,12 +130,13 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
 }
 
 .form_add_contact .form-field {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .input_add_contact {
@@ -156,11 +157,11 @@
 .form_add_contact .error-message {
   display: block;
   visibility: hidden;
-  margin-top: 0px;
   margin-left: 6px;
-  min-height: 10px;
-  font-size: 14px;
-  color: #ff3d00;
+  min-height: 30px;
+  line-height: 20px;
+  font-size: 16px;
+  color: var(--color-danger);
 }
 
 .form_add_contact .form-field.error .error-message {
@@ -168,7 +169,7 @@
 }
 
 .input_add_contact.input-error {
-  border: 1px solid #ff3d00 !important;
+  border: 1px solid var(--color-danger) !important;
   box-shadow: none !important;
 }
 
