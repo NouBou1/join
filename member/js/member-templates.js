@@ -571,22 +571,22 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
     <div class="edit-task-content">
       <form id="edit_task_form" class="add-task__column add-task__column--left">
       <div class="form-field">
-          <label for="edit_title" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Title</label>
+          <label for="edit_title" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Title</label>
         <input type="text" id="edit_title" class="add-task__input input__text__editoverlay" value="${title}" required placeholder="Enter a title" style="border-bottom: 1px solid #d1d1d1; border-radius: 10px; padding: 8px 0; margin-bottom: 16px; font-size: 16px; padding-left: 12px;">
       </div>
 
       <div class="form-field">
-        <label for="edit_description" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Description</label>
+        <label for="edit_description" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Description</label>
         <textarea id="edit_description" class="add-task__textarea input__text__editoverlay" placeholder="Enter a description" style="min-height: 80px; font-size: 16px; resize: vertical;">${description}</textarea>
       </div>
 
       <div class="form-field">
-        <label for="edit_due_date" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Due date</label>
+        <label for="edit_due_date" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Due date</label>
         <input type="date" id="edit_due_date" class="add-task__input input__text__editoverlay" value="${due_date}" required style="font-size: 16px;">
       </div>
 
       <div class="add-task__priority">
-        <label style="font-size: 14px; color: #2a3647; font-weight: 400;">Priority</label>
+        <label style="font-size: 16px; color: #2a3647; font-weight: 400;">Priority</label>
         <div class="add-task__priority-options">
           <button type="button" class="button add-task__priority-button ${priority === 'urgent' ? 'selected' : ''}" value="urgent" data-priority="urgent">
             Urgent <img class="add-task__priority-icon" src="../assets/icons/urgent-prio-icon.svg" alt="">
@@ -601,7 +601,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
       </div>
 
       <div class="form-field">
-        <label for="edit_assigned_to" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Assigned to</label>
+        <label for="edit_assigned_to" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Assigned to</label>
         <div class="custom-select" id="edit_assigned_to"  style="margin-bottom: 12px;">
           <button type="button" class="custom-select__trigger input__text__editoverlay" id="edit_assigned_to_trigger">
             <span class="custom-select__trigger-label">Select contacts to assign</span>
