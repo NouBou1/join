@@ -135,7 +135,7 @@
   }
 
   .button.add-task__priority-button {
-    font-size: 16px;
+    min-width: 120px;
   }
 
   .add-task__priority-button[value="medium"].selected {

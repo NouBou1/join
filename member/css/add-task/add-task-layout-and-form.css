@@ -517,3 +517,11 @@ label {
     justify-content: center;
   }
 }
+
+@media (max-width: 430px) {
+  .add-task__priority-options {
+    display: flex;
+    flex-direction: column;
+  }
+}
+  
