@@ -66,12 +66,16 @@
   .topbar {
     width: 100%;
     left: 0;
-    position: relative;
+    position: sticky;
   }
 
   .topbar__logo,
   .topbar__mobile {
     display: block;
+  }
+
+  .topbar__inner {
+        padding: 0 20px 0 20px;
   }
 
   .topbar-left,
