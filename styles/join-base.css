@@ -235,7 +235,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px 0 56px;
+  padding: 0 40px 0 40px;
   box-sizing: border-box;
 }
 
