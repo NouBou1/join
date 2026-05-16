@@ -24,10 +24,10 @@ export function getHeaderTemplate() {
           <span id="profileInitials"></span>
           <nav id="headerMenueNav" class="header-menue-nav d_none">
             <ul>
+              <li class="dropdown-help"><a href="./help.html">Help</a></li>
               <li><a href="./legal-notice-user.html">Legal Notice</a></li>
               <li><a href="./privacy-policy-user.html">Privacy Policy</a></li>
               <li><a id="logoutBtn">Log out</a></li>
-              <li class="dropdown-help"><a href="./help.html">Help</a></li>
             </ul>
           </nav>
         </div>
