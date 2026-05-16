@@ -11,28 +11,28 @@ import { getInitials, getAvatarColor } from './contacts-render.js';
  */
 export function getHeaderTemplate() {
   return `
-          <div class="topbar-left">Kanban Project Management Tool</div>
-          <div class="topbar__logo"><img class="header__logo" src="../../assets/img/logo-dark.svg" alt="" ></div>
-          <div class="topbar-right">
-              <a href="./help.html"class="help-circle" title="Help">?</a>
-              <div id="headerMenue" class="profile">
-                  <span id="profileInitials"></span>
-                  <nav id="headerMenueNav" class="header-menue-nav d_none">
-                      <ul>
-                          <a href="./legal-notice-user.html">Legal Notice</a>
-                      </ul>
-                      <ul>
-                          <a href="./privacy-policy-user.html">Privacy Policy</a>
-                      </ul>
-                      <ul>
-                          <a id="logoutBtn">
-                              Log out
-                          </a>
-                      <ul/>
-                  </nav>
-              </div>
-          </div>
-      `;
+    <div class="topbar__inner">
+      <div class="topbar-left">Kanban Project Management Tool</div>
+
+      <div class="topbar__logo">
+        <img class="header__logo" src="../../assets/img/logo-dark.svg" alt="">
+      </div>
+
+      <div class="topbar-right">
+        <a href="./help.html" class="help-circle" title="Help">?</a>
+        <div id="headerMenue" class="profile">
+          <span id="profileInitials"></span>
+          <nav id="headerMenueNav" class="header-menue-nav d_none">
+            <ul>
+              <li><a href="./legal-notice-user.html">Legal Notice</a></li>
+              <li><a href="./privacy-policy-user.html">Privacy Policy</a></li>
+              <li><a id="logoutBtn">Log out</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 /**
