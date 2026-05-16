@@ -333,10 +333,10 @@ function passwordsMatch() {
  * Adds the error styling to the signup email input,
  * updates the email error text, and shows the error message.
  *
- * @param {string} [message="Email must contain an @ character."] - The email error message to display.
+ * @param {string} [message="Please enter a valid email address."] - The email error message to display.
  * @returns {void}
  */
-function showSignupEmailError(message = "Email must contain an @ character.") {
+function showSignupEmailError(message = "Please enter a valid email address.") {
   const emailError = document.getElementById("signupEmailError");
   signupEmail.classList.add("signup__input--error");
   emailError.textContent = message;
