@@ -82,7 +82,7 @@ RESPONSIVE
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .dashboard {
-    padding: 140px 24px 32px;
+    padding: 140px 36px 32px;
   }
 
   .dashboard__left {
@@ -109,7 +109,7 @@ RESPONSIVE
 
 @media (max-width: 900px) {
   .dashboard {
-    padding: 120px 20px 24px;
+    padding: 120px 36px 24px;
   }
 
   .summary__title {
