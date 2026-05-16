@@ -270,7 +270,7 @@
 }
 
 .task-message--error {
-  color: #e74c3c;
+  color: var(--color-danger);
   visibility: visible;
 }
 
