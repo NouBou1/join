@@ -93,7 +93,7 @@ main {
   top: 124px;
   left: 0;
   width: 100%;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-danger);
   line-height: 1.2;
   opacity: 0;
