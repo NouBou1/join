@@ -621,7 +621,7 @@ ${assignedArray.length > 3 ? `<span class="add-task__avatar add-task__avatar--ex
       </div>
 
       <div class="form-field">
-        <label style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400;">Subtasks</label>
+        <label style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400;">Subtasks</label>
         <div class="add-task__subtask" style="position: relative; margin-bottom: 12px;">
           <input class="add-task__input add-task__subtask-input" type="text" id="edit_subtask" name="edit_subtask" placeholder="Add new subtask" ">
           <div class="add-task__subtask-actions d_none" id="edit_subtask_actions">

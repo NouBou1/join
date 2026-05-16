@@ -19,11 +19,11 @@
 
     <h1 class="page-title">Source: member/js/member-templates.js</h1>
 
-    
 
 
 
-    
+
+
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { getInitials, getAvatarColor } from './contacts-render.js';
@@ -609,22 +609,22 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
     &lt;div class="edit-task-content">
       &lt;form id="edit_task_form" class="add-task__column add-task__column--left">
       &lt;div class="form-field">
-          &lt;label for="edit_title" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Title&lt;/label>
+          &lt;label for="edit_title" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Title&lt;/label>
         &lt;input type="text" id="edit_title" class="add-task__input input__text__editoverlay" value="${title}" required placeholder="Enter a title" style="border-bottom: 1px solid #d1d1d1; border-radius: 10px; padding: 8px 0; margin-bottom: 16px; font-size: 16px; padding-left: 12px;">
       &lt;/div>
 
       &lt;div class="form-field">
-        &lt;label for="edit_description" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Description&lt;/label>
+        &lt;label for="edit_description" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Description&lt;/label>
         &lt;textarea id="edit_description" class="add-task__textarea input__text__editoverlay" placeholder="Enter a description" style="min-height: 80px; font-size: 16px; resize: vertical;">${description}&lt;/textarea>
       &lt;/div>
 
       &lt;div class="form-field">
-        &lt;label for="edit_due_date" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Due date&lt;/label>
+        &lt;label for="edit_due_date" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Due date&lt;/label>
         &lt;input type="date" id="edit_due_date" class="add-task__input input__text__editoverlay" value="${due_date}" required style="font-size: 16px;">
       &lt;/div>
 
       &lt;div class="add-task__priority">
-        &lt;label style="font-size: 14px; color: #2a3647; font-weight: 400;">Priority&lt;/label>
+        &lt;label style="font-size: 16px; color: #2a3647; font-weight: 400;">Priority&lt;/label>
         &lt;div class="add-task__priority-options">
           &lt;button type="button" class="button add-task__priority-button ${priority === 'urgent' ? 'selected' : ''}" value="urgent" data-priority="urgent">
             Urgent &lt;img class="add-task__priority-icon" src="../assets/icons/urgent-prio-icon.svg" alt="">
@@ -639,7 +639,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
       &lt;/div>
 
       &lt;div class="form-field">
-        &lt;label for="edit_assigned_to" style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Assigned to&lt;/label>
+        &lt;label for="edit_assigned_to" style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400; margin-bottom: 6px;">Assigned to&lt;/label>
         &lt;div class="custom-select" id="edit_assigned_to"  style="margin-bottom: 12px;">
           &lt;button type="button" class="custom-select__trigger input__text__editoverlay" id="edit_assigned_to_trigger">
             &lt;span class="custom-select__trigger-label">Select contacts to assign&lt;/span>
@@ -649,7 +649,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
         &lt;/div>
         &lt;div class="add-task__selected-assignees input__text__editoverlay" id="edit_selected_assignees_display" style="display: flex; gap: 8px; margin-bottom: 22px;">
           ${assignedArray.map(person => `
-            &lt;div class="add-task__avatar" style="background-color: ${getAvatarColor(person)}; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 500; font-size: 14px;">
+            &lt;div class="add-task__avatar" style="background-color: ${getAvatarColor(person)}; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 500; font-size: 16px;">
               ${getInitials(person)}
             &lt;/div>
           `).join('')}
@@ -657,7 +657,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
       &lt;/div>
 
       &lt;div class="form-field">
-        &lt;label style="font-size: 14px; margin-bottom: 4px; color: #2a3647; font-weight: 400;">Subtasks&lt;/label>
+        &lt;label style="font-size: 16px; margin-bottom: 4px; color: #2a3647; font-weight: 400;">Subtasks&lt;/label>
         &lt;div class="add-task__subtask" style="position: relative; margin-bottom: 12px;">
           &lt;input class="add-task__input add-task__subtask-input" type="text" id="edit_subtask" name="edit_subtask" placeholder="Add new subtask" ">
           &lt;div class="add-task__subtask-actions d_none" id="edit_subtask_actions">
