@@ -13,7 +13,6 @@ export function calculateSubtaskProgress(subtasks = {}) {
   const completedSubtasks = subtaskArray.filter(
     s => s.status === true || s.completed === true
   ).length;
-  if (completedSubtasks === 0) return '';
   const progressPercent = (completedSubtasks / totalSubtasks) * 100;
   return `
     <div class="task__progress">
