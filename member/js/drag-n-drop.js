@@ -9,6 +9,7 @@
 import { database } from '../../scripts/firebase/firebase.js';
 import { loadTasks } from '../../scripts/firebase/get-firebase.js';
 import { generateTodosHTML } from './member-templates.js';
+import { calculateSubtaskProgress } from './subtask.js';
 import { getInitials, getAvatarColor } from './contacts-render.js';
 import { ref, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -51,29 +52,6 @@ export async function updateTaskStatus(taskId, newStatus) {
   });
 }
 
-/**
- * Calculates and returns the subtask progress HTML for a task.
- *
- * @param {Object<string, {status?: boolean, completed?: boolean}>} [subtasks={}] - The task subtasks.
- * @returns {string} HTML string for the progress bar, or an empty string if no subtasks exist.
- */
-function calculateSubtaskProgress(subtasks = {}) {
-  const subtaskArray = Object.values(subtasks);
-  const totalSubtasks = subtaskArray.length;
-  if (totalSubtasks === 0) return '';
-  const completedSubtasks = subtaskArray.filter(
-    s => s.status === true || s.completed === true
-  ).length;
-  if (completedSubtasks === 0) return '';
-  const progressPercent = (completedSubtasks / totalSubtasks) * 100;
-  return `
-    <div class="task__progress">
-      <div class="task__progress--bar">
-        <div class="task__progress--fill" style="width: ${progressPercent}%"></div>
-      </div>
-      <span class="task__progress--text">${completedSubtasks}/${totalSubtasks} Subtasks</span>
-    </div>`;
-}
 /**
  * Generates the HTML for task assignee avatars.
  *
