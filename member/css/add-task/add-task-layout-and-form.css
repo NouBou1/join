@@ -423,6 +423,10 @@ label {
   .button.add-task__priority-button {
     font-size: 16px;
   }
+
+  .error-message {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -524,4 +528,3 @@ label {
     flex-direction: column;
   }
 }
-  
