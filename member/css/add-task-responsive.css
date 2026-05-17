@@ -141,4 +141,11 @@
   .add-task__priority-button[value="medium"].selected {
     padding-left: 6px;
   }
+
+ 
+  .add-task__priority-options {
+    display: flex;
+    flex-direction: column;
+  }
+
 }

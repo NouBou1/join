@@ -341,6 +341,10 @@
     justify-content: center;
     margin-bottom: 24px;
   }
+
+  .form_add_contact .error-message {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 720px) {

@@ -94,6 +94,7 @@ main {
   left: 0;
   width: 100%;
   font-size: 16px;
+  text-align: center;
   color: var(--color-danger);
   line-height: 1.2;
   opacity: 0;
@@ -213,14 +214,16 @@ RESPONSIVE
 
   .login__form--buttons {
     flex-direction: column;
-    margin: 0 auto 0 auto;
+    margin: 10px auto 0 auto;
   }
 
   .login__input {
     width: calc(100% - 32px);
   }
+}
 
-  /* .login__field {
-    width: calc(100% - 32px);
-  } */
+@media (max-width: 440px) {
+  .login__error--text {
+    font-size: 14px;
+  }
 }
