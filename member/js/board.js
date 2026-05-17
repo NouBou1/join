@@ -4,7 +4,8 @@ import { ref, onValue, remove, update } from 'https://www.gstatic.com/firebasejs
 import { database } from "../../scripts/firebase/firebase.js";
 import { updateHTML, todos } from './drag-n-drop.js';
 import { initAssignees, trackContactsForUser, getAssignedNames, renderSelectedAssignees } from './add-task-assignees.js';
-import { initSubtasks, getSubtasks } from './add-task-subtasks.js';
+import { getSubtasks } from './add-task-subtasks.js';
+import { initializeEditSubtasks, toggleCheckbox, deleteExistingSubtask, editExistingSubtask, mergeSubtasks } from './subtask.js';
 
 
 export let tasks = {};
@@ -124,47 +125,39 @@ function closeTaskOverlay() {
 
 window.closeTaskOverlay = closeTaskOverlay;
 
+
 /**
- * Toggles the completion status of a subtask checkbox.
+ * Creates the dependency context used by extracted subtask helpers.
  *
- * Updates the subtask status in Firebase, synchronizes the local task data,
- * swaps the checkbox icon, and refreshes the board UI.
- *
- * @async
- * @param {HTMLImageElement} img - The clicked checkbox image element.
- * @returns {Promise<void>} Resolves when the toggle operation is complete.
+ * @returns {Object} The current subtask helper dependencies.
  */
-async function toggleCheckbox(img) {
-  const taskId = img.dataset.taskId;
-  const subtaskKey = img.dataset.subtaskKey;
-  if (!taskId || !subtaskKey) return;
-  try {
-    const currentStatus = tasks[taskId]?.subtasks?.[subtaskKey]?.status || false;
-    const newStatus = !currentStatus;
-    await update(ref(database, `tasks/${taskId}/subtasks/${subtaskKey}`), {
-      status: newStatus
-    });
-    if (tasks[taskId]?.subtasks?.[subtaskKey]) {
-      tasks[taskId].subtasks[subtaskKey].status = newStatus;
-    }
-    if (todos[taskId]?.subtasks?.[subtaskKey]) {
-      todos[taskId].subtasks[subtaskKey].status = newStatus;
-    }
-    img.src = newStatus
-      ? "../assets/icons/checkbox/checkbox-icon-checked.svg"
-      : "../assets/icons/checkbox/checkbox-icon-unchecked.svg";
-    updateHTML();
-  } catch (error) {
-    console.error("Error toggling subtask:", error);
-  }
+function getSubtaskContext() {
+  return {
+    tasks,
+    todos,
+    updateHTML,
+    editTask,
+    updateSubtask: (taskId, subtaskKey, payload) => update(ref(database, `tasks/${taskId}/subtasks/${subtaskKey}`), payload),
+    updateSubtasks: (taskId, subtasks) => update(ref(database, `tasks/${taskId}/subtasks`), subtasks)
+  };
 }
 
 
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("checkbox-icon")) {
-    toggleCheckbox(e.target);
+    toggleCheckbox(e.target, getSubtaskContext());
   }
 });
+
+
+window.deleteExistingSubtask = (taskId, subtaskKey) => {
+  deleteExistingSubtask(taskId, subtaskKey, getSubtaskContext());
+};
+
+
+window.editExistingSubtask = (taskId, subtaskKey) => {
+  editExistingSubtask(taskId, subtaskKey, getSubtaskContext());
+};
 
 /**
  * Deletes a task from Firebase and updates the board UI.
@@ -317,24 +310,6 @@ function getEditAssigneeElements() {
 
 
 /**
- * Initializes the subtasks module for edit mode.
- *
- * Uses the edit overlay elements and returns the subtask state object.
- *
- * @param {HTMLElement} container - Overlay container
- * @returns {Object} Subtask state
- */
-function initializeEditSubtasks(container) {
-  return initSubtasks(container, {
-    subtaskInput: document.getElementById('edit_subtask'),
-    subtaskActions: document.getElementById('edit_subtask_actions'),
-    confirmSubtaskBtn: document.getElementById('edit_confirm_subtask_btn'),
-    clearSubtaskBtn: document.getElementById('edit_clear_subtask_btn'),
-    subtaskList: document.getElementById('edit_subtask_list_new')
-  });
-}
-
-/**
  * Opens the edit mode for a task.
  *
  * Renders the edit overlay, initializes priority handling,
@@ -407,20 +382,7 @@ function buildTaskUpdateObject(taskId, formData) {
   }
   
   const existingSubtasks = tasks[taskId]?.subtasks || {};
-  const existingKeys = Object.keys(existingSubtasks);
-  let maxNumber = 0;
-  existingKeys.forEach(key => {
-    const match = key.match(/Subtask(\d+)/);
-    if (match) {
-      maxNumber = Math.max(maxNumber, parseInt(match[1]));
-    }
-  });
-  const renumberedNewSubtasks = {};
-  Object.values(formData.newSubtasks).forEach((subtask, index) => {
-    renumberedNewSubtasks[`Subtask${maxNumber + index + 1}`] = subtask;
-  });
-  
-  const mergedSubtasks = { ...existingSubtasks, ...renumberedNewSubtasks };
+  const mergedSubtasks = mergeSubtasks(existingSubtasks, formData.newSubtasks);
   
   if (Object.keys(mergedSubtasks).length > 0) {
     updatedTask.subtasks = mergedSubtasks;
@@ -484,127 +446,6 @@ async function saveEditedTask(taskId) {
 
 
 window.saveEditedTask = saveEditedTask;
-
-/**
- * Deletes an existing subtask from a task.
- *
- * Removes the subtask from Firebase, updates the local task state,
- * refreshes the board UI, and reopens the task in edit mode.
- *
- * @async
- * @param {string} taskId - The id of the parent task.
- * @param {string} subtaskKey - The key of the subtask to delete.
- * @returns {Promise<void>} Resolves when the subtask deletion is complete.
- */
-async function deleteExistingSubtask(taskId, subtaskKey) {
-  try {
-    const task = tasks[taskId];
-    if (!task || !task.subtasks) return;
-    const updatedSubtasks = { ...task.subtasks };
-    delete updatedSubtasks[subtaskKey];
-    await update(ref(database, `tasks/${taskId}/subtasks`), updatedSubtasks);
-    tasks[taskId].subtasks = updatedSubtasks;
-    if (todos[taskId]) {
-      todos[taskId].subtasks = updatedSubtasks;
-    }
-    updateHTML();
-    editTask(taskId);
-  } catch (error) {
-    console.error("Error deleting subtask:", error);
-  }
-}
-
-
-window.deleteExistingSubtask = deleteExistingSubtask;
-
-/**
- * Creates an input element for editing a subtask title.
- *
- * @param {string} currentText - The current subtask title.
- * @returns {HTMLInputElement} The created input element.
- */
-function createSubtaskEditInput(currentText) {
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.value = currentText;
-  input.className = 'add-task__input';
-  input.style.fontSize = '16px';
-  input.style.marginBottom = '0';
-  return input;
-}
-
-/**
- * Registers the edit listeners for a subtask input field.
- *
- * Saves the edited subtask on blur or Enter,
- * and restores edit mode on Escape.
- *
- * @param {HTMLInputElement} input - The input field used for editing.
- * @param {string} taskId - The id of the parent task.
- * @param {string} subtaskKey - The key of the edited subtask.
- * @returns {void}
- */
-function setupSubtaskEditListeners(input, taskId, subtaskKey) {
-  input.addEventListener('blur', () => saveSubtaskEdit(taskId, subtaskKey, input));
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') saveSubtaskEdit(taskId, subtaskKey, input);
-    if (e.key === 'Escape') editTask(taskId);
-  });
-}
-
-/**
- * Enables inline edit mode for an existing subtask.
- *
- * Replaces the subtask text element with an input field,
- * focuses it, and registers the edit listeners.
- *
- * @param {string} taskId - The id of the parent task.
- * @param {string} subtaskKey - The key of the subtask to edit.
- * @returns {void}
- */
-function editExistingSubtask(taskId, subtaskKey) {
-  const textElement = document.getElementById(`subtask_text_${subtaskKey}`);
-  if (!textElement) return;
-  const input = createSubtaskEditInput(textElement.textContent);
-  textElement.replaceWith(input);
-  input.focus();
-  input.select();
-  setupSubtaskEditListeners(input, taskId, subtaskKey);
-}
-
-
-window.editExistingSubtask = editExistingSubtask;
-
-/**
- * Saves the edited title of an existing subtask.
- *
- * Updates the subtask in Firebase, synchronizes the local task data,
- * refreshes the board UI, and reopens edit mode.
- *
- * @async
- * @param {string} taskId - The id of the parent task.
- * @param {string} subtaskKey - The key of the subtask to save.
- * @param {HTMLInputElement} input - The input field containing the edited title.
- * @returns {Promise<void>} Resolves when the subtask update is complete.
- */
-async function saveSubtaskEdit(taskId, subtaskKey, input) {
-  const newText = input.value.trim();
-  if (!newText) return editTask(taskId);
-  try {
-    await update(ref(database, `tasks/${taskId}/subtasks/${subtaskKey}`), {
-      title: newText,
-      status: tasks[taskId].subtasks[subtaskKey].status
-    });
-    tasks[taskId].subtasks[subtaskKey].title = newText;
-    if (todos[taskId]?.subtasks?.[subtaskKey]) {
-      todos[taskId].subtasks[subtaskKey].title = newText;
-    }
-    updateHTML();
-    editTask(taskId);
-  } catch (error) {
-    console.error("Error saving subtask:", error);
-  }
-}
 
 /**
  * Aktiviert Tooltips nur für Elemente, deren Text tatsächlich abgeschnitten wird.
