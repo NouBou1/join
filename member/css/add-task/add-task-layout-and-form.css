@@ -126,3 +126,63 @@ label {
     padding-top: 16px;
   }
 }
+
+@media (max-width: 720px) {
+  .button.add-task__button {
+    padding: 0;
+  }
+
+  .add-task__required-hint {
+    position: relative;
+    bottom: auto;
+  }
+
+  .add-task__main {
+    bottom: 160px;
+    position: relative;
+    margin-top: 172px;
+  }
+
+  .add-task__footer {
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: stretch;
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+  }
+}
+
+@media (max-width: 601px) {
+  .add-task__container {
+    left: 0;
+    width: 100%;
+    padding: 24px 16px;
+    height: calc(100vh - 95px);
+  }
+
+  .add-task__title {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+
+  .button.add-task__priority-button {
+    width: 100%;
+  }
+
+  .button.add-task__button {
+    padding: 0;
+    width: unset;
+  }
+
+  .add-task__actions {
+    justify-content: center;
+    position: static;
+    width: 100%;
+  }
+
+  form {
+    justify-content: center;
+  }
+}
