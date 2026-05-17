@@ -19,6 +19,18 @@
 
 @media (max-width: 1200px) {
   .help {
-    padding: 120px 24px 0 24px;
+    padding: 60px 24px 0 24px;
+  }
+}
+
+@media (max-width: 820px) {
+  .help {
+    padding-top: 120px;
+  }
+}
+
+@media (max-width: 601px) {
+  .help {
+    padding-top: 12px;
   }
 }
