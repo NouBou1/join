@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: member-ui</title>
+    <title>JSDoc: Module: add-task-assignees</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: member-ui</h1>
+    <h1 class="page-title">Module: add-task-assignees</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Member page bootstrapper: renders header/sidebar/task UI and wires up header menu + logout.This module initializes the member UI by injecting HTML templates into the page,then triggers board rendering (currently via `updateHTML()` from the drag & drop module).DOM requirements (IDs must exist in the HTML):- `header`       : container for the header template- `sidebar`      : container for the sidebar template- `add_task`     : container for the "add task" template- `editC_overlay`: (optional) container for contact edit overlay- `addC_overlay` : (optional) container for contact add overlay- `headerMenue`  : profile/menu button in the header- `headerMenueNav`: dropdown/navigation container toggled by profile button- `logoutBtn`    : logout buttonExternal dependencies:- Template functions from `member-templates.js`- `updateHTML()` from `drag-n-drop.js`- Firebase Auth instance `auth` and `signOut()`</div>
+            <div class="description">Orchestrates assignee dropdown behavior.</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line6">line 6</a>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -144,7 +144,7 @@
     
 
     
-    <h4 class="name" id="~closeAddTaskOverlay"><span class="type-signature">(inner) </span>closeAddTaskOverlay<span class="signature">(overlay)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id=".clearSelectedAssignees"><span class="type-signature">(static) </span>clearSelectedAssignees<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -152,7 +152,7 @@
 
 
 <div class="description">
-    Closes the add-task overlay and starts the closing animation.If the overlay content exists, plays the slide-out animation firstand hides the overlay after the animation ends. Otherwise hides it immediately.
+    Clears all selected assignees and refreshes the UI.
 </div>
 
 
@@ -188,13 +188,13 @@
 
         <tr>
             
-                <td class="name"><code>overlay</code></td>
+                <td class="name"><code>state</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLElement</span>
+<span class="param-type">Object</span>
 
 
             
@@ -204,7 +204,7 @@
 
             
 
-            <td class="description last">The add-task overlay element.</td>
+            <td class="description last">The current assignee state.</td>
         </tr>
 
     
@@ -245,7 +245,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line187">line 187</a>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -299,7 +299,7 @@
     
 
     
-    <h4 class="name" id="~highlightActiveNavItem"><span class="type-signature">(inner) </span>highlightActiveNavItem<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id=".initAssignees"><span class="type-signature">(static) </span>initAssignees<span class="signature">(elements)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -307,325 +307,7 @@
 
 
 <div class="description">
-    Highlights the navigation item that matches the current page.Compares the current pathname with each navigation link targetand toggles the active navigation class accordingly.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line259">line 259</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~init"><span class="type-signature">(async, inner) </span>init<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Entry point for module initialization.Renders all UI parts in sequence.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line44">line 44</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~initGoBackButton"><span class="type-signature">(inner) </span>initGoBackButton<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Navigates the user back to the previous page in browser history.If no history entry exists, it redirects to a fallback page.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line335">line 335</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~openAddTaskOverlay"><span class="type-signature">(inner) </span>openAddTaskOverlay<span class="signature">(overlay)</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Opens the add-task overlay and starts the opening animation.Makes the overlay visible, activates the slide-in animationfor the overlay content, and disables page scrolling.
+    Initializes the assignee module with all required DOM elements.
 </div>
 
 
@@ -661,13 +343,13 @@
 
         <tr>
             
-                <td class="name"><code>overlay</code></td>
+                <td class="name"><code>elements</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLElement</span>
+<span class="param-type">Object</span>
 
 
             
@@ -677,7 +359,7 @@
 
             
 
-            <td class="description last">The add-task overlay element.</td>
+            <td class="description last">The DOM elements used by the assignee module.</td>
         </tr>
 
     
@@ -718,7 +400,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line153">line 153</a>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -746,6 +428,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    Assignee state object.
+</div>
+
 
 
 <dl>
@@ -754,7 +440,7 @@
     </dt>
     <dd>
         
-<span class="param-type">void</span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -772,7 +458,7 @@
     
 
     
-    <h4 class="name" id="~render"><span class="type-signature">(async, inner) </span>render<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".trackContactsForUser"><span class="type-signature">(static) </span>trackContactsForUser<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -780,843 +466,7 @@
 
 
 <div class="description">
-    Renders all static UI sections and the board.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~renderAddTask"><span class="type-signature">(inner) </span>renderAddTask<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Injects the add-task template into `#add_task`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line104">line 104</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~renderBoard"><span class="type-signature">(async, inner) </span>renderBoard<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Triggers the board rendering.Currently delegates to `updateHTML()` in `drag-n-drop.js`, which renders theboard columns based on the current in-memory tasks.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line306">line 306</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~renderHeader"><span class="type-signature">(inner) </span>renderHeader<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Injects the header template into `#header`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line73">line 73</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~renderProfileInitials"><span class="type-signature">(inner) </span>renderProfileInitials<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Renders the profile initials for the current authenticated user.Shows the matching contact initials for registered usersand "G" for guest users.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line280">line 280</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~renderSidebar"><span class="type-signature">(inner) </span>renderSidebar<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Injects the sidebar template into `#sidebar`.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line88">line 88</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~setupAddTaskForAllColumns"><span class="type-signature">(inner) </span>setupAddTaskForAllColumns<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Sets up click handlers for all "add task" buttons in the board collumns.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line315">line 315</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~setupAddTaskOverlay"><span class="type-signature">(inner) </span>setupAddTaskOverlay<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Initializes the add-task overlay controls.Looks up the open button and overlay elementand registers the required overlay event handlers.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line242">line 242</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~setupBackdropAndCloseButton"><span class="type-signature">(inner) </span>setupBackdropAndCloseButton<span class="signature">(overlay)</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Registers click handling for closing the add-task overlay.Closes the overlay when the user clicks on the backdropor on an element matching the close button selector.
+    Starts listening for contact changes in Firebase.
 </div>
 
 
@@ -1652,13 +502,13 @@
 
         <tr>
             
-                <td class="name"><code>overlay</code></td>
+                <td class="name"><code>state</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLElement</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1668,7 +518,7 @@
 
             
 
-            <td class="description last">The add-task overlay element.</td>
+            <td class="description last">The current assignee state.</td>
         </tr>
 
     
@@ -1709,7 +559,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line225">line 225</a>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -1763,7 +613,7 @@
     
 
     
-    <h4 class="name" id="~setupOpenButton"><span class="type-signature">(inner) </span>setupOpenButton<span class="signature">(openBtn, overlay)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id="~bindAssigneeEvents"><span class="type-signature">(inner) </span>bindAssigneeEvents<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1771,7 +621,7 @@
 
 
 <div class="description">
-    Registers the click handler for the overlay open button.
+    Registers all assignee related event listeners.
 </div>
 
 
@@ -1807,13 +657,13 @@
 
         <tr>
             
-                <td class="name"><code>openBtn</code></td>
+                <td class="name"><code>state</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTMLElement</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1823,30 +673,7 @@
 
             
 
-            <td class="description last">The button that opens the overlay.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>overlay</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTMLElement</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The add-task overlay element.</td>
+            <td class="description last">The current assignee state.</td>
         </tr>
 
     
@@ -1887,7 +714,1006 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="member_js_member-script.js.html">member/js/member-script.js</a>, <a href="member_js_member-script.js.html#line211">line 211</a>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~closeAssignedOptions"><span class="type-signature">(inner) </span>closeAssignedOptions<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Hides the assignee options list.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line144">line 144</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~handleOutsideClick"><span class="type-signature">(inner) </span>handleOutsideClick<span class="signature">(event, state)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Closes the dropdown when user clicks outside the assignee area.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">MouseEvent</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The document click event.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line89">line 89</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~handleTriggerClick"><span class="type-signature">(inner) </span>handleTriggerClick<span class="signature">(event, state)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Handles clicks on the assignee trigger and toggles the options menu.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>event</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">MouseEvent</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Trigger click event.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line101">line 101</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~populateAssignedToDropdown"><span class="type-signature">(inner) </span>populateAssignedToDropdown<span class="signature">(state, contacts)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Populates assignee options from current contact data.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contacts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Contacts map from Firebase.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line113">line 113</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~renderAssignedOptions"><span class="type-signature">(inner) </span>renderAssignedOptions<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Renders all dropdown options or the empty state.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line127">line 127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~toggleAssignedOptions"><span class="type-signature">(inner) </span>toggleAssignedOptions<span class="signature">(state)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Toggles the visibility of the assignee options list.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>state</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The current assignee state.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="member_js_add-task-assignees.js.html">member/js/add-task-assignees.js</a>, <a href="member_js_add-task-assignees.js.html#line154">line 154</a>
     </li></ul></dd>
     
 

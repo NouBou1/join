@@ -19,11 +19,11 @@
 
     <h1 class="page-title">Source: member/js/member-templates.js</h1>
 
+    
 
 
 
-
-
+    
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { getInitials, getAvatarColor } from './contacts-render.js';
@@ -39,28 +39,29 @@
  */
 export function getHeaderTemplate() {
   return `
-          &lt;div class="topbar-left">Kanban Project Management Tool&lt;/div>
-          &lt;div class="topbar__logo">&lt;img class="header__logo" src="../../assets/img/logo-dark.svg" alt="" >&lt;/div>
-          &lt;div class="topbar-right">
-              &lt;a href="./help.html"class="help-circle" title="Help">?&lt;/a>
-              &lt;div id="headerMenue" class="profile">
-                  &lt;span id="profileInitials">&lt;/span>
-                  &lt;nav id="headerMenueNav" class="header-menue-nav d_none">
-                      &lt;ul>
-                          &lt;a href="./legal-notice-user.html">Legal Notice&lt;/a>
-                      &lt;/ul>
-                      &lt;ul>
-                          &lt;a href="./privacy-policy-user.html">Privacy Policy&lt;/a>
-                      &lt;/ul>
-                      &lt;ul>
-                          &lt;a id="logoutBtn">
-                              Log out
-                          &lt;/a>
-                      &lt;ul/>
-                  &lt;/nav>
-              &lt;/div>
-          &lt;/div>
-      `;
+    &lt;div class="topbar__inner">
+      &lt;div class="topbar-left">Kanban Project Management Tool&lt;/div>
+
+      &lt;div class="topbar__logo">
+        &lt;img class="header__logo" src="../../assets/img/logo-dark.svg" alt="">
+      &lt;/div>
+
+      &lt;div class="topbar-right">
+        &lt;a href="./help.html" class="help-circle" title="Help">?&lt;/a>
+        &lt;div id="headerMenue" class="profile">
+          &lt;span id="profileInitials">&lt;/span>
+          &lt;nav id="headerMenueNav" class="header-menue-nav d_none">
+            &lt;ul>
+              &lt;li class="dropdown-help">&lt;a href="./help.html">Help&lt;/a>&lt;/li>
+              &lt;li>&lt;a href="./legal-notice-user.html">Legal Notice&lt;/a>&lt;/li>
+              &lt;li>&lt;a href="./privacy-policy-user.html">Privacy Policy&lt;/a>&lt;/li>
+              &lt;li>&lt;a id="logoutBtn">Log out&lt;/a>&lt;/li>
+            &lt;/ul>
+          &lt;/nav>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  `;
 }
 
 /**
@@ -121,10 +122,10 @@ export function getTaskTemplate() {
       &lt;button class="add-task-close-btn" type="button" aria-label="Close">
         &lt;img src="../assets/icons/close-icon.svg" alt="">
       &lt;/button>
-
+      &lt;div class="add-task__overlay-bg">
       &lt;h1 class="add-task__title">Add Task&lt;/h1>
 
-      &lt;form id="add_task_form">
+      &lt;form id="add_task_form" ">
         &lt;section class="add-task__grid">
           &lt;section class="add-task__column add-task__column--left">
             &lt;div class="form-field">
@@ -174,18 +175,22 @@ export function getTaskTemplate() {
             &lt;input type="hidden" id="assigned_to_input" name="assigned_to">
             &lt;div class="add-task__selected-assignees" id="selected_assignees_display">&lt;/div>
 
-            &lt;label>Category&lt;/label>
-              &lt;div class="custom-select add-task__field-spacing" id="category_select">
-                &lt;button type="button" class="custom-select__trigger" id="category_trigger">
-                  &lt;span class="custom-select__trigger-label" id="category_label">Select task category&lt;/span>
+            &lt;div class="form-field add-task__field-spacing" id="category_field">
+              &lt;label for="category_input">Category &lt;span class="required">*&lt;/span>&lt;/label>
+              &lt;div class="custom-select" id="category_select">
+                &lt;button type="button" class="custom-select__trigger" id="category_trigger" aria-haspopup="listbox"
+                  aria-expanded="false">
+                  &lt;span class="custom-select__trigger-label" id="category_trigger_label">Select task category&lt;/span>
                   &lt;span class="custom-select__arrow">▾&lt;/span>
                 &lt;/button>
-                &lt;div class="custom-select__options d_none" id="category_options">
-                  &lt;div class="custom-select__category-option" data-value="technical-task">Technical Task&lt;/div>
-                  &lt;div class="custom-select__category-option" data-value="user-story">User Story&lt;/div>
+                &lt;div class="custom-select__options d_none" id="category_options" role="listbox">
+                  &lt;button type="button" class="custom-select__option" data-value="technical-task">Technical Task&lt;/button>
+                  &lt;button type="button" class="custom-select__option" data-value="user-story">User Story&lt;/button>
                 &lt;/div>
               &lt;/div>
-              &lt;input type="hidden" id="category" name="category">
+              &lt;input type="hidden" id="category_input" name="category" value="">
+              &lt;span class="error-message">This field is required&lt;/span>
+            &lt;/div>
 
             &lt;label for="subtask">Subtasks&lt;/label>
             &lt;div class="add-task__subtask">
@@ -215,6 +220,7 @@ export function getTaskTemplate() {
           &lt;/div>
         &lt;/section>
       &lt;/form>
+      &lt;/div>
     &lt;/section>
   `;
 }
@@ -305,26 +311,9 @@ function formatCategoryLabel(category) {
     'user-story': 'User Story',
     'technical-task': 'Technical Task'
   };
-
   return labels[category] || category;
 }
 
-/**
- * Limits the Length of the title and text in the task card and adds "***" at the end if the text exceeds the maxLength.
- *
- * @param {string} text
- * @param {string} maxLength
- * @returns
- */
-function limitText(text, maxLength) {
-  const value = String(text || '');
-
-  if (value.length &lt;= maxLength) {
-    return value;
-  }
-
-  return value.slice(0, maxLength) + '***';
-}
 
 /**
  * Generates the HTML string for a task card in the board view.
@@ -342,8 +331,8 @@ export function generateTodosHTML(id, title, category, description, priority, su
   return `
     &lt;div class="task__card" id="${id}" onclick="openTaskOverlay('${id}')" draggable="true">
       &lt;span class="task__category--${category}">${formatCategoryLabel(category)}&lt;/span>&lt;br>
-      &lt;h4 class="task__title">${limitText(title, 18)}&lt;/h4>&lt;br>
-      &lt;p class="task__text">${limitText(description, 30)}&lt;/p>&lt;br>
+      &lt;h4 class="task__title">${(title)}&lt;/h4>&lt;br>
+      &lt;p class="task__text">${(description)}&lt;/p>&lt;br>
       ${subtaskProgressHTML}
       &lt;div class="task__footer">
         &lt;div class="task__assignees">${assigneeAvatarsHTML}&lt;/div>
@@ -489,12 +478,12 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
               &lt;span class="error-message" data-default-message="This field is required">This field is required&lt;/span>
             &lt;/div>
             &lt;div class="form-field">
-              &lt;input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}" inputmode="tel" pattern="^\+?[0-9]*$" title="Please enter numbers only">
+              &lt;input type="tel" id="contact_phone" class="input_add_contact" placeholder="Phone" value="${contact.phone || ''}" inputmode="tel"  pattern="^\\+?[0-9]*$" title="Please enter numbers only">
               &lt;span class="error-message" data-default-message="">&lt;/span>
             &lt;/div>
             &lt;div class="buttons_add_contact">
               &lt;button type="button" class="button btn_cancel_contact" onclick="deleteContact('${contactId}')">Delete&lt;/button>
-              &lt;button type="submit" class="button btn_save_contact">Save&lt;img src="../../assets/icons/check-icon-white.svg" alt="">&lt;/button>
+              &lt;button type="submit" class="button btn_save_contact btn_save_contact--edit">Save&lt;img src="../../assets/icons/check-icon-white.svg" alt="">&lt;/button>
             &lt;/div>
           &lt;/form>
         &lt;/div>
@@ -534,8 +523,10 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
           &lt;button onclick="closeTaskOverlay()">&lt;img src="../../assets/icons/close-icon.svg" class="close_overlay_icon_getTaskOverlayTemplate" alt="">&lt;/button>
         &lt;/div>
      &lt;div class="task-overlay-content-scrollable">
-      &lt;h2 class="overlaytemplate-title">${title}&lt;/h2>
-      &lt;p class="overlaytemplate-description">${description}&lt;/p>
+      &lt;h2 class="overlaytemplate-title has-tooltip" data-tooltip="${title}"> &lt;span class="overlaytemplate-title-text">${title}&lt;/span> &lt;/h2>
+      &lt;p class="overlaytemplate-description has-tooltip" data-tooltip="${description}">
+        &lt;span class="overlaytemplate-description-text">${description}&lt;/span>
+      &lt;/p>
       &lt;p class="overlaytemplate-due_date">Due date: ${due_date.replace(/-/g, "/")}&lt;/p>
       &lt;div class="overlaytemplate__priority--container">
           &lt;p class="overlaytemplate__priority">Priority: ${priority}&lt;/p>
@@ -548,7 +539,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
             &lt;div class="contact_avatar" style="background-color: ${getAvatarColor(person)}">
               ${getInitials(person)}
             &lt;/div>
-            &lt;span>${person}&lt;/span>
+            &lt;span class="assigned_contact_name">${person}&lt;/span>
           &lt;/div>
         `).join('')}
       &lt;/div>
@@ -565,7 +556,7 @@ export function getTaskOverlayTemplate(id, category, title, description, due_dat
     return `
             &lt;div class="subtask-item-taskoverlay">
               &lt;img class="checkbox-icon" src="${iconSrc}" alt="" data-task-id="${id}" data-subtask-key="${key}">
-              ${s.title}
+              &lt;span class="subtask-item-text">${s.title}&lt;/span>
             &lt;/div>
           `}).join('')}
         &lt;/div>
@@ -648,11 +639,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
           &lt;div class="custom-select__options d_none" id="edit_assigned_to_options">&lt;/div>
         &lt;/div>
         &lt;div class="add-task__selected-assignees input__text__editoverlay" id="edit_selected_assignees_display" style="display: flex; gap: 8px; margin-bottom: 22px;">
-          ${assignedArray.map(person => `
-            &lt;div class="add-task__avatar" style="background-color: ${getAvatarColor(person)}; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 500; font-size: 16px;">
-              ${getInitials(person)}
-            &lt;/div>
-          `).join('')}
+         ${assignedArray.slice(0, 3).map(person => `
+  &lt;span class="add-task__avatar" title="${person}" style="background-color: ${getAvatarColor(person)}">
+    ${getInitials(person)}
+  &lt;/span>
+`).join('')}
+${assignedArray.length > 3 ? `&lt;span class="add-task__avatar add-task__avatar--extra" title="${assignedArray.length - 3} more assignees">+${assignedArray.length - 3}&lt;/span>` : ''}
         &lt;/div>
       &lt;/div>
 
@@ -671,7 +663,7 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
             &lt;div class="subtask-item" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0; font-size: 16px; color: #2a3647;">
               &lt;div style="display: flex; align-items: center; gap: 8px; flex: 1;">
                 &lt;span style="line-height: 1.5;">•&lt;/span>
-                &lt;span style="line-height: 1.5; flex: 1;" id="subtask_text_${key}">${s.title}&lt;/span>
+                &lt;span class="subtask-item-text" style="line-height: 1.5;" id="subtask_text_${key}">${s.title}&lt;/span>
               &lt;/div>
               &lt;div class="subtask-item-actions" style="display: flex; gap: 8px;">
                 &lt;button type="button" class="subtask-icon-btn" onclick="editExistingSubtask('${id}', '${key}')" title="Edit" style="border: none; background: transparent; cursor: pointer; font-size: 18px; padding: 0;">
@@ -689,14 +681,12 @@ export function getEditTaskOverlayTemplate(id, category, title, description, due
 
     &lt;/form>
 
-
     &lt;/div>
        &lt;div class="add-task__actions" style="margin-top: 0;">
         &lt;button type="button" class="button add-task__button add-task__button--primary" onclick="saveEditedTask('${id}')">
           Ok &lt;img src="../assets/icons/check-icon-white.svg" alt="">
         &lt;/button>
       &lt;/div>
-
 
   &lt;/div>
   `;
@@ -735,13 +725,13 @@ export function getMobileFooterTemplate() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#limitText">limitText</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinDueDate">setMinDueDate</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-add-task-assignees.html">add-task-assignees</a></li><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-form.html">contacts-form</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-drag-n-drop-render.html">drag-n-drop-render</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-signup-validation.html">signup-validation</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindActionEvents">bindActionEvents</a></li><li><a href="global.html#bindClearEvent">bindClearEvent</a></li><li><a href="global.html#bindCloseEvent">bindCloseEvent</a></li><li><a href="global.html#bindCreateEvent">bindCreateEvent</a></li><li><a href="global.html#bindPriorityEvents">bindPriorityEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearInputValues">clearInputValues</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeOverlayAfterClear">closeOverlayAfterClear</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#conditionallyEnableTooltips">conditionallyEnableTooltips</a></li><li><a href="global.html#createAddTaskState">createAddTaskState</a></li><li><a href="global.html#createFallbackAssignees">createFallbackAssignees</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#createTaskData">createTaskData</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findContactByAssignee">findContactByAssignee</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAssigneeElements">getAssigneeElements</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditAssigneeElements">getEditAssigneeElements</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getNameInitials">getNameInitials</a></li><li><a href="global.html#getPriorityValue">getPriorityValue</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtaskContext">getSubtaskContext</a></li><li><a href="global.html#getSubtaskElements">getSubtaskElements</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskStatus">getTaskStatus</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleOverlaySuccess">handleOverlaySuccess</a></li><li><a href="global.html#handleSubmitSuccess">handleSubmitSuccess</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSameOriginReferrer">isSameOriginReferrer</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#mergeSubtasks">mergeSubtasks</a></li><li><a href="global.html#normalizeAssignedNames">normalizeAssignedNames</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#redirectToBoard">redirectToBoard</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#removeSelectedAssignee">removeSelectedAssignee</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupAssignees">setupAssignees</a></li><li><a href="global.html#setupBaseForm">setupBaseForm</a></li><li><a href="global.html#setupPriority">setupPriority</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#setupSubtasks">setupSubtasks</a></li><li><a href="global.html#showFieldError">showFieldError</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#splitAssignedNames">splitAssignedNames</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncSelectedAssigneesWithContacts">syncSelectedAssigneesWithContacts</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 10 2026 13:09:30 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 17 2026 16:00:21 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>

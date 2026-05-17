@@ -27,480 +27,428 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { pushTask } from '../../scripts/firebase/push-task.js';
-import { initAssignees, trackContactsForUser, getAssignedNames, clearSelectedAssignees } from './add-task-assignees.js';
-import { initSubtasks, getSubtasks, clearSubtasks } from './add-task-subtasks.js';
+import {
+  initAssignees,
+  trackContactsForUser
+} from './add-task-assignees.js';
+import { initSubtasks } from './add-task-subtasks.js';
+import {
+  setMinimumDueDate,
+  setupRequiredFieldValidation,
+  setDefaultPriority,
+  selectPriority,
+  clearAddTaskForm,
+  buildTaskData,
+  closeAddTaskPage,
+  showTaskMessage
+} from './add-task-form.js';
 
 
 /**
- * Sets today's date as the minimum selectable due date.
+ * Initializes the Add Task page or overlay.
  *
- * @param {HTMLInputElement|null} dueInput - The due date input field.
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @param {Object} options - Optional mode and callback settings.
  * @returns {void}
  */
-function setMinDueDate(dueInput) {
-  if (!dueInput) return;
-  const today = new Date().toISOString().split('T')[0];
-  dueInput.min = today;
+export function initAddTask(container, options = {}) {
+  const state = createAddTaskState(container, options);
+
+  setupBaseForm(state);
+  setupAssignees(state, container);
+  setupCategory(state);
+  setupSubtasks(state, container);
+  setupPriority(state);
+  bindActionEvents(state);
 }
 
 
 /**
- * Initializes the Add Task page after the DOM is fully loaded.
+ * Creates the shared Add Task state.
  *
- * Sets up:
- * - assignee module (contacts dropdown and selection)
- * - subtask module (create, edit, delete)
- * - Firebase auth listener for loading contacts
- * - priority button handling
- * - create and clear button behavior
- *
- * @event DOMContentLoaded
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @param {Object} options - Optional mode and callback settings.
+ * @returns {Object} The Add Task state object.
  */
-export function initAddTask(container, options = {}) {
-  const createBtn = container.querySelector('.add-task__button--primary');
-  const cancelBtn = container.querySelector('.add-task__button--secondary');
-  const closeBtn = container.querySelector('.add-task-close-btn--page');
-  const titleInput = container.querySelector('#title');
-  const descInput = container.querySelector('#description');
-  const dueInput = container.querySelector('#due_date');
-  const categorySelect = container.querySelector('#category');
-  const priorityButtons = container.querySelectorAll('.add-task__priority-button');
-  setMinimumDueDate(dueInput);
+function createAddTaskState(container, options) {
+  return {
+    container,
+    options,
+    ...getActionElements(container),
+    ...getFormElements(container),
+    ...getCategoryElements(container),
+    priorityButtons: container.querySelectorAll('.add-task__priority-button'),
+    selectedPriority: null,
+    categorySelectionDuringOpen: false,
+    assigneeState: null,
+    subtaskState: null
+  };
+}
 
-  setMinDueDate(dueInput);
 
-  let selectedPriority = null;
-  // ausgelagerte funktionen versuch
-  applyPrioritySelection(button, buttons);
-  closeAddTaskPage();
-  findPriorityButton(buttons, priorityName);
-  setDefaultPriority();
+function getActionElements(container) {
+  return {
+    createBtn: container.querySelector('.add-task__button--primary'),
+    cancelBtn: container.querySelector('.add-task__button--secondary'),
+    closeBtn: container.querySelector('.add-task-close-btn--page')
+  };
+}
 
-  const requiredFields = [titleInput, dueInput];
-  setupRequiredFieldValidation(requiredFields);
 
-  const assigneeState = initAssignees({
+function getFormElements(container) {
+  return {
+    titleInput: container.querySelector('#title'),
+    descInput: container.querySelector('#description'),
+    dueInput: container.querySelector('#due_date'),
+    categorySelect: container.querySelector('#category')
+  };
+}
+
+
+function getCategoryElements(container) {
+  return {
+    categoryField: container.querySelector('#category_field'),
+    categoryContainer: container.querySelector('#category_select'),
+    categoryTrigger: container.querySelector('#category_trigger'),
+    categoryTriggerLabel: container.querySelector('#category_trigger_label'),
+    categoryOptions: container.querySelector('#category_options'),
+    categoryInput: container.querySelector('#category_input')
+  };
+}
+
+
+/**
+ * Sets up base form behavior.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function setupBaseForm(state) {
+  setMinimumDueDate(state.dueInput);
+  setupRequiredFieldValidation([state.titleInput, state.dueInput]);
+}
+
+
+/**
+ * Initializes the assignee module.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @returns {void}
+ */
+function setupAssignees(state, container) {
+  state.assigneeState = initAssignees(getAssigneeElements(container));
+  trackContactsForUser(state.assigneeState);
+}
+
+
+/**
+ * Gets all assignee related DOM elements.
+ *
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @returns {Object} The assignee element references.
+ */
+function getAssigneeElements(container) {
+  return {
     assignedContainer: container.querySelector('#assigned_to'),
     assignedInput: container.querySelector('#assigned_to_input'),
     assignedTrigger: container.querySelector('#assigned_to_trigger'),
     assignedOptions: container.querySelector('#assigned_to_options'),
     selectedDisplay: container.querySelector('#selected_assignees_display')
+  };
+}
+
+
+function setupCategory(state) {
+  bindCategoryToggle(state);
+  bindCategorySelect(state);
+  bindCategoryOutsideClose(state);
+}
+
+
+function bindCategoryToggle(state) {
+  state.categoryTrigger?.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (isCategoryClosed(state)) return openCategoryOptions(state);
+    closeCategoryOptions(state, true);
   });
+}
 
-  trackContactsForUser(assigneeState);
 
-  const subtaskState = initSubtasks(container, {
+function bindCategorySelect(state) {
+  state.categoryOptions?.addEventListener('click', (event) => {
+    const option = event.target.closest('.custom-select__option');
+    if (!option) return;
+    applyCategoryOption(state, option);
+  });
+}
+
+
+function applyCategoryOption(state, option) {
+  const value = option.dataset.value || '';
+  const label = option.textContent?.trim() || 'Select task category';
+  if (state.categoryInput) state.categoryInput.value = value;
+  if (state.categoryTriggerLabel) state.categoryTriggerLabel.textContent = label;
+  state.categorySelectionDuringOpen = true;
+  state.categoryTrigger?.classList.remove('input-error');
+  state.categoryField?.classList.remove('error');
+  closeCategoryOptions(state, false);
+}
+
+
+function bindCategoryOutsideClose(state) {
+  document.addEventListener('click', (event) => {
+    if (state.categoryContainer?.contains(event.target)) return;
+    closeCategoryOptions(state, true);
+  });
+}
+
+
+function closeCategoryOptions(state, resetOnNoSelection) {
+  if (resetOnNoSelection &amp;&amp; !state.categorySelectionDuringOpen) resetCategoryValue(state);
+  ensureCategoryLabel(state);
+  state.categoryOptions?.classList.add('d_none');
+  state.categoryTrigger?.setAttribute('aria-expanded', 'false');
+}
+
+
+function isCategoryClosed(state) {
+  return state.categoryOptions?.classList.contains('d_none');
+}
+
+
+function openCategoryOptions(state) {
+  state.categorySelectionDuringOpen = false;
+  state.categoryOptions?.classList.remove('d_none');
+  state.categoryTrigger?.setAttribute('aria-expanded', 'true');
+}
+
+
+function resetCategoryValue(state) {
+  if (state.categoryInput) state.categoryInput.value = '';
+}
+
+
+function ensureCategoryLabel(state) {
+  if (state.categoryInput?.value?.trim()) return;
+  if (!state.categoryTriggerLabel) return;
+  state.categoryTriggerLabel.textContent = 'Select task category';
+}
+
+
+/**
+ * Initializes the subtask module.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @returns {void}
+ */
+function setupSubtasks(state, container) {
+  state.subtaskState = initSubtasks(container, getSubtaskElements(container));
+}
+
+
+/**
+ * Gets all subtask related DOM elements.
+ *
+ * @param {HTMLElement|Document} container - The Add Task container.
+ * @returns {Object} The subtask element references.
+ */
+function getSubtaskElements(container) {
+  return {
     subtaskInput: container.querySelector('#subtask'),
     subtaskActions: container.querySelector('#subtask_actions'),
     confirmSubtaskBtn: container.querySelector('#confirm_subtask_btn'),
     clearSubtaskBtn: container.querySelector('#clear_subtask_btn'),
     subtaskList: container.querySelector('#subtask_list')
-  });
-
-  setDefaultPriority();
-  priorityButtons.forEach((btn) => {
-    btn.addEventListener('click', (event) =>
-      selectPriority(event, btn, priorityButtons)
-    );
-  });
-
-  createBtn?.addEventListener('click', async (event) => {
-    event.preventDefault();
-    const isTitleValid = validateRequiredField(titleInput);
-    const isDueValid = validateDueDateField(dueInput);
-    if (!isTitleValid || !isDueValid) return;
-    const taskData = buildTaskData();
-    if (!taskData) return;
-    await submitTask(taskData, createBtn, options, priorityButtons, clearAddTaskForm);
-  });
-
-
-  cancelBtn?.addEventListener('click', (event) => {
-    event.preventDefault();
-    clearAddTaskForm(priorityButtons);
-    if (options.mode === 'overlay' &amp;&amp; typeof options.onClose === 'function') {
-      options.onClose();
-    }
-  });
-
-  if (options.mode === 'page') {
-    closeBtn?.addEventListener('click', (event) => {
-      event.preventDefault();
-      closeAddTaskPage();
-    });
-  }
-  // asugelagerte funktionen 2
-  selectPriority(event, button, buttons);
-  clearAddTaskForm(buttons);
-  buildTaskData();
-}
-
-/**
-   * Sets the given priority button as selected and updates the priority state.
-   *
-   * @function applyPrioritySelection
-   * @param {HTMLButtonElement|null} button - The priority button to activate.
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All available priority buttons.
-   * @returns {void}
-   */
-function applyPrioritySelection(button, buttons) {
-  buttons.forEach((item) => item.classList.remove('selected'));
-
-  if (!button) {
-    selectedPriority = null;
-    return;
-  }
-  button.classList.add('selected');
-  selectedPriority =
-    button.value ||
-    button.getAttribute('value') ||
-    button.textContent.trim();
-}
-
-/**
-* Closes the add-task page view.
-*
-* Navigates back in browser history when the previous page belongs
-* to the same origin. Otherwise redirects to the board page.
-*
-* @returns {void}
-*/
-function closeAddTaskPage() {
-  const hasReferrer = Boolean(document.referrer);
-  const isInternalReferrer = hasReferrer &amp;&amp; new URL(document.referrer).origin === window.location.origin;
-  if (isInternalReferrer &amp;&amp; window.history.length > 1) {
-    window.history.back();
-    return;
-  }
-  window.location.href = './board.html';
-}
-
-/**
-   * Finds a priority button by its priority value.
-   *
-   * @function findPriorityButton
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All priority buttons.
-   * @param {string} priorityName - The priority value to search for.
-   * @returns {HTMLButtonElement|undefined} The matching button, if found.
-   */
-function findPriorityButton(buttons, priorityName) {
-  return [...buttons].find((button) => {
-    const buttonPriority =
-      button.value ||
-      button.getAttribute('value') ||
-      button.textContent.trim();
-    return buttonPriority.toLowerCase() === priorityName.toLowerCase();
-  });
-}
-
-/**
-   * Sets the default priority to "medium" on page load.
-   *
-   * @function setDefaultPriority
-   * @returns {void}
-   */
-function setDefaultPriority() {
-  const mediumButton = findPriorityButton(priorityButtons, 'medium');
-  applyPrioritySelection(mediumButton || null, priorityButtons);
-}
-
-/**
-   * Handles priority button selection.
-   *
-   * Removes the "selected" class from all buttons,
-   * sets it on the clicked button, and updates the selected priority value.
-   *
-   * @function selectPriority
-   * @param {MouseEvent} event - The click event.
-   * @param {HTMLButtonElement} button - The clicked button.
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - All priority buttons.
-   * @returns {void}
-   */
-function selectPriority(event, button, buttons) {
-  event.preventDefault();
-  applyPrioritySelection(button, buttons);
-}
-
-/**
-   * Resets the entire add-task form to its initial state.
-   *
-   * Clears:
-   * - all input fields (title, description, due date, category)
-   * - selected assignees
-   * - subtasks
-   * - validation error states
-   *
-   * Then restores "medium" as the default priority.
-   *
-   * @function clearAddTaskForm
-   * @param {NodeListOf&lt;HTMLButtonElement>} buttons - List of all priority buttons.
-   * @returns {void}
-   */
-function clearAddTaskForm(buttons) {
-  if (titleInput) titleInput.value = '';
-  if (descInput) descInput.value = '';
-  if (dueInput) dueInput.value = '';
-  if (categorySelect) categorySelect.selectedIndex = 0;
-  clearSelectedAssignees(assigneeState);
-  clearSubtasks(subtaskState);
-  clearFieldError(titleInput);
-  clearFieldError(dueInput);
-  const mediumButton = findPriorityButton(buttons, 'medium');
-  applyPrioritySelection(mediumButton || null, buttons);
-}
-
-/**
-   * Builds the task object from current form values.
-   *
-   * Includes:
-   * - title
-   * - description
-   * - due date
-   * - priority
-   * - assigned contacts
-   * - category
-   * - subtasks
-   * - status
-   * - creation timestamp
-   *
-   * @function buildTaskData
-   * @returns {Object|null} The task data object, or null if required data is missing.
-   */
-function buildTaskData() {
-  const title = titleInput?.value?.trim();
-  const dueDate = dueInput?.value || '';
-  if (!title || !dueDate) return null;
-  const overlay = document.getElementById('add_task_overlay');
-  const status = overlay?.dataset.target || 'todo';
-  return {
-    title,
-    description: descInput?.value?.trim() || '',
-    due_date: dueDate,
-    priority: selectedPriority || 'medium',
-    assigned_to: getAssignedNames(assigneeState),
-    category: categorySelect?.value || '',
-    subtasks: getSubtasks(subtaskState),
-    status,
-    createdAt: new Date().toISOString()
   };
 }
 
-/**
- * Validates a required form field.
- *
- * Adds an error class and shows the related error state
- * when the field is empty. Removes the error state when valid.
- *
- * @function validateRequiredField
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|null} input - The field to validate.
- * @returns {boolean} True if the field is valid, otherwise false.
- */
-function validateRequiredField(input) {
-  if (!input) return false;
-  const formField = input.closest('.form-field');
-  if (!formField) return true;
-  const isEmpty = input.value === '';
-  if (isEmpty) {
-    input.classList.add('input-error');
-    formField.classList.add('error');
-    return false;
-  }
-  input.classList.remove('input-error');
-  formField.classList.remove('error');
-  return true;
-}
 
 /**
- * Returns today's date as a local YYYY-MM-DD string.
+ * Sets up priority behavior.
  *
- * Adjusts the current date by the local timezone offset
- * so the resulting ISO date matches the user's local day.
- *
- * @returns {string} Today's date in YYYY-MM-DD format.
- */
-function getTodayDateString() {
-  const today = new Date();
-  today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-  return today.toISOString().split('T')[0];
-}
-
-/**
- * Sets the minimum selectable due date to today.
- *
- * Prevents selecting dates earlier than the current local date.
- *
- * @param {HTMLInputElement|null} input - The due date input field.
+ * @param {Object} state - The Add Task state object.
  * @returns {void}
  */
-function setMinimumDueDate(input) {
-  if (!input) return;
-
-  input.min = getTodayDateString();
+function setupPriority(state) {
+  setDefaultPriority(state);
+  bindPriorityEvents(state);
 }
 
-/**
- * Validates the due date field.
- *
- * First checks whether the field is filled. Then ensures
- * the selected date is not earlier than today. Applies
- * the error state when the date is invalid.
- *
- * @param {HTMLInputElement|null} input - The due date input field.
- * @returns {boolean} True if the due date is valid, otherwise false.
- */
-function validateDueDateField(input) {
-  if (!validateRequiredField(input)) return false;
-
-  const today = getTodayDateString();
-
-  if (input.value &lt; today) {
-    const formField = input.closest('.form-field');
-
-    input.classList.add('input-error');
-    formField?.classList.add('error');
-
-    return false;
-  }
-
-  clearFieldError(input);
-  return true;
-}
 
 /**
- * Removes the visual error state from a field.
+ * Registers priority button events.
  *
- * @function clearFieldError
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|null} input - The field to reset.
+ * @param {Object} state - The Add Task state object.
  * @returns {void}
  */
-function clearFieldError(input) {
-  if (!input) return;
-  const formField = input.closest('.form-field');
-  input.classList.remove('input-error');
-  formField?.classList.remove('error');
-}
-
-/**
- * Sets up validation listeners for required fields.
- *
- * Validates fields on blur and removes the error state
- * while typing or changing the value.
- *
- * @function setupRequiredFieldValidation
- * @param {Array&lt;HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|null>} fields - Required fields.
- * @returns {void}
- */
-function setupRequiredFieldValidation(fields) {
-  fields.forEach((field) => {
-    field?.addEventListener('blur', () => {
-      validateField(field);
-    });
-
-    field?.addEventListener('input', () => {
-      if (field.classList.contains('input-error')) {
-        validateField(field);
-      }
-    });
-
-    field?.addEventListener('change', () => {
-      validateField(field);
+function bindPriorityEvents(state) {
+  state.priorityButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      selectPriority(event, button, state);
     });
   });
 }
 
-/**
- * Validates a form field and delegates due date validation when needed.
- *
- * Uses the dedicated due date validation for the due date field
- * and falls back to the generic required field validation for all other fields.
- *
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|null} field - The field to validate.
- * @returns {boolean} True if the field is valid, otherwise false.
- */
-function validateField(field) {
-  if (field?.id === 'due_date') {
-    return validateDueDateField(field);
-  }
 
-  return validateRequiredField(field);
+/**
+ * Registers create, clear and close button events.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function bindActionEvents(state) {
+  bindCreateEvent(state);
+  bindClearEvent(state);
+  bindCloseEvent(state);
 }
+
+
+/**
+ * Registers the create task button event.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function bindCreateEvent(state) {
+  state.createBtn?.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const taskData = buildTaskData(state);
+    if (!taskData) return;
+
+    await submitTask(state, taskData);
+  });
+}
+
+
+/**
+ * Registers the clear button event.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function bindClearEvent(state) {
+  state.cancelBtn?.addEventListener('click', (event) => {
+    event.preventDefault();
+    clearAddTaskForm(state);
+    closeOverlayAfterClear(state);
+  });
+}
+
+
+/**
+ * Closes the overlay after using the clear button.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function closeOverlayAfterClear(state) {
+  if (state.options.mode !== 'overlay') return;
+  if (typeof state.options.onClose !== 'function') return;
+
+  state.options.onClose();
+}
+
+
+/**
+ * Registers the page close button event.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {void}
+ */
+function bindCloseEvent(state) {
+  if (state.options.mode !== 'page') return;
+
+  state.closeBtn?.addEventListener('click', (event) => {
+    event.preventDefault();
+    closeAddTaskPage();
+  });
+}
+
 
 /**
  * Submits a task to Firebase and handles UI feedback.
  *
- * Disables the create button during submission,
- * pushes the task to the database,
- * and redirects to the board page on success.
- *
- * @async
- * @function submitTask
- * @param {Object} taskData - The task object to store.
- * @param {HTMLButtonElement} createBtn - The create button element.
- * @param {Object} options - Additional options for task submission.
- * @param {Array&lt;HTMLButtonElement>} priorityButtons - The priority buttons.
- * @param {Function} clearForm - Function to clear the form.
+ * @param {Object} state - The Add Task state object.
+ * @param {Object} taskData - The task data object.
  * @returns {Promise&lt;void>}
  */
-async function submitTask(taskData, createBtn, options = {}, priorityButtons, clearForm) {
-  createBtn.disabled = true;
+async function submitTask(state, taskData) {
+  state.createBtn.disabled = true;
+
   try {
     await pushTask(taskData);
-    showTaskMessage('Task created successfully', 'success');
-    if (options.mode === 'overlay') {
-      clearForm(priorityButtons);
-      if (typeof options.onSuccess === 'function') await options.onSuccess();
-      if (typeof options.onClose === 'function') setTimeout(() => options.onClose(), 1000);
-      return;
-    }
-    setTimeout(() => {
-      window.location.href = './board.html';
-    }, 1200);
+    await handleSubmitSuccess(state);
   } catch (error) {
     console.error(error);
-    showTaskMessage('Task could not be created', 'error');
+    showTaskMessage(state, 'Task could not be created', 'error');
   } finally {
-    createBtn.disabled = false;
+    state.createBtn.disabled = false;
   }
 }
 
 
+/**
+ * Handles successful task creation.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {Promise&lt;void>}
+ */
+async function handleSubmitSuccess(state) {
+  showTaskMessage(state, 'Task created successfully', 'success');
+
+  if (state.options.mode === 'overlay') {
+    await handleOverlaySuccess(state);
+    return;
+  }
+
+  redirectToBoard();
+}
+
+
+/**
+ * Handles successful task creation inside the overlay.
+ *
+ * @param {Object} state - The Add Task state object.
+ * @returns {Promise&lt;void>}
+ */
+async function handleOverlaySuccess(state) {
+  clearAddTaskForm(state);
+
+  if (typeof state.options.onSuccess === 'function') {
+    await state.options.onSuccess();
+  }
+
+  if (typeof state.options.onClose === 'function') {
+    setTimeout(() => state.options.onClose(), 1000);
+  }
+}
+
+
+/**
+ * Redirects the user to the board page.
+ *
+ * @returns {void}
+ */
+function redirectToBoard() {
+  setTimeout(() => {
+    window.location.href = './board.html';
+  }, 1200);
+}
+
+
+/**
+ * Initializes the standalone Add Task page.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('.add-task__container');
+
   if (!container) return;
+
   initAddTask(container, { mode: 'page' });
-});
-
-
-/**
- * Displays a feedback message below the form.
- *
- * @function showTaskMessage
- * @param {string} message - Message text.
- * @param {'success'|'error'} type - Message type.
- * @returns {void}
- */
-function showTaskMessage(message, type) {
-  const el = document.getElementById('task_message');
-  if (!el) return;
-  el.textContent = message;
-  el.classList.remove('task-message--success', 'task-message--error');
-  el.classList.add(`task-message--${type}`);
-}
-
-
-/**
- * Clears the task feedback message.
- *
- * @function clearTaskMessage
- * @returns {void}
- */
-function clearTaskMessage() {
-  const el = document.getElementById('task_message');
-  if (!el) return;
-  el.textContent = '';
-  el.classList.remove('task-message--success', 'task-message--error');
-}
-</code></pre>
+});</code></pre>
         </article>
     </section>
 
@@ -510,13 +458,13 @@ function clearTaskMessage() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindAssigneeEvents">bindAssigneeEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearSelectedAssignees">clearSelectedAssignees</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeAssignedOptions">closeAssignedOptions</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOutsideClick">handleOutsideClick</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#handleTriggerClick">handleTriggerClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAssignees">initAssignees</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#limitText">limitText</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#populateAssignedToDropdown">populateAssignedToDropdown</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinDueDate">setMinDueDate</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignedOptions">toggleAssignedOptions</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#trackContactsForUser">trackContactsForUser</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-add-task-assignees.html">add-task-assignees</a></li><li><a href="module-contacts.html">contacts</a></li><li><a href="module-contacts-form.html">contacts-form</a></li><li><a href="module-contacts-render.html">contacts-render</a></li><li><a href="module-drag-n-drop.html">drag-n-drop</a></li><li><a href="module-drag-n-drop-render.html">drag-n-drop-render</a></li><li><a href="module-get-firebase.html">get-firebase</a></li><li><a href="module-join-login.html">join-login</a></li><li><a href="module-member-auth-check.html">member-auth-check</a></li><li><a href="module-member-auth-guard.html">member-auth-guard</a></li><li><a href="module-member-ui.html">member-ui</a></li><li><a href="module-public-templates.html">public-templates</a></li><li><a href="module-public-ui.html">public-ui</a></li><li><a href="module-push-task.html">push-task</a></li><li><a href="module-signup.html">signup</a></li><li><a href="module-signup-validation.html">signup-validation</a></li><li><a href="module-summary.html">summary</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#applyPrioritySelection">applyPrioritySelection</a></li><li><a href="global.html#bindActionEvents">bindActionEvents</a></li><li><a href="global.html#bindClearEvent">bindClearEvent</a></li><li><a href="global.html#bindCloseEvent">bindCloseEvent</a></li><li><a href="global.html#bindCreateEvent">bindCreateEvent</a></li><li><a href="global.html#bindPriorityEvents">bindPriorityEvents</a></li><li><a href="global.html#bindSubtaskEvents">bindSubtaskEvents</a></li><li><a href="global.html#buildCheckbox">buildCheckbox</a></li><li><a href="global.html#buildContactOptionElement">buildContactOptionElement</a></li><li><a href="global.html#buildOptionMain">buildOptionMain</a></li><li><a href="global.html#buildSubtaskItem">buildSubtaskItem</a></li><li><a href="global.html#buildTaskData">buildTaskData</a></li><li><a href="global.html#buildTaskUpdateObject">buildTaskUpdateObject</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#clearAddTaskForm">clearAddTaskForm</a></li><li><a href="global.html#clearFieldError">clearFieldError</a></li><li><a href="global.html#clearInputValues">clearInputValues</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearSubtasks">clearSubtasks</a></li><li><a href="global.html#clearTaskMessage">clearTaskMessage</a></li><li><a href="global.html#closeAddTaskPage">closeAddTaskPage</a></li><li><a href="global.html#closeOverlayAfterClear">closeOverlayAfterClear</a></li><li><a href="global.html#closeTaskOverlay">closeTaskOverlay</a></li><li><a href="global.html#collectEditFormData">collectEditFormData</a></li><li><a href="global.html#conditionallyEnableTooltips">conditionallyEnableTooltips</a></li><li><a href="global.html#createAddTaskState">createAddTaskState</a></li><li><a href="global.html#createFallbackAssignees">createFallbackAssignees</a></li><li><a href="global.html#createSubtaskActions">createSubtaskActions</a></li><li><a href="global.html#createSubtaskEditInput">createSubtaskEditInput</a></li><li><a href="global.html#createSubtaskText">createSubtaskText</a></li><li><a href="global.html#createTaskData">createTaskData</a></li><li><a href="global.html#deleteExistingSubtask">deleteExistingSubtask</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#editExistingSubtask">editExistingSubtask</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#editTask">editTask</a></li><li><a href="global.html#findContactByAssignee">findContactByAssignee</a></li><li><a href="global.html#findPriorityButton">findPriorityButton</a></li><li><a href="global.html#formatCategoryLabel">formatCategoryLabel</a></li><li><a href="global.html#generateTodosHTML">generateTodosHTML</a></li><li><a href="global.html#getActiveContactTemplate">getActiveContactTemplate</a></li><li><a href="global.html#getAddOverlayTemplate">getAddOverlayTemplate</a></li><li><a href="global.html#getAssignedNames">getAssignedNames</a></li><li><a href="global.html#getAssigneeElements">getAssigneeElements</a></li><li><a href="global.html#getAvatarColor">getAvatarColor</a></li><li><a href="global.html#getContactData">getContactData</a></li><li><a href="global.html#getContactItemTemplate">getContactItemTemplate</a></li><li><a href="global.html#getEditAssigneeElements">getEditAssigneeElements</a></li><li><a href="global.html#getEditOverlayTemplate">getEditOverlayTemplate</a></li><li><a href="global.html#getEditTaskOverlayTemplate">getEditTaskOverlayTemplate</a></li><li><a href="global.html#getHeaderTemplate">getHeaderTemplate</a></li><li><a href="global.html#getInitials">getInitials</a></li><li><a href="global.html#getMobileFooterTemplate">getMobileFooterTemplate</a></li><li><a href="global.html#getNameInitials">getNameInitials</a></li><li><a href="global.html#getPriorityValue">getPriorityValue</a></li><li><a href="global.html#getSidebarTemplate">getSidebarTemplate</a></li><li><a href="global.html#getSortedContacts">getSortedContacts</a></li><li><a href="global.html#getSubtaskContext">getSubtaskContext</a></li><li><a href="global.html#getSubtaskElements">getSubtaskElements</a></li><li><a href="global.html#getSubtasks">getSubtasks</a></li><li><a href="global.html#getTask">getTask</a></li><li><a href="global.html#getTaskOverlayTemplate">getTaskOverlayTemplate</a></li><li><a href="global.html#getTaskStatus">getTaskStatus</a></li><li><a href="global.html#getTaskTemplate">getTaskTemplate</a></li><li><a href="global.html#getTodayDateString">getTodayDateString</a></li><li><a href="global.html#handleOverlayClick">handleOverlayClick</a></li><li><a href="global.html#handleOverlaySuccess">handleOverlaySuccess</a></li><li><a href="global.html#handleSubmitSuccess">handleSubmitSuccess</a></li><li><a href="global.html#handleSubtaskKeydown">handleSubtaskKeydown</a></li><li><a href="global.html#handleSubtaskListClick">handleSubtaskListClick</a></li><li><a href="global.html#hashString">hashString</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initSubtasks">initSubtasks</a></li><li><a href="global.html#initTasks">initTasks</a></li><li><a href="global.html#initializeEditAssignees">initializeEditAssignees</a></li><li><a href="global.html#initializeEditSubtasks">initializeEditSubtasks</a></li><li><a href="global.html#isSameOriginReferrer">isSameOriginReferrer</a></li><li><a href="global.html#isSelected">isSelected</a></li><li><a href="global.html#mergeSubtasks">mergeSubtasks</a></li><li><a href="global.html#normalizeAssignedNames">normalizeAssignedNames</a></li><li><a href="global.html#openTaskOverlay">openTaskOverlay</a></li><li><a href="global.html#pushContact">pushContact</a></li><li><a href="global.html#redirectToBoard">redirectToBoard</a></li><li><a href="global.html#refreshBoardAndShowTask">refreshBoardAndShowTask</a></li><li><a href="global.html#removeSelectedAssignee">removeSelectedAssignee</a></li><li><a href="global.html#renderContactOptions">renderContactOptions</a></li><li><a href="global.html#renderEditOverlay">renderEditOverlay</a></li><li><a href="global.html#renderNoContacts">renderNoContacts</a></li><li><a href="global.html#renderSelectedAssignees">renderSelectedAssignees</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#saveEditedSubtask">saveEditedSubtask</a></li><li><a href="global.html#saveEditedTask">saveEditedTask</a></li><li><a href="global.html#saveNewSubtask">saveNewSubtask</a></li><li><a href="global.html#saveSubtaskEdit">saveSubtaskEdit</a></li><li><a href="global.html#saveSubtaskValue">saveSubtaskValue</a></li><li><a href="global.html#selectPriority">selectPriority</a></li><li><a href="global.html#setDefaultPriority">setDefaultPriority</a></li><li><a href="global.html#setMinEditDueDate">setMinEditDueDate</a></li><li><a href="global.html#setMinimumDueDate">setMinimumDueDate</a></li><li><a href="global.html#setupAssignees">setupAssignees</a></li><li><a href="global.html#setupBaseForm">setupBaseForm</a></li><li><a href="global.html#setupPriority">setupPriority</a></li><li><a href="global.html#setupPriorityButtons">setupPriorityButtons</a></li><li><a href="global.html#setupRequiredFieldValidation">setupRequiredFieldValidation</a></li><li><a href="global.html#setupSubtaskEditListeners">setupSubtaskEditListeners</a></li><li><a href="global.html#setupSubtasks">setupSubtasks</a></li><li><a href="global.html#showFieldError">showFieldError</a></li><li><a href="global.html#showTaskMessage">showTaskMessage</a></li><li><a href="global.html#signupMassegeTemplate">signupMassegeTemplate</a></li><li><a href="global.html#splitAssignedNames">splitAssignedNames</a></li><li><a href="global.html#submitTask">submitTask</a></li><li><a href="global.html#syncOptionToggle">syncOptionToggle</a></li><li><a href="global.html#syncSelectedAssigneesWithContacts">syncSelectedAssigneesWithContacts</a></li><li><a href="global.html#syncTasksAndTodos">syncTasksAndTodos</a></li><li><a href="global.html#toggleAssignee">toggleAssignee</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#toggleSubtaskActions">toggleSubtaskActions</a></li><li><a href="global.html#updateAssignedInput">updateAssignedInput</a></li><li><a href="global.html#updateTaskInFirebase">updateTaskInFirebase</a></li><li><a href="global.html#validateDueDateField">validateDueDateField</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateRequiredField">validateRequiredField</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 10 2026 13:09:30 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun May 17 2026 16:00:21 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
