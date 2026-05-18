@@ -135,7 +135,6 @@
   .add-task__required-hint--mobile {
     display: block;
     margin-top: -20px;
-    font-size: 16px;
     line-height: 1.2;
   }
 
@@ -190,6 +189,7 @@
   .add-task__required-hint {
     position: relative;
     bottom: auto;
+    top: 24px;
   }
 
   .add-task__main {
