@@ -71,6 +71,10 @@
   margin-bottom: 15px;
 }
 
+.subtask-list .subtask-item:first-child {
+margin-top: 28px;
+}
+
 .subtask-item {
   display: flex;
   justify-content: space-between;
