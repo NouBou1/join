@@ -262,6 +262,7 @@ async function saveEditedContact(event) {
   }
 }
 
+
 window.deleteContact = deleteContact;
 window.showAddContactOverlay = showAddContactOverlay;
 window.hideAddContactOverlay = hideAddContactOverlay;
@@ -270,3 +271,4 @@ window.handleAddContact = handleAddContact;
 window.closeEditOverlay = closeEditOverlay;
 window.saveEditedContact = saveEditedContact;
 window.toggleContactMobileActions = toggleContactMobileActions;
+window.closeContactMobileActions = closeContactMobileActions;

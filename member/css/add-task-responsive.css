@@ -146,7 +146,6 @@
 
   .button.add-task__priority-button {
     flex-direction: row;
-    height: 45px;
     font-size: 16px;
   }
 
