@@ -46,10 +46,6 @@
     margin-bottom: 5px;
   }
 
-  .add-task__input {
-    margin-bottom: 10px;
-  }
-
   .add-task__footer {
     margin-top: 24px;
     gap: 16px;
@@ -178,17 +174,15 @@
 }
 
 @media (max-width: 720px) {
+
   .add-task__priority-options {
     max-width: 100%;
   }
 
   .button.add-task__priority-button {
-    flex-direction: column;
-    height: 64px;
+    height: 44px;
   }
-}
 
-@media (max-width: 720px) {
   .button.add-task__button {
     padding: 0;
   }
@@ -235,6 +229,7 @@
   .button.add-task__button {
     padding: 0;
     width: unset;
+    padding: 0px 7px 0px 7px;
   }
 
   .add-task__actions {

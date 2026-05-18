@@ -95,6 +95,7 @@
 .form-field {
   display: flex;
   flex-direction: column;
+  margin-bottom: 5px;
 }
 
 .required {
@@ -102,15 +103,19 @@
 }
 
 .error-message {
-  display: none;
-  margin-top: 0px;
-  margin-bottom: 12px;
-  font-size: 16px;
-  color: var(--color-danger);
+display: block;
+visibility: hidden;
+min-height: 1.2em;
+margin-top: 4px;
+font-size: 16px;
+line-height: 1.2;
+color: var(--color-danger);
+height: auto;
 }
 
 .form-field.error .error-message {
   display: block;
+  visibility: visible;
 }
 
 .add-task__input.input-error,
