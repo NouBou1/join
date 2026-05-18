@@ -284,31 +284,3 @@
 .gap-reduced {
   gap: 0px;
 }
-
-@media (max-width: 1000px) {
-  .add-task__priority-options {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 820px) {
-  .button.add-task__priority-button {
-    font-size: 16px;
-  }
-
-  .error-message {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 720px) {
-  .add-task__priority-options {
-    max-width: 100%;
-  }
-
-  .button.add-task__priority-button {
-    flex-direction: column;
-    height: 64px;
-  }
-}
