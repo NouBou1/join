@@ -370,11 +370,11 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
         <a class="contact_detail_phone" href="tel:${phone}">${phone}</a>
       </div>
 
-      <button type="button" class="contact_mobile_fab_btn" onclick="toggleContactMobileActions()" aria-label="Open contact actions">
+      <button type="button" class="contact_mobile_fab_btn" onclick="event.stopPropagation(); toggleContactMobileActions()" aria-label="Open contact actions">
         <span class="contact_mobile_fab_dots">&#8942;</span>
       </button>
 
-      <div id="contact_mobile_actions_menu" class="contact_mobile_actions_menu d_none">
+      <div id="contact_mobile_actions_menu" class="contact_mobile_actions_menu d_none" onclick="event.stopPropagation()">
         <button type="button" class="contact_mobile_action_btn" onclick="editContact('${contact.id}')">
           <img src="../../assets/icons/pencil-icon.svg" alt="Edit"><span>Edit</span>
         </button>
@@ -382,7 +382,6 @@ export function getActiveContactTemplate(contact, initials, bgColor, phone) {
           <img src="../../assets/icons/trash-icon.svg" alt="Delete"><span>Delete</span>
         </button>
       </div>
-
     </section>
   `;
 }
@@ -478,7 +477,6 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
  * @returns {string} HTML string representing the task-detail overlay.
  */
 export function getTaskOverlayTemplate(id, category, title, description, due_date, priority, assigned_to, subtasks) {
-  console.log('subtasks input:', subtasks);
   const assignedArray = Array.isArray(assigned_to)
     ? assigned_to
     : assigned_to.split(', ');

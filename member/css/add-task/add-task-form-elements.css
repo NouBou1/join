@@ -95,6 +95,7 @@
 .form-field {
   display: flex;
   flex-direction: column;
+  margin-bottom: 5px;
 }
 
 .required {
@@ -102,15 +103,19 @@
 }
 
 .error-message {
-  display: none;
-  margin-top: 0px;
-  margin-bottom: 12px;
-  font-size: 16px;
-  color: var(--color-danger);
+display: block;
+visibility: hidden;
+min-height: 1.2em;
+margin-top: 4px;
+font-size: 16px;
+line-height: 1.2;
+color: var(--color-danger);
+height: auto;
 }
 
 .form-field.error .error-message {
   display: block;
+  visibility: visible;
 }
 
 .add-task__input.input-error,
@@ -283,32 +288,4 @@
 
 .gap-reduced {
   gap: 0px;
-}
-
-@media (max-width: 1000px) {
-  .add-task__priority-options {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 820px) {
-  .button.add-task__priority-button {
-    font-size: 16px;
-  }
-
-  .error-message {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 720px) {
-  .add-task__priority-options {
-    max-width: 100%;
-  }
-
-  .button.add-task__priority-button {
-    flex-direction: column;
-    height: 64px;
-  }
 }

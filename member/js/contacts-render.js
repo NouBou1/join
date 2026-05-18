@@ -330,6 +330,7 @@ function renderActiveContactDetail(contactData) {
  * @param {string} [contact.phone] - The contact phone number.
  * @returns {void}
  */
+
 export function renderActiveContactTemplate(contact) {
   const container = getContactDetailContainer();
   if (!container) return;
@@ -337,8 +338,22 @@ export function renderActiveContactTemplate(contact) {
   const bgColor = getAvatarColor(contact.name || '');
   const phone = contact.phone || '-';
   container.innerHTML = getActiveContactTemplate(contact, initials, bgColor, phone);
+  
+  // Registriere click handler auf detail card zum Menü schließen
+  const detailCard = container.querySelector('.contact_detail_card');
+  if (detailCard) {
+    detailCard.onclick = (event) => {
+      const menu = document.getElementById('contact_mobile_actions_menu');
+      const fab = document.querySelector('.contact_mobile_fab_btn');
+      
+      if (menu && !menu.classList.contains('d_none') && 
+          !fab?.contains(event.target) && 
+          !menu.contains(event.target)) {
+        window.closeContactMobileActions();
+      }
+    };
+  }
 }
-
 
 /**
  * Returns the DOM container used for contact detail rendering.

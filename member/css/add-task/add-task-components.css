@@ -38,7 +38,6 @@
 
 .add-task__subtask-input {
   padding-right: 80px;
-  margin-bottom: 10px;
 }
 
 .add-task__subtask-actions {
@@ -69,6 +68,10 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 15px;
+}
+
+.subtask-list .subtask-item:first-child {
+margin-top: 28px;
 }
 
 .subtask-item {
@@ -166,8 +169,8 @@
   border-radius: 10px;
   padding: 0 20px;
   gap: 5px;
-  margin-top: 12px;
-
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 .add-task__button--secondary {
