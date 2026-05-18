@@ -102,21 +102,22 @@
     padding: 24px 16px 90px 16px;
   }
 
-  .add-task__actions {
-    justify-content: center;
-  }
-
-  .add-task__actions__fix {
-    margin-top: -70px;
-    padding-top: 16px;
-  }
-
   .button.add-task__priority-button {
     font-size: 16px;
   }
 
   .error-message {
     font-size: 14px;
+  }
+
+  .add-task__footer {
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    bottom: 82px;
+    background-color: var(--background__primary);
+    width: 100%;
   }
 }
 
@@ -199,12 +200,10 @@
 
   .add-task__footer {
     flex-direction: column;
-    gap: 16px;
     justify-content: center;
-    align-items: stretch;
     position: fixed;
-    bottom: 100px;
-    right: 30px;
+    bottom: 82px;
+    right: 20px;
   }
 }
 
@@ -232,8 +231,7 @@
   }
 
   .add-task__actions {
-    justify-content: center;
-    position: static;
+    justify-content: flex-end;
     width: 100%;
   }
 
