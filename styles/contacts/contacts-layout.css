@@ -198,6 +198,7 @@
 .link_btn:active {
   background-color: transparent;
   transition: color 0.2s ease;
+  box-shadow: none;
 }
 
 .link_btn:hover {

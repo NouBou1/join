@@ -477,7 +477,6 @@ export function getEditOverlayTemplate(contactId, contact, initials, color) {
  * @returns {string} HTML string representing the task-detail overlay.
  */
 export function getTaskOverlayTemplate(id, category, title, description, due_date, priority, assigned_to, subtasks) {
-  console.log('subtasks input:', subtasks);
   const assignedArray = Array.isArray(assigned_to)
     ? assigned_to
     : assigned_to.split(', ');
