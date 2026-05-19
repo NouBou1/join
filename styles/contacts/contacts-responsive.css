@@ -169,6 +169,10 @@
     place-items: center;
     cursor: pointer;
     padding: 0;
+    background-color: none;
+    box-shadow: none;
+    animation-timing-function: none;
+    animation-duration: none;
   }
 
   .contact_mobile_back_btn img {
