@@ -24,7 +24,7 @@ select {
   top: 96px;
   left: 230px;
   width: calc(100% - 230px);
-  height: calc(100vh - 96px);
+  height: calc(100vh - 150px);
   padding: 36px 56px 32px;
   box-sizing: border-box;
   overflow: auto;
