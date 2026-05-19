@@ -233,6 +233,11 @@
   .add-task__actions {
     justify-content: flex-end;
     width: 100%;
+    padding-right: 16px;
+  }
+
+  .add-task__column {
+    margin-bottom: 24px;
   }
 
   form {

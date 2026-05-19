@@ -145,14 +145,44 @@
 
 #add_task_overlay .add-task__overlay-bg {
   overflow-y: auto;
-  -ms-overflow-style: none; 
-  scrollbar-width: none;   
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 #add_task_overlay .add-task__overlay-bg::-webkit-scrollbar {
-  display: none;        
+  display: none;
   width: 0;
   height: 0;
+}
+
+#add_task_overlay .add-task__footer {
+  position: sticky;
+  bottom: 0;
+  left: -48px;
+  z-index: 3;
+  margin-top: 20px;
+  margin-bottom: -48px;
+  width: calc(100% + 96px);
+  padding: 16px 64px 28px 48px;
+  background: var(--color-background-input);
+  border-top: 1px solid #e9ebef;
+}
+
+@media (max-width: 1001px) {
+  #add_task_overlay .add-task__footer {
+    left: -18px;
+    margin-bottom: -18px;
+    width: calc(100% + 36px);
+    padding: 14px 24px 22px 18px;
+  }
+}
+
+@media (max-width: 720px) {
+  #add_task_overlay .add-task__footer {
+    flex-direction: row;
+    justify-content: space-between;
+    right: auto;
+  }
 }
 
 .add-task__footer {
