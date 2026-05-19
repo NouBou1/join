@@ -202,7 +202,7 @@
     flex-direction: column;
     justify-content: center;
     position: fixed;
-    bottom: 80ypx;
+    bottom: 80px;
     right: 10px;
   }
 }
