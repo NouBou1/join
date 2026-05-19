@@ -151,6 +151,15 @@
     margin-top: 10px;
   }
 
+  .contact_info {
+    width: 80%;
+  }
+
+  .contact_name,
+  .contact_email {
+    max-width: 90%;
+  }
+
   .contact_avatar--large {
     width: 80px;
     height: 80px;
