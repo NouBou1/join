@@ -71,7 +71,7 @@
 }
 
 .subtask-list .subtask-item:first-child {
-margin-top: 28px;
+  margin-top: 28px;
 }
 
 .subtask-item {
@@ -147,7 +147,6 @@ margin-top: 28px;
 .add-task__required-hint {
   font-size: 16px;
   color: var(--color-menu-bg);
-  margin-top: -20px;
 }
 
 .add-task__required-star {
