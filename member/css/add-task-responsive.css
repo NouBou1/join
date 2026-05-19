@@ -202,8 +202,8 @@
     flex-direction: column;
     justify-content: center;
     position: fixed;
-    bottom: 82px;
-    right: 20px;
+    bottom: 80px;
+    right: 12px;
   }
 }
 
