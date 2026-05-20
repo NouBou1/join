@@ -218,12 +218,11 @@
     padding: 0px 7px 0px 7px;
   }
 
+  
+
   .add-task__actions {
     justify-content: flex-end;
     width: 100%;
-    position: fixed;
-    padding: 0px 58px 0px 0;
-    bottom: 4px;
   }
 
   .add-task__column {
@@ -233,19 +232,22 @@
   form {
     justify-content: center;
   }
-}
 
-@media (max-width: 510px) {
-  .add-task__required-hint {
-    bottom: 50px;
-  }
-
-  .add-task__footer {
-    height: 80px;
-    align-items: end;
+    .add-task__footer {
+    height: 96px;
     left: 14px;
+    flex-direction: column;
+  }
+
+  #add_task_overlay .add-task__footer{
+    flex-direction: column;
+  }
+
+  .add-task__required-hint {
+    align-self: flex-start;
   }
 }
+
 
 @media (max-width: 430px) {
   .board-overlay__content {
