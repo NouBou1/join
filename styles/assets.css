@@ -80,6 +80,11 @@ button p {
   border-radius: 50%;
 }
 
+.btn-s-40:hover {
+  background-color: rgba(58, 79, 237, 0.1);
+  cursor: pointer;
+}
+
 .button__mobile {
   height: 78px;
   padding-top: 1px;
