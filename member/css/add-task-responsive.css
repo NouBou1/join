@@ -221,7 +221,9 @@
   .add-task__actions {
     justify-content: flex-end;
     width: 100%;
-    padding-right: 16px;
+    position: fixed;
+    padding: 0px 58px 0px 0;
+    bottom: 4px;
   }
 
   .add-task__column {
@@ -230,10 +232,23 @@
 
   .add-task__required-hint {
     position: fixed;
+    bottom: 20px;
   }
 
   form {
     justify-content: center;
+  }
+}
+
+@media (max-width: 510px) {
+  .add-task__required-hint {
+    bottom: 50px;
+  }
+
+  .add-task__footer {
+    height: 80px;
+    align-items: end;
+    left: 14px;
   }
 }
 
@@ -255,13 +270,4 @@
     flex-direction: column;
   }
 
-  .add-task__footer {
-    height: 80px;
-    align-items: end;
-    left: 14px;
-  }
-
-  .add-task__required-hint {
-    bottom: 130px;
-  }
 }
