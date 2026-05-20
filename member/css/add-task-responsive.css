@@ -228,10 +228,6 @@
     margin-bottom: 24px;
   }
 
-  .add-task__required-hint {
-    position: fixed;
-  }
-
   form {
     justify-content: center;
   }
@@ -256,12 +252,17 @@
   }
 
   .add-task__footer {
-    height: 80px;
-    align-items: end;
+    height: 96px;
     left: 14px;
+    flex-direction: column;
+  }
+
+  #add_task_overlay .add-task__footer{
+    flex-direction: column;
   }
 
   .add-task__required-hint {
     bottom: 130px;
+    align-self: flex-start;
   }
 }
