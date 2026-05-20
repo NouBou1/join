@@ -42,7 +42,7 @@
 
 .add-task__subtask-actions {
   position: absolute;
-  top: 50%;
+  top: 60%;
   right: 12px;
   transform: translateY(-70%);
   display: flex;
