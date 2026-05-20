@@ -9,6 +9,24 @@
 
 button:hover {
   cursor: pointer;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  animation-timing-function: ease-in-out;
+  animation-duration: 100ms;
+}
+
+.button__login:hover,
+.button__index--signup:hover,
+.button__signup:hover,
+.add-task__button--primary:hover,
+.board-add-btn:hover,
+.contact_btn_addNew:hover {
+  background-color: var(--background__button--hover);
+}
+
+.button__login--guest:hover,
+.add-task__button--secondary:hover {
+  color: var(--color-hover);
+  border-color: var(--background__button--hover);
 }
 
 .button__index--signup {
@@ -31,12 +49,6 @@ button:hover {
   border: 1px solid var(--color-menu-bg);
   color: var(--color-menu-bg);
   background-color: var(--color-background-input);
-}
-
-.button__login--guest:hover {
-  color: var(--color-hover);
-  background-color: var(--color-background-input);
-  border-color: var(--background__button--hover);
 }
 
 .button__signup {
@@ -87,6 +99,21 @@ button p {
 
 .button__mobile:hover {
   background-color: var(--background__menu--hover);
+}
+
+.circle-plus-icon {
+  width: 30px;
+  height: 30px;
+  background-color: var(--background__primary);
+  background-image: url(../assets/icons/square-plus.svg);
+  background-repeat: no-repeat;
+}
+
+.circle-plus-icon:hover {
+  box-shadow: none;
+  background-color: var(--background__primary);
+  background-image: url(../assets/icons/square-plus-hover.svg);
+
 }
 
 /* icons */

@@ -110,13 +110,10 @@ form {
   background-color: var(--color-menu-bg);
   height: 50px;
   width: 77%;
-  border-radius: 8px;
   color: white;
   margin: 30px auto;
   gap: 10px;
   font-size: 21px;
-  cursor: pointer;
-  font-weight: 700;
   padding: 15px 15px;
   position: sticky;
   top: 0;
@@ -340,7 +337,11 @@ header {
   border: 3px solid var(--color-menu-bg);
   color: var(--color-text-tertiary);
   background: var(--color-background-input);
+}
+
+.profile:hover {
   cursor: pointer;
+  background-color: var(--color-background-primary);
 }
 
 .summary_pencil,
