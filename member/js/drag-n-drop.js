@@ -222,8 +222,9 @@ document.addEventListener('touchmove', function (event) {
     }
 
     if (!touchDragStarted) return;
-
-    event.preventDefault();
+    if(event.cancelable) {
+        event.preventDefault();
+    }
     clearDropHighlights();
     clearDropCardPreview();
 
